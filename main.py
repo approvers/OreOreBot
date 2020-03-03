@@ -18,6 +18,7 @@ channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
 
 try:
     # messages.json (時報json) の読み込みを試みる
+    # ziho_dictのkeyはstr型です、int型で呼び出そうとしないで()
     with codecs.open("messages.json", 'r', 'utf-8') as f:
         ziho_dict = json.loads(f.read())
 except:
@@ -35,7 +36,7 @@ async def zijo(channel):
         time = datetime.datetime.now()
         if int(str(time.minute)) == 0:
             h = str(time.hour)
-            await channel.send(ziho_dict[int(h)])
+            await channel.send(ziho_dict[h])
         await asyncio.sleep(50)
 
 
