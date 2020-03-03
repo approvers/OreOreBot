@@ -12,7 +12,7 @@ channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
 
 @client.event
 async def on_ready():
-    channel = client.get_channel(606107143879524374)
+    channel = client.get_channel(684289417682223150)
     await channel.send("やあ")
 
 
