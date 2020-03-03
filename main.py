@@ -8,6 +8,7 @@ import re
 
 client = discord.Client()
 token = sys.argv[1]
+first_channel = sys.argv[2]
 
 github_cmd_regex = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
 channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
