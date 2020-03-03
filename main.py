@@ -109,6 +109,8 @@ async def on_message(message):
         await channel.send(emoji)
     elif "おやすみ" == message.content:
         await channel.send("おやすみ、司令官。また明日")
+    elif "疲れた" in message.content:
+        await channel.send("大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね")
 
 client.run(token)
 
