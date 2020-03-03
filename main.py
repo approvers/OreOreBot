@@ -48,11 +48,13 @@ async def on_ready():
 
 
 async def zijo(channel):
-    time = datetime.datetime.now()
-    if int(str(time.minute)) == 00:
-        h = str(time.hour)
-        await channel.send(ziho_list[int(h)])
-    await asyncio.sleep(50)
+    while True:
+        time = datetime.datetime.now()
+        print("hey")
+        if int(str(time.minute)) == 0:
+            h = str(time.hour)
+            await channel.send(ziho_list[int(h)])
+        await asyncio.sleep(5)
 
 
 @client.event
