@@ -28,11 +28,11 @@ async def on_message(message):
         repo_name = matches[1]
         num = matches[2]
 
-        res = requests.get("https://github.com/brokenManager/{}/issue/{}".format(repo_name, num))
+        res = requests.get("https://github.com/brokenManager/{}/issues/{}".format(repo_name, num))
         if res.status_code == 404:
             await channel.send("エラー：なんか違う")
         else:
-            await channel.send("https://github.com/brokenManager/{}/issue/{}".format(repo_name, num))
+            await channel.send("https://github.com/brokenManager/{}/issues/{}".format(repo_name, num))
 
 client.run(token)
 
