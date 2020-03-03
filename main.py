@@ -29,8 +29,9 @@ async def on_message(message):
         repo_name = matches[1]
         num = matches[2]
 
-        if channel_id_regex.match(repo_name) is not None:
-            repo_name = client.get_channel(int(channel_id_regex.match(repo_name)[1]))
+        if channel_id_regex.match(repo_name[1:]) is None:
+            repo_name = client.get_channel(int(repo_name[:-1]))
+        print("repo_name:{}\nid:{}".format(repo_name, num))
 
         res = requests.get("https://github.com/brokenManager/{}/issues/{}".format(repo_name, num))
         if res.status_code == 404:
