@@ -28,10 +28,10 @@ except:
 async def on_ready():
     channel = client.get_channel(int(first_channel))
     await channel.send("響だよ。その活躍ぶりから不死鳥の通り名もあるよ。")
-    asyncio.ensure_future(zijo(channel))
+    asyncio.ensure_future(ziho(channel))
 
 
-async def zijo(channel):
+async def ziho(channel):
     while True:
         time = datetime.datetime.now()
         if int(str(time.minute)) == 0:
