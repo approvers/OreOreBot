@@ -2,9 +2,12 @@ import discord
 import sys
 import requests
 
+import re
+
 client = discord.Client()
 token = sys.argv[1]
 
+github_cmd_regex = re.compile(r".*?\#(.+)\/([^\s][0-9]+).*?")
 
 @client.event
 async def on_ready():
@@ -16,21 +19,15 @@ async def on_ready():
 async def on_message(message):
     channel = message.channel
     m = message.content
-    if "#" in message.content:
-        start_index = m.find("#")
-        end_index = m[start_index:].find(" ")
-        if end_index == -1:
-            keys = m[start_index + 1:].split("/")
-        else:
-            keys = list(m[start_index + 1: end_index + start_index].split("/"))
-        print(keys)
-        repo_name = keys[0]
-        if ">" in repo_name:
-            i = int(repo_name[:-1])
-            ch = client.get_channel(i)
-            repo_name = ch.name
+
+    matches = github_cmd_regex.match(m)
+
+    if matches is not None:
+
+        # matches[0]だとmatch関数にかけた文字列が全部返ってくる(なぜ)
+        repo_name, num = matches[1:]
+
         command = ""
-        num = keys[1]
         for s in ["issues", "pull"]:
             res = requests.get("https://github.com/brokenManager/{}/{}/{}".format(repo_name, s, num))
             if res.status_code != "404":
