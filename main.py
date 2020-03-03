@@ -16,14 +16,14 @@ async def on_ready():
 async def on_message(message):
     channel = message.channel
     m = message.content
-    print(m)
     if "#" in message.content:
         start_index = m.find("#")
         end_index = m[start_index:].find(" ")
         if end_index == -1:
             keys = m[start_index + 1:].split("/")
         else:
-            keys = m[start_index + 1: end_index].split("/")
+            keys = list(m[start_index + 1: end_index + start_index].split("/"))
+        print(keys)
         repo_name = keys[0]
         if ">" in repo_name:
             i = int(repo_name[:-1])
