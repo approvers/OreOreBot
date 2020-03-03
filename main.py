@@ -25,7 +25,8 @@ async def on_message(message):
     if matches is not None:
 
         # matches[0]だとmatch関数にかけた文字列が全部返ってくる(なぜ)
-        repo_name, num = matches[1:]
+        repo_name = matches[1]
+        num = matches[2]
 
         res = requests.get("https://github.com/brokenManager/{}/issue/{}".format(repo_name, num))
         if res.status_code == 404:
