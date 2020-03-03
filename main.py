@@ -28,7 +28,7 @@ async def on_message(message):
         repo_name, num = matches[1:]
 
         res = requests.get("https://github.com/brokenManager/{}/issue/{}".format(repo_name, num))
-        if res.status_code == 404:
+        if res.status_code != 404:
             await channel.send("エラー：なんか違う")
         else:
             await channel.send("https://github.com/brokenManager/{}/issue/{}".format(repo_name, num))
