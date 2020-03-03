@@ -50,7 +50,6 @@ async def on_ready():
 async def zijo(channel):
     while True:
         time = datetime.datetime.now()
-        print("hey")
         if int(str(time.minute)) == 0:
             h = str(time.hour)
             await channel.send(ziho_list[int(h)])
@@ -80,31 +79,36 @@ async def on_message(message):
             return
 
         if cmd == "top" or cmd == "t":
-            await channel.send("https://github.com/brokenManager/" + repo_name)
+            await channel.send("司令官、頼まれていたリポジトリを持ってきたよ\nhttps://github.com/brokenManager/" + repo_name)
         elif cmd == "issues" or cmd == "i":
-            await channel.send("https://github.com/brokenManager/{}/issues".format(repo_name))
+            await channel.send("司令官、このリポジトリで起きている問題のリストだよ\nhttps://github.com/brokenManager/{}/issues".format(repo_name))
         elif cmd == "issue":
-            await channel.send("エラー：知ってるか? issueは一つだけじゃないんだ")
+            await channel.send("司令官、問題は一つじゃないんだよ?")
         elif cmd == "pull" or cmd == "pr" or cmd == "p":
-            await channel.send("https://github.com/brokenManager/{}/pulls".format(repo_name))
+            await channel.send("ぷるりくえすと...?\nよくわからないけどそれのリストだよ\nhttps://github.com/brokenManager/{}/pulls".format(repo_name))
         elif not cmd.isnumeric():
             branch_sel = requests.get("https://github.com/brokenManager/{}/tree/{}".format(repo_name, cmd))
             auto_master_sel = requests.get("https://github.com/brokenManager/{}/tree/master/{}".format(repo_name, cmd))
             if branch_sel.status_code != 404:
                 await channel.send("https://github.com/brokenManager/{}/tree/{}".format(repo_name, cmd))
             elif auto_master_sel.status_code != 404:
-                await channel.send("masterブランチだよな? 違ったらちゃんと指定しろカス")
+                await channel.send("masterでいいんだよね?")
                 await channel.send("https://github.com/brokenManager/{}/tree/master/{}".format(repo_name, cmd))
             else:
-                await channel.send("エラー：そんなものはない")
+                await channel.send("???それはどういう意味だい?")
 
                 return
         else:
             res = requests.get("https://github.com/brokenManager/{}/issues/{}".format(repo_name, cmd))
             if res.status_code == 404:
-                await channel.send("エラー：なんか違う")
+                await channel.send("司令官、そこには何もないよ?")
                 return
-            await channel.send("https://github.com/brokenManager/{}/issues/{}".format(repo_name, cmd))
+            await channel.send("司令官、頼まれていた書類だよ\nhttps://github.com/brokenManager/{}/issues/{}".format(repo_name, cmd))
+    elif "ハラショー" in message.content:
+        emoji = client.get_emoji(684424533997912096)
+        await channel.send(emoji)
+    elif "おやすみ" == message.content:
+        await channel.send("おやすみ、司令官。また明日")
 
 client.run(token)
 
