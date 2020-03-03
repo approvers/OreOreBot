@@ -54,7 +54,7 @@ async def zijo(channel):
         if int(str(time.minute)) == 0:
             h = str(time.hour)
             await channel.send(ziho_list[int(h)])
-        await asyncio.sleep(5)
+        await asyncio.sleep(50)
 
 
 @client.event
