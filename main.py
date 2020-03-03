@@ -42,7 +42,7 @@ ziho_list = [
 
 @client.event
 async def on_ready():
-    channel = client.get_channel(684289417682223150)
+    channel = client.get_channel(int(first_channel))
     await channel.send("響だよ。その活躍ぶりから不死鳥の通り名もあるよ。")
     asyncio.ensure_future(zijo(channel))
 
