@@ -27,16 +27,11 @@ async def on_message(message):
         # matches[0]だとmatch関数にかけた文字列が全部返ってくる(なぜ)
         repo_name, num = matches[1:]
 
-        command = ""
-        for s in ["issues", "pull"]:
-            res = requests.get("https://github.com/brokenManager/{}/{}/{}".format(repo_name, s, num))
-            if res.status_code != "404":
-                command = s
-                break
-        if command == "":
+        res = requests.get("https://github.com/brokenManager/{}/issue/{}".format(repo_name, num))
+        if res.status_code != 404:
             await channel.send("エラー：なんか違う")
         else:
-            await channel.send("https://github.com/brokenManager/{}/{}/{}".format(repo_name, command, num))
+            await channel.send("https://github.com/brokenManager/{}/issue/{}".format(repo_name, num))
 
 client.run(token)
 
