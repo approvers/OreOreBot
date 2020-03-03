@@ -1,5 +1,6 @@
 import discord
 import sys
+import requests
 
 client = discord.Client()
 token = sys.argv[1]
@@ -29,14 +30,16 @@ async def on_message(message):
             ch = client.get_channel(i)
             repo_name = ch.name
         command = ""
-        if keys[1] in ["pr", "PR"]:
-            command = "pulls"
-        elif keys[1] in ["Issue", "issue", "is"]:
-            command = "issues"
+        num = keys[1]
+        for s in ["issues", "pull"]:
+            res = requests.get("https://github.com/brokenManager/{}/{}/{}".format(repo_name, s, num))
+            if res.status_code != "404":
+                command = s
+                break
+        if command == "":
+            await channel.send("エラー：なんか違う")
         else:
-            channel.send("コマンドミスっとるで")
-        num = keys[2]
-        await channel.send("https://github.com/brokenManager/{}/{}/{}".format(repo_name, command, num))
+            await channel.send("https://github.com/brokenManager/{}/{}/{}".format(repo_name, command, num))
 
 client.run(token)
 
