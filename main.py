@@ -3,42 +3,25 @@ import datetime
 import asyncio
 import sys
 import requests
+import json
+import codecs
 
 import re
 
 client = discord.Client()
 token = sys.argv[1]
 first_channel = sys.argv[2]
+ziho_dict = {}
 
 github_cmd_regex = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
 channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
 
-ziho_list = [
-    "Полночь.…失礼、マルマルマルマル。",
-    "マルヒトマルマル。深夜だね。",
-    "マルフタマルマル。静かな海は…嫌いじゃない。",
-    "マルサンマルマル。眠かったらどうぞ。私の膝を貸そうか。",
-    "マルヨンマルマル。私は任務中に眠くならない。",
-    "マルゴーマルマル。空の色が変わる頃だ。…綺麗だな。",
-    "マルロクマルマル。司令官、悪いがちょっと重い…。",
-    "マルナナマルマル、朝だ。朝食を摂ろう。",
-    "マルハチマルマル。任務を始めようか。",
-    "マルキュウマルマル。艦隊に、遠征の指示を。",
-    "ヒトマルマルマル。司令官、残った艦は、私が引き受けよう。",
-    "ヒトヒトマルマル。皆を連れて、演習してこようか。",
-    "Полдень.…失礼、ヒトフタマルマル。気を抜くと言葉が…。気をつける。",
-    "ヒトサンマルマル。今日のランチは…ハイ、これ。ピロシキだ。",
-    "ヒトヨンマルマル。午後の艦隊勤務を始めよう。疲れてはいない。",
-    "ヒトゴーマルマル。引き続き、訓練だ。疲労の溜まっている艦は休ませよう。",
-    "ヒトロクマルマル。全艦隊戻ったら、反省会だ。",
-    "ヒトナナマルマル。司令官、さぁ皆に一言を。",
-    "ヒトハチマルマル。何？司令官。これから演習の予定だけど。",
-    "ヒトキュウマルマル。訓練がきついって？それは済まなかった。",
-    "フタマルマルマル。司令官、カレーは…ちょっとわからない。",
-    "フタヒトマルマル。今夜はボルシチでどう？私のは美味い。",
-    "フタフタマルマル。ボルシチ、皆も喜んでくれた。嬉しいな。",
-    "フタサンマルマル。司令官、今日も一日、お疲れ様。"
-]
+try:
+    # messages.json (時報json) の読み込みを試みる
+    with codecs.open("messages.json", 'r', 'utf-8') as f:
+        ziho_dict = json.loads(f.read())
+except:
+    print("File doesn't exist or it is incorrect!")
 
 @client.event
 async def on_ready():
@@ -52,7 +35,7 @@ async def zijo(channel):
         time = datetime.datetime.now()
         if int(str(time.minute)) == 0:
             h = str(time.hour)
-            await channel.send(ziho_list[int(h)])
+            await channel.send(ziho_dict[int(h)])
         await asyncio.sleep(50)
 
 
