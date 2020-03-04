@@ -11,10 +11,10 @@ import re
 client = discord.Client()
 token = sys.argv[1]
 first_channel = sys.argv[2]
-msg_dict = {}
 
 github_cmd_regex = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
 channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
+usr_cmd_regex = re.compile(r"^!(\w+?)*(\s\w+)*")
 
 try:
     # messages.json (時報json) の読み込みを試みる
@@ -46,6 +46,7 @@ async def on_message(message):
     m = message.content
 
     matches = github_cmd_regex.match(m)
+    usr_cmd_matches = usr_cmd_regex.match(m)
 
     if matches is not None:
 
@@ -95,6 +96,16 @@ async def on_message(message):
         await channel.send("おやすみ、司令官。また明日")
     elif "疲れた" in message.content:
         await channel.send("大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね")
+
+    if usr_cmd_matches is not None:
+        usr_cmd_text = usr_cmd_matches.group().split()
+        usr_cmd_text[0] = usr_cmd_text[0][1:]
+
+        # /で実行される処理をこれの下に書いて下しあ
+        # (例) !help a b c をユーザーが実行した場合 → usr_cmd_text = ["help","a","b","c"]となります
+
+        if usr_cmd_text[0] == "lol":
+            await channel.send()
 
 client.run(token)
 
