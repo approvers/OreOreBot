@@ -47,7 +47,7 @@ async def lol_counter(is_count,message):
     channel = message.channel
     if is_count:
         if message.author.id in lol_count:
-            lol_count[message.author.id] += 1
+            lol_count[message.author.id] += message.content.count("草")
         else:
             lol_count[message.author.id] = 1
     else:
