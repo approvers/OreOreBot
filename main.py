@@ -3,56 +3,40 @@ import datetime
 import asyncio
 import sys
 import requests
+import json
+import codecs
 
 import re
 
 client = discord.Client()
 token = sys.argv[1]
 first_channel = sys.argv[2]
+msg_dict = {}
 
 github_cmd_regex = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
 channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
 
-ziho_list = [
-    "Полночь.…失礼、マルマルマルマル。",
-    "マルヒトマルマル。深夜だね。",
-    "マルフタマルマル。静かな海は…嫌いじゃない。",
-    "マルサンマルマル。眠かったらどうぞ。私の膝を貸そうか。",
-    "マルヨンマルマル。私は任務中に眠くならない。",
-    "マルゴーマルマル。空の色が変わる頃だ。…綺麗だな。",
-    "マルロクマルマル。司令官、悪いがちょっと重い…。",
-    "マルナナマルマル、朝だ。朝食を摂ろう。",
-    "マルハチマルマル。任務を始めようか。",
-    "マルキュウマルマル。艦隊に、遠征の指示を。",
-    "ヒトマルマルマル。司令官、残った艦は、私が引き受けよう。",
-    "ヒトヒトマルマル。皆を連れて、演習してこようか。",
-    "Полдень.…失礼、ヒトフタマルマル。気を抜くと言葉が…。気をつける。",
-    "ヒトサンマルマル。今日のランチは…ハイ、これ。ピロシキだ。",
-    "ヒトヨンマルマル。午後の艦隊勤務を始めよう。疲れてはいない。",
-    "ヒトゴーマルマル。引き続き、訓練だ。疲労の溜まっている艦は休ませよう。",
-    "ヒトロクマルマル。全艦隊戻ったら、反省会だ。",
-    "ヒトナナマルマル。司令官、さぁ皆に一言を。",
-    "ヒトハチマルマル。何？司令官。これから演習の予定だけど。",
-    "ヒトキュウマルマル。訓練がきついって？それは済まなかった。",
-    "フタマルマルマル。司令官、カレーは…ちょっとわからない。",
-    "フタヒトマルマル。今夜はボルシチでどう？私のは美味い。",
-    "フタフタマルマル。ボルシチ、皆も喜んでくれた。嬉しいな。",
-    "フタサンマルマル。司令官、今日も一日、お疲れ様。"
-]
+try:
+    # messages.json (時報json) の読み込みを試みる
+    # msg_dictのkeyはstr型です、int型で呼び出そうとしないで()
+    with codecs.open("messages.json", 'r', 'utf-8') as f:
+        msg_dict = json.loads(f.read())
+except:
+    print("File doesn't exist or it is incorrect!")
 
 @client.event
 async def on_ready():
     channel = client.get_channel(int(first_channel))
-    await channel.send("響だよ。その活躍ぶりから不死鳥の通り名もあるよ。")
-    asyncio.ensure_future(zijo(channel))
+    await channel.send(msg_dict["login"])
+    asyncio.ensure_future(ziho(channel))
 
 
-async def zijo(channel):
+async def ziho(channel):
     while True:
         time = datetime.datetime.now()
         if int(str(time.minute)) == 0:
             h = str(time.hour)
-            await channel.send(ziho_list[int(h)])
+            await channel.send(msg_dict[h])
         await asyncio.sleep(50)
 
 
@@ -75,7 +59,7 @@ async def on_message(message):
 
         res = requests.get("https://github.com/brokenManager/" + repo_name)
         if res.status_code == 404:
-            await channel.send("エラー：リポがないんだけど")
+            await channel.send("司令官、そんなリポジトリはないよ...？")
             return
 
         if cmd == "top" or cmd == "t":
