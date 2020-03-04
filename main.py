@@ -151,5 +151,8 @@ async def on_message(message):
             await channel.send("大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね")
         elif "草" in message.content:
             await lol_counter(is_count=True, message=message)
+    if message.content.count("***") >= 2:
+        emoji = client.get_emoji(684424533997912096)
+        await channel.send("Bold-italic警察だ!!!{}".format(emoji))
 
 client.run(token)
