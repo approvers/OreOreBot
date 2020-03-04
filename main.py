@@ -64,7 +64,7 @@ async def on_message(message):
     matches = github_cmd_regex.match(m)
     usr_cmd_matches = usr_cmd_regex.match(m)
 
-    if not message.author.bot:
+    if not message.author.bot or message.author.id == 684655652182032404:
 
         if matches is not None:
 
@@ -135,5 +135,15 @@ async def on_message(message):
                 ```ハラショー``` : ？？？
                 ```おやすみ``` : ？？？
                 ```疲れた``` : ？？？""")
+
+        elif "ハラショー" in message.content:
+            emoji = client.get_emoji(684424533997912096)
+            await channel.send(emoji)
+        elif "おやすみ" == message.content:
+            await channel.send("おやすみ、司令官。また明日")
+        elif "疲れた" in message.content:
+            await channel.send("大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね")
+        elif "草" in message.content:
+            await lol_counter(is_count=True, message=message)
 
 client.run(token)
