@@ -11,23 +11,23 @@ import re
 client = discord.Client()
 token = sys.argv[1]
 first_channel = sys.argv[2]
-ziho_dict = {}
+msg_dict = {}
 
 github_cmd_regex = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
 channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
 
 try:
     # messages.json (時報json) の読み込みを試みる
-    # ziho_dictのkeyはstr型です、int型で呼び出そうとしないで()
+    # msg_dictのkeyはstr型です、int型で呼び出そうとしないで()
     with codecs.open("messages.json", 'r', 'utf-8') as f:
-        ziho_dict = json.loads(f.read())
+        msg_dict = json.loads(f.read())
 except:
     print("File doesn't exist or it is incorrect!")
 
 @client.event
 async def on_ready():
     channel = client.get_channel(int(first_channel))
-    await channel.send("響だよ。その活躍ぶりから不死鳥の通り名もあるよ。")
+    await channel.send(msg_dict["login"])
     asyncio.ensure_future(ziho(channel))
 
 
@@ -36,7 +36,7 @@ async def ziho(channel):
         time = datetime.datetime.now()
         if int(str(time.minute)) == 0:
             h = str(time.hour)
-            await channel.send(ziho_dict[h])
+            await channel.send(msg_dict[h])
         await asyncio.sleep(50)
 
 
@@ -59,7 +59,7 @@ async def on_message(message):
 
         res = requests.get("https://github.com/brokenManager/" + repo_name)
         if res.status_code == 404:
-            await channel.send("エラー：リポがないんだけど")
+            await channel.send("司令官、そんなリポジトリはないよ...？")
             return
 
         if cmd == "top" or cmd == "t":
