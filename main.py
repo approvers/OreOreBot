@@ -66,7 +66,7 @@ async def on_message(message):
 
     if not message.author.bot:
 
-        if matches is not None and message.author.bot:
+        if matches is not None:
 
             # matches[0]だとmatch関数にかけた文字列が全部返ってくる(なぜ)
             repo_name = matches[1]
@@ -107,17 +107,8 @@ async def on_message(message):
                     await channel.send("司令官、そこには何もないよ?")
                     return
                 await channel.send("司令官、頼まれていた書類だよ\nhttps://github.com/brokenManager/{}/issues/{}".format(repo_name, cmd))
-        elif "ハラショー" in message.content:
-            emoji = client.get_emoji(684424533997912096)
-            await channel.send(emoji)
-        elif "おやすみ" == message.content:
-            await channel.send("おやすみ、司令官。また明日")
-        elif "疲れた" in message.content:
-            await channel.send("大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね")
-        elif "草" in message.content:
-            await lol_counter(is_count=True,message=message)
 
-        if usr_cmd_matches is not None:
+        elif usr_cmd_matches is not None:
             usr_cmd_text = usr_cmd_matches.group().split()
             usr_cmd_text[0] = usr_cmd_text[0][1:]
 
