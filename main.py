@@ -142,6 +142,9 @@ async def on_message(message):
             emoji = client.get_emoji(684424533997912096)
             await channel.send(emoji)
         elif "おやすみ" == message.content:
+            n = datetime.now()
+            if ["0", "1", "2", "3", "4", "5", "6"] in n.hour:
+                await channel.send("おやすみ、司令官。\nこんな時間まで何してたんだい？\n風邪引いちゃうから明日は早めに寝なよ?")
             await channel.send("おやすみ、司令官。また明日")
         elif "疲れた" in message.content:
             await channel.send("大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね")
