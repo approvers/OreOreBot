@@ -11,6 +11,7 @@ import re
 client = discord.Client()
 token = sys.argv[1]
 first_channel = sys.argv[2]
+lol_count = {}
 
 github_cmd_regex = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
 channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
@@ -24,11 +25,14 @@ try:
 except:
     print("File doesn't exist or it is incorrect!")
 
+
+
 @client.event
 async def on_ready():
     channel = client.get_channel(int(first_channel))
     await channel.send(msg_dict["login"])
     asyncio.ensure_future(ziho(channel))
+
 
 
 async def ziho(channel):
@@ -38,6 +42,18 @@ async def ziho(channel):
             h = str(time.hour)
             await channel.send(msg_dict[h])
         await asyncio.sleep(50)
+
+async def lol_counter(is_count,message):
+    channel = message.channel
+    if is_count:
+        if message.author.id in lol_count:
+            lol_count[message.author.id] += 1
+        else:
+            lol_count[message.author.id] = 1
+    else:
+        await channel.send("botが起動してから、あなたは{}回「草」と発言しました".format(lol_count[message.author.id]))
+
+
 
 
 @client.event
@@ -96,6 +112,8 @@ async def on_message(message):
         await channel.send("おやすみ、司令官。また明日")
     elif "疲れた" in message.content:
         await channel.send("大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね")
+    elif "草" in message.content:
+        await lol_counter(is_count=True,message=message)
 
     if usr_cmd_matches is not None:
         usr_cmd_text = usr_cmd_matches.group().split()
@@ -105,10 +123,7 @@ async def on_message(message):
         # (例) !help a b c をユーザーが実行した場合 → usr_cmd_text = ["help","a","b","c"]となります
 
         if usr_cmd_text[0] == "lol":
-            await channel.send()
+            await lol_counter(is_count=False,message=message)
+
 
 client.run(token)
-
-
-
-
