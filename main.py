@@ -98,7 +98,14 @@ async def on_message(message):
         await channel.send("大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね")
 
     if usr_cmd_matches is not None:
-        print(usr_cmd_matches.group())
+        usr_cmd_text = usr_cmd_matches.group().split()
+        usr_cmd_text[0] = usr_cmd_text[0][1:]
+
+        # /で実行される処理をこれの下に書いて下しあ
+        # (例) !help a b c をユーザーが実行した場合 → usr_cmd_text = ["help","a","b","c"]となります
+
+        if usr_cmd_text[0] == "lol":
+            await channel.send()
 
 client.run(token)
 
