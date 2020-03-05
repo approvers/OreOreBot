@@ -2,6 +2,8 @@ import discord
 import datetime
 import asyncio
 import sys
+import os
+import subprocess
 import requests
 import json
 import codecs
