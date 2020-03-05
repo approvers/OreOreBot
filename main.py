@@ -137,8 +137,8 @@ async def on_message(message):
                     await channel.send("大丈夫だったら,```/stop confirm```って言ってね。")
 
             if usr_cmd_text[0] == "random":
-                if len(usr_cmd_text[0:]) > 1:
-                    await generate_random(message, usr_cmd_text[0:])
+                if len(usr_cmd_text[1:]) > 1:
+                    await generate_random(message, usr_cmd_text[1:])
                 else:
                     await channel.send("リストを！！！入れろ！！！") # TODO
 
