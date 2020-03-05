@@ -7,6 +7,7 @@ import subprocess
 import requests
 import json
 import codecs
+from random import randint
 
 import re
 
@@ -53,7 +54,15 @@ async def lol_counter(is_count,message):
         else:
             lol_count[message.author.id] = 1
     else:
-        await channel.send("botが起動してから、あなたは{}回「草」と発言しました".format(lol_count[message.author.id]))
+        await channel.send("私が起きてから、司令官は{}回「草」って言ってるね".format(lol_count[message.author.id]))
+        if lol_count[message.author.id] > 10:
+            await channel.send("...いくら何でも多すぎないかい?")
+
+async def generate_random(message, parentList):
+    channel = message.channel
+    result = randint(0, len(parentList))
+    await channel.send("うんたらかんたら{}".format(parentList[result])) # TODO
+    # 文字列の中に変数入れるやり方忘れたのでhibikiness追加するときやって下さ
 
 
 
@@ -123,37 +132,51 @@ async def on_message(message):
             if usr_cmd_text[0] == "stop":
                 if len(usr_cmd_text) == 2:
                     if usr_cmd_text[1] == "confirm":
-                        await channel.send("botを終了します...")
+                        await channel.send("司令官、先に休ませてもらうね。\nお疲れ様")
                         sys.exit()
                 else:
-                    await channel.send("本当に終了してもよろしいですか？")
-                    await channel.send("終了する場合,```/stop confirm```を実行してください。")
+                    await channel.send("私がいなくても大丈夫かい?")
+                    await channel.send("大丈夫だったら,```!stop confirm```って言ってね。")
+
+            if usr_cmd_text[0] == "random":
+                if len(usr_cmd_text[1:]) > 1:
+                    await generate_random(message, usr_cmd_text[1:])
+                else:
+                    await channel.send("リストを！！！入れろ！！！") # TODO
 
             if usr_cmd_text[0] == "help":
                 await channel.send(r"""***はらちょhelp***
-                ```/lol``` : botが起動してから今までに発言された「草」の回数を返します
-                ```/stop``` : botを停止させます
-                ```#<リポジトリ名>/<top(p)|issues(i)|pull(pr | p)|>``` : 該当するリポジトリのものを返します
-                ```ハラショー``` : ？？？
-                ```おやすみ``` : ？？？
-                ```疲れた``` : ？？？""")
+                ```!lol``` : 私が起動してから司令官が「草」って言った回数を伝えるよ
+                ```!stop``` : 私が休憩してくるよ
+                ```!random```: 指揮官の指定したものからランダムでうんたらかんたら # TODO
+                ```#<リポジトリ名>/<top(p)|issues(i)|pull(pr | p)|>``` : 言われたように書類を持ってくるよ
+                ```ハラショー``` : 秘密だよ
+                ```おやすみ``` : 秘密だよ
+                ```疲れた``` : 秘密だよ""")
 
             if usr_cmd_text[0] == "upgrade":
                 if os.name == "nt":
                     subprocess.call(os.path.dirname(__file__)+ r"/scripts/upgrade.bat" + " " + os.path.dirname(__file__)[0:2])
-                    print("sh " + os.path.dirname(__file__) + r"/scripts/upgrade.bat" + " " + os.path.dirname(__file__))
                 if os.name == "posix":
                     subprocess.call(["sh", os.path.dirname(__file__) + r"/scripts/upgrade.sh", os.getcwd()])
-
 
         elif "ハラショー" in message.content:
             emoji = client.get_emoji(684424533997912096)
             await channel.send(emoji)
         elif "おやすみ" == message.content:
-            await channel.send("おやすみ、司令官。また明日")
+            n = datetime.datetime.now()
+            if str(n.hour) in ["0", "1", "2", "3", "4", "5", "6"]:
+                await channel.send("おやすみ、司令官。\nこんな時間まで何してたんだい？\n風邪引いちゃうから明日は早めに寝なよ?")
+            else:
+                await channel.send("おやすみ、司令官。また明日")
         elif "疲れた" in message.content:
             await channel.send("大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね")
         elif "草" in message.content:
             await lol_counter(is_count=True, message=message)
+        elif "いっそう" in message.content:
+            await channel.send(client.get_emoji(685162743317266645))
+        if message.content.count("***") >= 2:
+            emoji = client.get_emoji(684424533997912096)
+            await channel.send("Bold-italic警察だ!!!{}".format(emoji))
 
 client.run(token)
