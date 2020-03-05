@@ -5,6 +5,7 @@ import sys
 import requests
 import json
 import codecs
+from random import randint
 
 import re
 
@@ -54,6 +55,12 @@ async def lol_counter(is_count,message):
         await channel.send("私が起きてから、司令官は{}回「草」って言ってるね".format(lol_count[message.author.id]))
         if lol_count[message.author.id] > 10:
             await channel.send("...いくら何でも多すぎないかい?")
+
+async def generate_random(message, parentList):
+    channel = message.channel
+    result = randint(0, len(parentList))
+    await channel.send("うんたらかんたら{}".format(parentList[result])) # TODO
+    # 文字列の中に変数入れるやり方忘れたのでhibikiness追加するときやって下さ
 
 
 
@@ -129,10 +136,17 @@ async def on_message(message):
                     await channel.send("私がいなくても大丈夫かい?")
                     await channel.send("大丈夫だったら,```/stop confirm```って言ってね。")
 
+            if usr_cmd_text[0] == "random":
+                if len(usr_cmd_text[0:]) > 1:
+                    await generate_random(message, usr_cmd_text[0:])
+                else:
+                    await channel.send("リストを！！！入れろ！！！") # TODO
+
             if usr_cmd_text[0] == "help":
                 await channel.send(r"""***はらちょhelp***
                 ```/lol``` : 私が起動してから司令官が「草」って言った回数を伝えるよ
                 ```/stop``` : 私が休憩してくるよ
+                ```/random```: 指揮官の指定したものからランダムでうんたらかんたら # TODO
                 ```#<リポジトリ名>/<top(p)|issues(i)|pull(pr | p)|>``` : 言われたように書類を持ってくるよ
                 ```ハラショー``` : 秘密だよ
                 ```おやすみ``` : 秘密だよ
