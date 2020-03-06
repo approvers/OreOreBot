@@ -158,7 +158,7 @@ async def on_message(message):
                 if os.name == "nt":
                     subprocess.call(os.path.dirname(__file__)+ r"/scripts/upgrade.bat" + " " + os.path.dirname(__file__)[0:2])
                 if os.name == "posix":
-                    subprocess.call(["sh", os.path.dirname(__file__) + r"/scripts/upgrade.sh", os.getcwd()])
+                    subprocess.call(["sh", os.getcwd() + r"/scripts/upgrade.sh", os.getcwd()])
 
         elif "ハラショー" in message.content:
             emoji = client.get_emoji(684424533997912096)
