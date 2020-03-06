@@ -12,8 +12,8 @@ from random import randint
 import re
 
 client = discord.Client()
-token = sys.argv[1]
-first_channel = sys.argv[2]
+token = os.environ["TOKEN"]
+first_channel = 684289417682223150
 lol_count = {}
 
 github_cmd_regex = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
