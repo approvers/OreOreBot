@@ -46,6 +46,7 @@ async def ziho(channel):
         if int(str(time.minute)) == 0:
             h = str(time.hour)
             await channel.send(msg_dict["ziho"][h])
+            await asyncio.sleep(15)
         await asyncio.sleep(50)
 
 async def lol_counter(is_count,message):
