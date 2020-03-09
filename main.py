@@ -14,11 +14,8 @@ import lib.scraping
 import re
 
 client = discord.Client()
-# token = os.environ["TOKEN"]
-# これはheroku用
-token = "Njc0MjYyMDMyNzEwNzYyNTE2.Xl_Abg.Q9GyP0qOugPjuQkeYwqHEHv2Ecg"
-# first_channel = 684289417682223150
-first_channel = 674264032240205840
+token = os.environ["TOKEN"]
+first_channel = 684289417682223150
 lol_count = {}
 typos = {}
 
