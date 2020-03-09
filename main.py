@@ -21,7 +21,7 @@ channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
 usr_cmd_regex = re.compile(r"^!(\w+?)*(\s\w+)*")
 
 try:
-    # messages.json (時報json) の読み込みを試みる
+    # mesm_json_syntax_conceal = 0sages.json (時報json) の読み込みを試みる
     # msg_dictのkeyはstr型です、int型で呼び出そうとしないで()
     with codecs.open("messages.json", 'r', 'utf-8') as f:
         msg_dict = json.loads(f.read())
@@ -43,7 +43,7 @@ async def ziho(channel):
         time = datetime.datetime.now()
         if int(str(time.minute)) == 0:
             h = str(time.hour)
-            await channel.send(msg_dict[h])
+            await channel.send(msg_dict["ziho"][h])
         await asyncio.sleep(50)
 
 async def lol_counter(is_count,message):
@@ -54,17 +54,30 @@ async def lol_counter(is_count,message):
         else:
             lol_count[message.author.id] = 1
     else:
-        await channel.send("私が起きてから、司令官は{}回「草」って言ってるね".format(lol_count[message.author.id]))
+        await channel.send(get_message("lol-counter", "counter-value").format(lol_count[message.author.id]))
         if lol_count[message.author.id] > 10:
-            await channel.send("...いくら何でも多すぎないかい?")
+            await channel.send(get_message("lol-counter", "too-many"))
 
 async def generate_random(message, parentList):
     channel = message.channel
     result = randint(0, len(parentList))
-    await channel.send("うんたらかんたら{}".format(parentList[result])) # TODO
+    await channel.send(get_message("random-list", "message").format(parentList[result])) # TODO
     # 文字列の中に変数入れるやり方忘れたのでhibikiness追加するときやって下さ
 
+def get_message(scope, name):
+    """
+    Get message from JSON.
+    :param scope: test
+    """
+    msg_data = msg_dict[scope][name]
+    
+    message = ""
+    if isinstance(msg_data, list):
+        message = msg_data[randint(0, len(msg_data))]
+    else:
+        message = msg_data
 
+    return message
 
 
 @client.event
@@ -89,35 +102,33 @@ async def on_message(message):
 
             res = requests.get("https://github.com/brokenManager/" + repo_name)
             if res.status_code == 404:
-                await channel.send("司令官、そんなリポジトリはないよ...？")
+                await channel.send(get_message("repo", "not-found"))
                 return
-
             if cmd == "top" or cmd == "t":
-                await channel.send("司令官、頼まれていたリポジトリを持ってきたよ\nhttps://github.com/brokenManager/" + repo_name)
+                await channel.send(get_message("repo", "repo-top").format(repo_name))
             elif cmd == "issues" or cmd == "i":
-                await channel.send("司令官、このリポジトリで起きている問題のリストだよ\nhttps://github.com/brokenManager/{}/issues".format(repo_name))
+                await channel.send(get_message("issue-found", "issue-found").format(repo_name))
             elif cmd == "issue":
-                await channel.send("司令官、問題は一つじゃないんだよ?")
+                await channel.send(get_message("repo", "single-issue"))
             elif cmd == "pull" or cmd == "pr" or cmd == "p":
-                await channel.send("ぷるりくえすと...?\nよくわからないけどそれのリストだよ\nhttps://github.com/brokenManager/{}/pulls".format(repo_name))
+                await channel.send(get_message("repo", "pullreq-found").format(repo_name))
             elif not cmd.isnumeric():
                 branch_sel = requests.get("https://github.com/brokenManager/{}/tree/{}".format(repo_name, cmd))
                 auto_master_sel = requests.get("https://github.com/brokenManager/{}/tree/master/{}".format(repo_name, cmd))
                 if branch_sel.status_code != 404:
-                    await channel.send("https://github.com/brokenManager/{}/tree/{}".format(repo_name, cmd))
+                    await channel.send(get_message("repo", "branch-selected").format(repo_name, cmd))
                 elif auto_master_sel.status_code != 404:
-                    await channel.send("masterでいいんだよね?")
-                    await channel.send("https://github.com/brokenManager/{}/tree/master/{}".format(repo_name, cmd))
+                    await channel.send(get_message("repo", "master-suggested").format(repo_name, cmd))
                 else:
-                    await channel.send("???それはどういう意味だい?")
+                    await channel.send(get_message("repo", "file-not-found"))
 
                     return
             else:
                 res = requests.get("https://github.com/brokenManager/{}/issues/{}".format(repo_name, cmd))
                 if res.status_code == 404:
-                    await channel.send("司令官、そこには何もないよ?")
+                    await channel.send(get_message("repo", "issue-not-found"))
                     return
-                await channel.send("司令官、頼まれていた書類だよ\nhttps://github.com/brokenManager/{}/issues/{}".format(repo_name, cmd))
+                await channel.send(get_message("repo", "issue-found").format(repo_name, cmd))
 
         elif usr_cmd_matches is not None:
             usr_cmd_text = usr_cmd_matches.group().split()
@@ -132,17 +143,16 @@ async def on_message(message):
             if usr_cmd_text[0] == "stop":
                 if len(usr_cmd_text) == 2:
                     if usr_cmd_text[1] == "confirm":
-                        await channel.send("司令官、先に休ませてもらうね。\nお疲れ様")
+                        await channel.send(get_message("stop", "confirmed"))
                         sys.exit()
                 else:
-                    await channel.send("私がいなくても大丈夫かい?")
-                    await channel.send("大丈夫だったら,```!stop confirm```って言ってね。")
+                    await channel.send(get_message("stop", "confirmation"))
 
             if usr_cmd_text[0] == "random":
                 if len(usr_cmd_text[1:]) > 1:
                     await generate_random(message, usr_cmd_text[1:])
                 else:
-                    await channel.send("リストを！！！入れろ！！！") # TODO
+                    await channel.send(get_message("random", "no-lists-given"))
 
             if usr_cmd_text[0] == "help":
                 await channel.send(r"""***はらちょhelp***
@@ -165,18 +175,20 @@ async def on_message(message):
             await channel.send(emoji)
         elif "おやすみ" == message.content:
             n = datetime.datetime.now()
+            
+            await channel.send(get_message("goodnight", "common"))
             if str(n.hour) in ["0", "1", "2", "3", "4", "5", "6"]:
-                await channel.send("おやすみ、司令官。\nこんな時間まで何してたんだい？\n風邪引いちゃうから明日は早めに寝なよ?")
+                await channel.send(get_message("goodnight", "unhealthy-time"))
             else:
-                await channel.send("おやすみ、司令官。また明日")
+                await channel.send(get_message("goodnight", "healthy-time"))
         elif "疲れた" in message.content:
-            await channel.send("大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね")
+            await channel.send(get_message("goodnight", "tired"))
         elif "草" in message.content:
             await lol_counter(is_count=True, message=message)
         elif "いっそう" in message.content:
             await channel.send(client.get_emoji(685162743317266645))
         if message.content.count("***") >= 2:
             emoji = client.get_emoji(684424533997912096)
-            await channel.send("Bold-italic警察だ!!!{}".format(emoji))
+            await channel.send(get_message("bold-italic-cop", "message").format(emoji))
 
 client.run(token)
