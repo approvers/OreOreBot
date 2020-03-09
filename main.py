@@ -146,7 +146,11 @@ async def on_message(message):
 
             res = requests.get("https://github.com/brokenManager/" + repo_name)
             if res.status_code == 404:
-                await channel.send(get_message("repo", "not-found"))
+                res = requests.get("https://github.com/{}/{}".format(repo_name, cmd))
+                if res.status_code == 404:
+                    await channel.send(get_message("repo", "not-found"))
+                else:
+                    await channel.send(get_message("repo", "other_repo").format(repo_name, cmd))
                 return
             if cmd == "top" or cmd == "t":
                 await channel.send(get_message("repo", "repo-top").format(repo_name))
