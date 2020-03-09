@@ -62,5 +62,8 @@
 	},
 	"random-list": {
 		"message": "うんたらかんたら{}"
-	}
+	},
+  "random-issue": {
+    "message": "私が選んだいっしゅーだよ\n頑張ってね\n{}"
+  }
 }

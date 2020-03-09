@@ -9,6 +9,8 @@ import json
 import codecs
 from random import randint
 
+import lib.scraping
+
 import re
 
 client = discord.Client()
@@ -166,6 +168,15 @@ async def on_message(message):
                 ```ハラショー``` : 秘密だよ
                 ```おやすみ``` : 秘密だよ
                 ```疲れた``` : 秘密だよ""")
+
+            if usr_cmd_text[0] == "randomIssue":
+                issue_list = lib.scraping.get_issues()
+                n = randint(0, len(issue_list))
+                url = "https://github.com/brokenManager/{}/issues/{}".format(
+                    issue_list[n]["repo"], issue_list[n]["id"]
+                )
+                mess = get_message("random-issue", "message")
+                await channel.send(mess.format(url))
 
             if usr_cmd_text[0] == "upgrade":
                 if os.name == "nt":
