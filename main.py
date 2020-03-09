@@ -84,6 +84,8 @@ async def lol_counter(is_count,message):
         else:
             lol_count[message.author.id] = 1
     else:
+        if lol_count[message.author.id] == None:
+            lol_count[message.author.id] = 0
         await channel.send(get_message("lol-counter", "counter-value").format(lol_count[message.author.id]))
         if lol_count[message.author.id] > 10:
             await channel.send(get_message("lol-counter", "too-many"))
