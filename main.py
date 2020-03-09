@@ -9,7 +9,7 @@ import json
 import codecs
 from random import randint
 
-import lib.scraping
+from lib import scraping, weather 
 
 import re
 
@@ -43,11 +43,36 @@ async def on_ready():
 
 
 async def ziho(channel):
+    home_channel = client.get_channel(683939861539192863)
     while True:
         time = datetime.datetime.now(tz=jtc_tz)
         if int(str(time.minute)) == 0:
             h = str(time.hour)
             await channel.send(msg_dict["ziho"][h])
+            if str(time.minute) == "6":
+                w = weather.get_weather()["today"]
+                await home_channel.send(
+                    "今日の天気は{}\n最高気温は{}℃で昨日と{}℃違うよ\n最低気温は{}℃で昨日と{}℃違うよ\n今日も頑張ってね"\
+                    .format(
+                        w["weather"], 
+                        w["high"], 
+                        w["high_diff"][1:-1], 
+                        w["low"], 
+                        w["low_diff"][1:-1]
+                    )
+                )
+            if str(time.minute) == "19":
+                w = weather.get_weather()["tomorrow"]
+                await home_channel.send(
+                    "明日の天気は{}\n最高気温は{}℃で今日と{}℃違うよ\n最低気温は{}℃で今日と{}℃違うよ\n今日も1日お疲れ様"\
+                    .format(
+                        w["weather"], 
+                        w["high"], 
+                        w["high_diff"][1:-1], 
+                        w["low"], 
+                        w["low_diff"][1:-1]
+                    )
+                )
             await asyncio.sleep(15)
         await asyncio.sleep(50)
 
@@ -170,7 +195,7 @@ async def on_message(message):
                 ```疲れた``` : 秘密だよ""")
 
             if usr_cmd_text[0] == "randomIssue":
-                issue_list = lib.scraping.get_issues()
+                issue_list = scraping.get_issues()
                 n = randint(0, len(issue_list))
                 url = "https://github.com/brokenManager/{}/issues/{}".format(
                     issue_list[n]["repo"], issue_list[n]["id"]
