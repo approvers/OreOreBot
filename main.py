@@ -17,10 +17,12 @@ client = discord.Client()
 token = os.environ["TOKEN"]
 first_channel = 684289417682223150
 lol_count = {}
+typos = {}
 
 github_cmd_regex = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
 channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
 usr_cmd_regex = re.compile(r"^!(\w+?)*(\s\w+)*")
+typo_regex = re.compile(r"^.*だカス$")
 
 jtc_tz = datetime.timezone(datetime.timedelta(hours=9))
 
@@ -91,11 +93,19 @@ async def lol_counter(is_count,message):
         except KeyError:
             await channel.send(get_message("lol_counter", "no-lol"))
 
+async def typo_core(arg,typo_matches_text,message):
+    author = message.author.id
+    if not (author in typos.keys()):
+        typos[author] = []
+    if arg == "append" and not (typo_matches_text[:-3] == ""):
+        typos[author].append(message.content[:-3])
+    elif arg == "call":
+        return typos[author]
+
 async def generate_random(message, parentList):
     channel = message.channel
     result = randint(0, len(parentList))
-    await channel.send(get_message("random-list", "message").format(parentList[result])) # TODO
-    # 文字列の中に変数入れるやり方忘れたのでhibikiness追加するときやって下さ
+    await channel.send(get_message("random-list", "message").format(parentList[result]))
 
 def get_message(scope, name):
     """
@@ -120,6 +130,7 @@ async def on_message(message):
 
     matches = github_cmd_regex.match(m)
     usr_cmd_matches = usr_cmd_regex.match(m)
+    typo_matches = typo_regex.match(m)
 
     if not message.author.bot or message.author.id == 684655652182032404:
 
@@ -211,6 +222,17 @@ async def on_message(message):
                     subprocess.call(os.path.dirname(__file__)+ r"/scripts/upgrade.bat" + " " + os.path.dirname(__file__)[0:2])
                 if os.name == "posix":
                     subprocess.call(["sh", os.getcwd() + r"/scripts/upgrade.sh", os.getcwd()])
+
+            if usr_cmd_text[0] == "typo":
+                usr_typo_dict = await typo_core("call","",message)
+                disp_typos = ""
+                for one_typo in usr_typo_dict:
+                    disp_typos += "・" + one_typo + "\n"
+                await channel.send(get_message("typo-text","message").format(message.author.display_name,disp_typos))
+
+        elif typo_matches is not None:
+            typo_matches_text = typo_matches.group()
+            await typo_core("append",typo_matches_text,message)
 
         elif "ハラショー" in message.content:
             emoji = client.get_emoji(684424533997912096)

@@ -64,7 +64,10 @@
 	"random-list": {
 		"message": "うんたらかんたら{}"
 	},
-  "random-issue": {
-    "message": "私が選んだいっしゅーだよ\n頑張ってね\n{}"
-  }
+	"random-issue": {
+    		"message": "私が選んだいっしゅーだよ\n頑張ってね\n{}"
+	},
+  	"typo-text": {
+		"message": "***～～～本日のtypo～～～***\n***{}***\n{}"
+	}
 }
