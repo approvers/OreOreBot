@@ -36,7 +36,8 @@
 		"master-suggested": "masterでいいんだよね?\nhttps://github.com/brokenManager/{}/tree/master/{}",
 		"file-not-found": "???それはどういう意味だい?",
 		"issue-not-found": "司令官、そこには何もないよ?",
-		"issue-found": "司令官、頼まれていた書類だよ\nhttps://github.com/brokenManager/{}/issues/{}"
+		"issue-found": "司令官、頼まれていた書類だよ\nhttps://github.com/brokenManager/{}/issues/{}",
+    "other_repo": "司令官、他の鎮守府からの書類だよ\nhttps://github.com/{}/{}" 
 	},
 	"stop": {
 		"confirmation": "私がいなくても大丈夫かい?\n大丈夫だったら,```!stop confirm```って言ってね。",
