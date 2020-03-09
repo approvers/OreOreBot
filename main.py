@@ -20,6 +20,8 @@ github_cmd_regex = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
 channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
 usr_cmd_regex = re.compile(r"^!(\w+?)*(\s\w+)*")
 
+jtc_tz = datetime.timezone(datetime.timedelta(hours=9))
+
 try:
     # messages.json (時報json) の読み込みを試みる
     # msg_dictのkeyはstr型です、int型で呼び出そうとしないで()
@@ -40,7 +42,7 @@ async def on_ready():
 
 async def ziho(channel):
     while True:
-        time = datetime.datetime.now()
+        time = datetime.datetime.now(tz=jtc_tz)
         if int(str(time.minute)) == 0:
             h = str(time.hour)
             await channel.send(msg_dict[h])
@@ -164,7 +166,7 @@ async def on_message(message):
             emoji = client.get_emoji(684424533997912096)
             await channel.send(emoji)
         elif "おやすみ" == message.content:
-            n = datetime.datetime.now()
+            n = datetime.datetime.now(tz=jtc_tz)
             if str(n.hour) in ["0", "1", "2", "3", "4", "5", "6"]:
                 await channel.send("おやすみ、司令官。\nこんな時間まで何してたんだい？\n風邪引いちゃうから明日は早めに寝なよ?")
             else:
