@@ -16,6 +16,7 @@ import re
 client = discord.Client()
 token = os.environ["TOKEN"]
 first_channel = 684289417682223150
+id_exceptions = [685429240908218368,684655652182032404,685457071906619505]
 lol_count = {}
 typos = {}
 
@@ -132,7 +133,7 @@ async def on_message(message):
     usr_cmd_matches = usr_cmd_regex.match(m)
     typo_matches = typo_regex.match(m)
 
-    if not message.author.bot or message.author.id == 684655652182032404:
+    if not message.author.bot or message.author.id in id_exceptions:
 
         if matches is not None:
 
