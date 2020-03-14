@@ -44,7 +44,7 @@
 		"confirmed": "司令官、先に休ませてもらうね。\nお疲れ様"
 	},
 	"random": {
-		"no-list-given": "リストを！！！入れろ！！！"
+		"no-list-given": "リストすぺーす区切りで言葉を入力してね"
 	},
 	"goodnight": {
 		"common": "おやすみ、司令官。",
@@ -63,12 +63,12 @@
     "no-lol": "まだ司令官は「草」って言ってないね"
 	},
 	"random-list": {
-		"message": "うんたらかんたら{}"
+		"message": "{}でいいかな?"
 	},
 	"random-issue": {
     		"message": "私が選んだいっしゅーだよ\n頑張ってね\n{}"
 	},
   	"typo-text": {
-		"message": "***～～～本日のtypo～～～***\n***{}***\n{}"
+		"message": "***今日の{}のtypoだよ***\n{}"
 	}
 }
