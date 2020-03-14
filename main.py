@@ -9,7 +9,8 @@ import json
 import codecs
 from random import randint
 
-from lib import scraping, weather 
+from lib import scraping
+from lib.weather import get_weather
 
 import re
 
@@ -46,40 +47,51 @@ async def on_ready():
 
 
 async def ziho(channel):
+    """
+    時報を制御する関数
+    Parameters
+    ----------
+    channel: Discord.channel
+        時報を送るチャンネルです
+    """
     home_channel = client.get_channel(683939861539192863)
     while True:
         time = datetime.datetime.now(tz=jtc_tz)
         if time.minute == 0:
-            h = str(time.hour)
-            await channel.send(msg_dict["ziho"][h])
-            if time.hour == 6:
-                w = weather.get_weather()["today"]
+            hour = str(time.hour)
+            await channel.send(msg_dict["ziho"][hour])
+            if hour == "6":
+                weather = get_weather()["today"]
                 await home_channel.send(
                     "今日の天気は{}\n最高気温は{}℃で昨日と{}℃違うよ\n最低気温は{}℃で昨日と{}℃違うよ\n今日も頑張ってね"\
                     .format(
-                        w["weather"], 
-                        w["high"], 
-                        w["high_diff"][1:-1], 
-                        w["low"], 
-                        w["low_diff"][1:-1]
+                        weather["weather"],
+                        weather["high"],
+                        weather["high_diff"][1:-1],
+                        weather["low"],
+                        weather["low_diff"][1:-1]
                     )
                 )
-            if time.hour == 19:
-                w = weather.get_weather()["tomorrow"]
+            if hour == "19":
+                weather = get_weather()["tomorrow"]
                 await home_channel.send(
                     "明日の天気は{}\n最高気温は{}℃で今日と{}℃違うよ\n最低気温は{}℃で今日と{}℃違うよ\n今日も1日お疲れ様"\
                     .format(
-                        w["weather"],
-                        w["high"],
-                        w["high_diff"][1:-1],
-                        w["low"],
-                        w["low_diff"][1:-1]
+                        weather["weather"],
+                        weather["high"],
+                        weather["high_diff"][1:-1],
+                        weather["low"],
+                        weather["low_diff"][1:-1]
                     )
                 )
             await asyncio.sleep(15)
         await asyncio.sleep(50)
 
-async def lol_counter(is_count,message):
+
+async def lol_counter(is_count, message):
+    """
+    草と言った回数をカウントするものです
+    """
     channel = message.channel
     if is_count:
         if message.author.id in lol_count:
