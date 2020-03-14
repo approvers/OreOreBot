@@ -14,19 +14,20 @@ from lib.weather import get_weather
 
 import re
 
-client = discord.Client()
-token = os.environ["TOKEN"]
-first_channel = 684289417682223150
-id_exceptions = [685429240908218368,684655652182032404,685457071906619505]
+CLIENT = discord.Client()
+HARASYO = CLIENT.get_emoji(684424533997912096)
+TOKEN = os.environ["TOKEN"]
+FIRST_CHANNEL = 684289417682223150
+ID_EXCEPTIONS = [685429240908218368, 684655652182032404, 685457071906619505]
 lol_count = {}
 typos = {}
 
-github_cmd_regex = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
-channel_id_regex = re.compile(r"^<#([0-9]+?)>$")
-usr_cmd_regex = re.compile(r"^!(\w+?)*(\s\w+)*")
-typo_regex = re.compile(r"^.*だカス$")
+GITHUB_CMD_REGEX = re.compile(r".*?\#(.+?)\/([^\s]+).*?")
+CHANNEL_ID_REGEX = re.compile(r"^<#([0-9]+?)>$")
+USER_CMD_REGEX = re.compile(r"^!(\w+?)*(\s\w+)*")
+TYPO_REGEX = re.compile(r"^.*だカス$")
 
-jtc_tz = datetime.timezone(datetime.timedelta(hours=9))
+JTC_TZ = datetime.timezone(datetime.timedelta(hours=9))
 
 try:
     # mesm_json_syntax_conceal = 0sages.json (時報json) の読み込みを試みる
@@ -38,9 +39,9 @@ except:
 
 
 
-@client.event
+@CLIENT.event
 async def on_ready():
-    channel = client.get_channel(int(first_channel))
+    channel = CLIENT.get_channel(int(FIRST_CHANNEL))
     await channel.send(msg_dict["login"])
     asyncio.ensure_future(ziho(channel))
 
@@ -54,9 +55,9 @@ async def ziho(channel):
     channel: Discord.channel
         時報を送るチャンネルです
     """
-    home_channel = client.get_channel(683939861539192863)
+    home_channel = CLIENT.get_channel(683939861539192863)
     while True:
-        time = datetime.datetime.now(tz=jtc_tz)
+        time = datetime.datetime.now(tz=JTC_TZ)
         if time.minute == 0:
             hour = str(time.hour)
             await channel.send(msg_dict["ziho"][hour])
@@ -136,16 +137,16 @@ def get_message(scope, name):
     return message
 
 
-@client.event
+@CLIENT.event
 async def on_message(message):
     channel = message.channel
     m = message.content
 
-    matches = github_cmd_regex.match(m)
-    usr_cmd_matches = usr_cmd_regex.match(m)
-    typo_matches = typo_regex.match(m)
+    matches = GITHUB_CMD_REGEX.match(m)
+    usr_cmd_matches = USER_CMD_REGEX.match(m)
+    typo_matches = TYPO_REGEX.match(m)
 
-    if not message.author.bot or message.author.id in id_exceptions:
+    if not message.author.bot or message.author.id in ID_EXCEPTIONS:
 
         if matches is not None:
 
@@ -154,7 +155,7 @@ async def on_message(message):
             cmd = matches[2]
 
             if repo_name.endswith(">"):
-                repo_name = client.get_channel(int(repo_name[:-1])).name
+                repo_name = CLIENT.get_channel(int(repo_name[:-1])).name
             print("repo_name:{}\ncmd:{}".format(repo_name, cmd))
 
             res = requests.get("https://github.com/brokenManager/" + repo_name)
@@ -252,10 +253,10 @@ async def on_message(message):
             await typo_core("append",typo_matches_text,message)
 
         elif "ハラショー" in message.content:
-            emoji = client.get_emoji(684424533997912096)
+            emoji = CLIENT.get_emoji(684424533997912096)
             await channel.send(emoji)
         elif "おやすみ" == message.content:
-            n = datetime.datetime.now(tz=jtc_tz)
+            n = datetime.datetime.now(tz=JTC_TZ)
             await channel.send(get_message("goodnight", "common"))
             if str(n.hour) in ["0", "1", "2", "3", "4", "5", "6"]:
                 await channel.send(get_message("goodnight", "unhealthy-time"))
@@ -266,9 +267,8 @@ async def on_message(message):
         elif "草" in message.content:
             await lol_counter(is_count=True, message=message)
         elif "いっそう" in message.content:
-            await channel.send(client.get_emoji(685162743317266645))
+            await channel.send(CLIENT.get_emoji(685162743317266645))
         if message.content.count("***") >= 2:
-            emoji = client.get_emoji(684424533997912096)
-            await channel.send(get_message("bold-italic-cop", "message").format(emoji))
+            await channel.send(get_message("bold-italic-cop", "message").format(HARASYO))
 
-client.run(token)
+CLIENT.run(TOKEN)
