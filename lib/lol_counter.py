@@ -45,14 +45,16 @@ class LolCounter(Singleton):
         author_id: int
             発言者のid
         """
-        if author_id in self.lol_count.keys():
-            count = self.lol_count[author_id]
-            if count == 0:
-                await channel.send(LolCounter._LOL_MESSAGE["no-lol"])
-                return
-            await channel.send(LolCounter._LOL_MESSAGE["counter-value"].format(count))
-            if count >= 10:
-                await channel.send(LolCounter._LOL_MESSAGE["too-many"])
+        if not author_id in self.lol_count.keys():
+            await channel.send(LolCounter._LOL_MESSAGE["no-lol"])
             return
-        await channel.send(LolCounter._LOL_MESSAGE["no-lol"])
+
+        count = self.lol_count[author_id]
+        if count == 0:
+            await channel.send(LolCounter._LOL_MESSAGE["no-lol"])
+            return
+        await channel.send(LolCounter._LOL_MESSAGE["counter-value"].format(count))
+        if count >= 10:
+            await channel.send(LolCounter._LOL_MESSAGE["too-many"])
+        return
 

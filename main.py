@@ -44,57 +44,10 @@ async def on_message(message):
     channel = message.channel
     m = message.content
 
-    matches = GITHUB_CMD_REGEX.match(m)
     usr_cmd_matches = USER_CMD_REGEX.match(m)
-    typo_matches = TYPO_REGEX.match(m)
 
     if not message.author.bot or message.author.id in ID_EXCEPTIONS:
-
-        if matches is not None:
-
-            # matches[0]だとmatch関数にかけた文字列が全部返ってくる(なぜ)
-            repo_name = matches[1]
-            cmd = matches[2]
-
-            if repo_name.endswith(">"):
-                repo_name = CLIENT.get_channel(int(repo_name[:-1])).name
-            print("repo_name:{}\ncmd:{}".format(repo_name, cmd))
-
-            res = requests.get("https://github.com/brokenManager/" + repo_name)
-            if res.status_code == 404:
-                res = requests.get("https://github.com/{}/{}".format(repo_name, cmd))
-                if res.status_code == 404:
-                    await channel.send(get_message("repo", "not-found"))
-                else:
-                    await channel.send(get_message("repo", "other_repo").format(repo_name, cmd))
-                return
-            if cmd == "top" or cmd == "t":
-                await channel.send(get_message("repo", "repo-top").format(repo_name))
-            elif cmd == "issues" or cmd == "i":
-                await channel.send(get_message("issue-found", "issue-found").format(repo_name))
-            elif cmd == "issue":
-                await channel.send(get_message("repo", "single-issue"))
-            elif cmd == "pull" or cmd == "pr" or cmd == "p":
-                await channel.send(get_message("repo", "pullreq-found").format(repo_name))
-            elif not cmd.isnumeric():
-                branch_sel = requests.get("https://github.com/brokenManager/{}/tree/{}".format(repo_name, cmd))
-                auto_master_sel = requests.get("https://github.com/brokenManager/{}/tree/master/{}".format(repo_name, cmd))
-                if branch_sel.status_code != 404:
-                    await channel.send(get_message("repo", "branch-selected").format(repo_name, cmd))
-                elif auto_master_sel.status_code != 404:
-                    await channel.send(get_message("repo", "master-suggested").format(repo_name, cmd))
-                else:
-                    await channel.send(get_message("repo", "file-not-found"))
-
-                    return
-            else:
-                res = requests.get("https://github.com/brokenManager/{}/issues/{}".format(repo_name, cmd))
-                if res.status_code == 404:
-                    await channel.send(get_message("repo", "issue-not-found"))
-                    return
-                await channel.send(get_message("repo", "issue-found").format(repo_name, cmd))
-
-        elif usr_cmd_matches is not None:
+        if usr_cmd_matches is not None:
             usr_cmd_text = usr_cmd_matches.group().split()
             usr_cmd_text[0] = usr_cmd_text[0][1:]
 
