@@ -14,82 +14,15 @@ from lib.weather import get_weather
 from lib.util import Singleton
 from lib.lol_counter import LolCounter
 
+from message_command import MessageCommands
+
 import re
 
 CLIENT = discord.Client()
 TOKEN = os.environ["TOKEN"]
-FIRST_CHANNEL = 684289417682223150
-ID_EXCEPTIONS = [685429240908218368, 684655652182032404, 685457071906619505]
 lol_count = {}
 typos = {}
 
-
-@CLIENT.event
-async def on_ready():
-    channel = CLIENT.get_channel(int(FIRST_CHANNEL))
-    await channel.send(msg_dict["base"])
-    asyncio.ensure_future(ziho(channel))
-
-
-
-async def ziho(channel):
-    """
-    時報を制御する関数
-    Parameters
-    ----------
-    channel: Discord.channel
-        時報を送るチャンネルです
-    """
-    home_channel = CLIENT.get_channel(683939861539192863)
-    while True:
-        time = datetime.datetime.now(tz=JTC_TZ)
-        if time.minute == 0:
-            hour = str(time.hour)
-            await channel.send(msg_dict["ziho"][hour])
-            if hour == "6":
-                weather = get_weather()["today"]
-                await home_channel.send(
-                    "今日の天気は{}\n最高気温は{}℃で昨日と{}℃違うよ\n最低気温は{}℃で昨日と{}℃違うよ\n今日も頑張ってね"\ .format(
-                        weather["weather"],
-                        weather["high"],
-                        weather["high_diff"][1:-1],
-                        weather["low"],
-                        weather["low_diff"][1:-1]
-                    )
-                )
-            if hour == "19":
-                weather = get_weather()["tomorrow"]
-                await home_channel.send(
-                    "明日の天気は{}\n最高気温は{}℃で今日と{}℃違うよ\n最低気温は{}℃で今日と{}℃違うよ\n今日も1日お疲れ様"\
-                    .format(
-                        weather["weather"],
-                        weather["high"],
-                        weather["high_diff"][1:-1],
-                        weather["low"],
-                        weather["low_diff"][1:-1]
-                    )
-                )
-            await asyncio.sleep(15)
-        await asyncio.sleep(50)
-
-
-async def lol_counter(is_count, message):
-    """
-    草と言った回数をカウントするものです
-    """
-    channel = message.channel
-    if is_count:
-        if message.author.id in lol_count:
-            lol_count[message.author.id] += message.content.count("草")
-        else:
-            lol_count[message.author.id] = 1
-    else:
-        try:
-            await channel.send(get_message("lol-counter", "counter-value").format(lol_count[message.author.id]))
-            if lol_count[message.author.id] > 10:
-                await channel.send(get_message("lol-counter", "too-many"))
-        except KeyError:
-            await channel.send(get_message("lol_counter", "no-lol"))
 
 async def typo_core(arg,typo_matches_text,message):
     author = message.author.id
@@ -104,21 +37,6 @@ async def generate_random(message, parentList):
     channel = message.channel
     result = randint(0, len(parentList))
     await channel.send(get_message("random-list", "message").format(parentList[result]))
-
-def get_message(scope, name):
-    """
-    Get message from JSON.
-    :param scope: test
-    """
-    msg_data = msg_dict[scope][name]
-    
-    message = ""
-    if isinstance(msg_data, list):
-        message = msg_data[randint(0, len(msg_data))]
-    else:
-        message = msg_data
-
-    return message
 
 
 @CLIENT.event
@@ -257,6 +175,7 @@ async def on_message(message):
 
 CLIENT.run(TOKEN)
 
+
 class MainClient(discord.Client, Singleton):
     """
     Discordクライアント(多重起動防止機構付き)
@@ -301,12 +220,15 @@ class MainClient(discord.Client, Singleton):
             self.base_channel = self.get_channel(self.base_channel_id)
             self.lol_counter = LolCounter(self.guilds[0].members)
             self.HARASYO = CLIENT.get_emoji(684424533997912096)
+            asyncio.ensure_future(self.ziho())
 
     async def on_message(self, message):
         if message.author.bot and not message.author.id in MainClient.CLI_BOTS:
             return
         channel = message.channel
         message_str = message.content
+        command = MessageCommands(message_str, channel)
+        command.execute()
 
     async def ziho(self):
         """
@@ -347,25 +269,4 @@ class MainClient(discord.Client, Singleton):
 
     def launch(self):
         self.run(self.token)
-
-class MessageCommands:
-    REGEXES = {
-        "GitHub"      : re.compile(r".*?\#(.+?)\/([^\s]+).*?"),
-        "Channel"     : re.compile(r"^<#([0-9]+?)>$"),
-        "User Command": re.compile(r"^!(\w+?)*(\s\w+)*"),
-        "Typo"        : re.compile(r"^.*だカス$")
-    }
-
-    def __init__(self, message):
-        """
-        インスタンス化の際にメッセージだけ受け取る
-        message: str
-            メッセージの文章
-        """
-        self.message = message
-        for (key, regex) in MessageCommands.REGEXES.items():
-            if regex.match(message):
-                self.command_type = key
-        if self.command_type is None:
-            self.command_type = ""
 
