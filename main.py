@@ -33,7 +33,7 @@ try:
     with codecs.open("messages.json", 'r', 'utf-8') as f:
         msg_dict = json.loads(f.read())
 except:
-    print("File doesn't exist or it is incorrect!")
+    print("There is no messages.json\nPlease check your directory")
 
 
 
@@ -49,10 +49,10 @@ async def ziho(channel):
     home_channel = client.get_channel(683939861539192863)
     while True:
         time = datetime.datetime.now(tz=jtc_tz)
-        if int(str(time.minute)) == 0:
+        if time.minute == 0:
             h = str(time.hour)
             await channel.send(msg_dict["ziho"][h])
-            if str(time.minute) == "6":
+            if time.hour == 6:
                 w = weather.get_weather()["today"]
                 await home_channel.send(
                     "今日の天気は{}\n最高気温は{}℃で昨日と{}℃違うよ\n最低気温は{}℃で昨日と{}℃違うよ\n今日も頑張ってね"\
@@ -64,15 +64,15 @@ async def ziho(channel):
                         w["low_diff"][1:-1]
                     )
                 )
-            if str(time.minute) == "19":
+            if time.hour == 19:
                 w = weather.get_weather()["tomorrow"]
                 await home_channel.send(
                     "明日の天気は{}\n最高気温は{}℃で今日と{}℃違うよ\n最低気温は{}℃で今日と{}℃違うよ\n今日も1日お疲れ様"\
                     .format(
-                        w["weather"], 
-                        w["high"], 
-                        w["high_diff"][1:-1], 
-                        w["low"], 
+                        w["weather"],
+                        w["high"],
+                        w["high_diff"][1:-1],
+                        w["low"],
                         w["low_diff"][1:-1]
                     )
                 )
