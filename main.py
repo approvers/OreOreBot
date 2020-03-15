@@ -197,7 +197,8 @@ class MainClient(discord.Client, Singleton):
                 if hour == "6":
                     weather = get_weather()["today"]
                     await home_channel.send(
-                        "今日の天気は{}\n最高気温は{}℃で昨日と{}℃違うよ\n最低気温は{}℃で昨日と{}℃違うよ\n今日も頑張ってね"\ .format(
+                        "今日の天気は{}\n最高気温は{}℃で昨日と{}℃違うよ\n最低気温は{}℃で昨日と{}℃違うよ\n今日も頑張ってね"\ 
+                        .format(
                             weather["weather"],
                             weather["high"],
                             weather["high_diff"][1:-1],

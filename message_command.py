@@ -5,6 +5,7 @@ import re
 import codecs
 import json
 import requests
+from lib.lol_counter import LolCounter
 import discord
 
 class MessageCommands:
@@ -14,20 +15,30 @@ class MessageCommands:
     REGEXES = {
         "GitHub"      : re.compile(r".*?\#(.+?)\/([^\s]+).*?"),
         "Channel"     : re.compile(r"^<#([0-9]+?)>$"),
-        "User Command": re.compile(r"^!(\w+?)*(\s\w+)*"),
+        "Util Command": re.compile(r"^!(\w+?)*(\s\w+)*"),
         "Typo"        : re.compile(r"^.*だカス$")
     }
 
-    def __init__(self, message, channel):
+    def __init__(self, message, channel, member_id):
         """
-        インスタンス化の際にメッセージだけ受け取る
+        インスタンス化の際に必要インスタンスを受け取る
         message: str
             メッセージの文章
         channel: discord.Channel
             メッセージ送信先のチャンネル
+        lol_counter: LolCounter
+            草カウンターのインスタンスを受け取る
+        member_id: int
+            発言者のid
         """
-        self.message = message
-        self.channel = channel
+        if MessageCommands.LOL_COUNTER is None:
+            return
+
+        self.message     = message
+        self.channel     = channel
+        self.lol_counter = lol_counter
+        self.member      = member
+
         with codecs.open("messages.json", 'r', 'utf-8') as f:
             self.response_dict = json.loads(f.read())
         for (key, regex) in MessageCommands.REGEXES.items():
@@ -43,7 +54,7 @@ class MessageCommands:
             return
         commands_list = {
             "GitHub"      : self.github(),
-            "User Command": self.user_command(),
+            "Util Command": self.util_command(),
             "Typo"        : self.typo()
         }
         commands_list[self.command_type]
@@ -102,9 +113,29 @@ class MessageCommands:
         else:
             await self.channel.send(message["other_repo"].format(user_name, repo_name))
 
-    def user_command(self):
-        return
+    def util_command(self):
+        user_message = self.message[1:]        
+        commands = user_message.split()
+        
+        if commands[0] == "lol":
+            await MessageCommands.LOL_COUNTER.output(self.channel, self.member)
+            return
+
+        
 
     def typo(self):
         return
+    
+    @staticmethod
+    def get_lol_counter(members):
+        """
+        lol_counterをこのインスタンスに渡す処理
+        Parameters
+        ----------
+        members: List<discord.Member>
+            メンバーのリスト
+        """
+        if MessageCommands.LOL_COUNTER:
+            return
+        MessageCommands.LOL_COUNTER = LolCounter(members)
 
