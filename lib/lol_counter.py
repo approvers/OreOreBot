@@ -1,4 +1,4 @@
-from util import *
+from lib.util import Singleton
 
 
 class LolCounter(Singleton):
@@ -37,7 +37,7 @@ class LolCounter(Singleton):
             return
         self.lol_count[author_id] = message.count("草")
 
-    def output(self, channel, author_id):
+    async def output(self, channel, author_id):
         """
         現在の草の数を出力する
         channel: discord.Channel
@@ -56,5 +56,4 @@ class LolCounter(Singleton):
         await channel.send(LolCounter._LOL_MESSAGE["counter-value"].format(count))
         if count >= 10:
             await channel.send(LolCounter._LOL_MESSAGE["too-many"])
-        return
 

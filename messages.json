@@ -51,9 +51,6 @@
 		"healthy-time": "また明日",
 		"unhealthy-time": "こんな時間まで何してたんだい？\n風邪引いちゃうから明日は早めに寝なよ?"
 	},
-	"tired": {
-		"message": "大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね"
-	},
 	"bold-italic-cop": {
 		"message": "Bold-Italic警察だ!!!{}"
 	},
