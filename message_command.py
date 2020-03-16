@@ -70,7 +70,7 @@ class MessageCommands:
 
         for content in MessageCommands.MESSAGE_COMMANDS.keys():
             if content in self.message:
-                await self.channel(MessageCommands.MESSAGE_COMMANDS[content])
+                await self.channel.send(MessageCommands.MESSAGE_COMMANDS[content])
                 if content == "おやすみ":
                     await self.channel.send(MessageCommands.goodnight_time())
 
