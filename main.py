@@ -49,7 +49,6 @@ class MainClient(discord.Client, Singleton):
         with codecs.open("messages.json", 'r', 'utf-8') as json_file:
             self.msg_dict = json.loads(json_file.read())
 
-
     def launch(self):
         """
         clientの起動
@@ -63,7 +62,6 @@ class MainClient(discord.Client, Singleton):
         """
         if len(self.guilds) == 1:
             self.base_channel = self.get_channel(self.base_channel_id)
-            self.lol_counter = LolCounter(self.guilds[0].members)
 
             time_signal = TimeSignal(
                 self.base_channel,
@@ -85,7 +83,7 @@ class MainClient(discord.Client, Singleton):
             return
         channel = message.channel
         message_str = message.content
-        command = MessageCommands(message_str, channel, message)
+        command = MessageCommands(message_str, channel, message.author)
         await command.execute()
 
 

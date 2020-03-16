@@ -4,12 +4,14 @@
 import re
 import codecs
 import json
-import requests
 import datetime
+
+import requests
+import discord
+
 from lib.lol_counter import LolCounter
 from lib.typo import Typo
 
-import discord
 
 class MessageCommands:
     """
@@ -25,7 +27,7 @@ class MessageCommands:
     HARASYO = None
     ISSO = None
 
-    MESSAGE_COMMANDS ={
+    MESSAGE_COMMANDS = {
         "ハラショー": HARASYO,
         "いっそう"  : ISSO,
         "疲れた"    : "大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね",
@@ -48,18 +50,23 @@ class MessageCommands:
 
         self.message     = message
         self.channel     = channel
-        self.member_id   = member.author.id
-        self.member_name = member.author.display_name
+        self.member_id   = member.id
+        self.member_name = member.display_name
 
-        with codecs.open("messages.json", 'r', 'utf-8') as f:
-            self.response_dict = json.loads(f.read())
+        with codecs.open("messages.json", 'r', 'utf-8') as json_file:
+            self.response_dict = json.loads(json_file.read())
 
     async def execute(self):
+        """
+        __init__で渡された情報をもとにコマンドを実行
+        """
         if "草" in self.message:
             MessageCommands.LOL_COUNTER.count(self.message, self.member_id)
-        
+
         if self.message.count("***") >= 2:
-            await self.channel.send(self.response_dict["bold-italic-cop"]["message"].format(MessageCommands.HARASYO))
+            await self.channel.send(
+                self.response_dict["bold-italic-cop"]["message"].format(MessageCommands.HARASYO)
+            )
 
         for content in MessageCommands.MESSAGE_COMMANDS.keys():
             if content in self.message:
@@ -72,7 +79,7 @@ class MessageCommands:
                 command_type = key
                 command      = regex.match(self.message)
                 break
-        
+
         if not command_type:
             return
 
@@ -86,13 +93,23 @@ class MessageCommands:
 
     @staticmethod
     def goodnight_time():
+        """
+        時間によってコマンドの内容を変える
+        """
         time = datetime.datetime.now()
-        if time.hour in [x for x in range(7)]:
+        if 7 > time.hour > 0:
             return "こんな時間まで何してたんだい？\n風邪引いちゃうから明日は早めに寝なよ?"
         return "また明日"
 
 
     async def github(self, raw_command):
+        """
+        GitHubのリポジトリ参照などのコマンド
+        Parameters
+        ----------
+        raw_command: list<str>
+            正規表現に引っかかったコマンド達
+        """
         repo_name = raw_command[1]
         command   = raw_command[2]
         message = self.response_dict["repo"]
@@ -110,7 +127,7 @@ class MessageCommands:
         if res.status_code == 404:
             await self.try_connect_other_repo(repo_name, command, message)
             return
-        
+
         if command in converter.keys():
             command = converter[command]
 
@@ -120,14 +137,18 @@ class MessageCommands:
 
         if command.isdecimal():
             response_issue = requests.get("https://github.com/brokenManager/{}/issues/{}")
-            if res.status_code == 404:
+            if response_issue.status_code == 404:
                 await channel.send(message["issue-not-found"])
             else:
                 await channel.send(message["issue-found"].format(repo_name, command))
             return
 
-        branch = requests.get("https://github.com/brokenManager/{}/tree/{}".format(repo_name, command))
-        master = requests.get("https://github.com/brokenManager/{}/tree/master/{}".format(repo_name, command))
+        branch = requests.get(
+            "https://github.com/brokenManager/{}/tree/{}".format(repo_name, command)
+        )
+        master = requests.get(
+            "https://github.com/brokenManager/{}/tree/master/{}".format(repo_name, command)
+        )
 
         if branch.status_code != 404:
             await channel.send(message["branch-selected"].format(repo_name, command))
@@ -138,29 +159,50 @@ class MessageCommands:
         return
 
     async def try_connect_other_repo(self, user_name, repo_name, message):
+        """
+        他のユーザーやグループのリポジトリにアクセスを試みる
+        Parameters
+        ----------
+        user_name: str
+            アクセス先のユーザー/グループ名
+        repo_name: str
+            アクセス先のリポジトリの名前
+        message: dict<str, str>
+            送信するメッセージのテンプレートの辞書
+        """
         res = requests.get("https://github.com/{}/{}".format(user_name, repo_name))
         if res.status_code == 404:
             await self.channel.send(message["not-found"])
         else:
             await self.channel.send(message["other_repo"].format(user_name, repo_name))
 
-    async def util_command(self, raw_command):
-        user_message = self.message[1:]        
+    async def util_command(self, _):
+        """
+        lolやtypoなどのコマンドを処理する
+        """
+        user_message = self.message[1:]
         commands = user_message.split()
-        
+
         if commands[0] == "lol":
             await MessageCommands.LOL_COUNTER.output(self.channel, self.member_id)
             return
-        
+
         if commands[0] == "typo":
             await self.channel.send(
                 MessageCommands.TYPO_COUNTER.call(self.member_id, self.member_name)
             )
 
     async def typo(self, raw_command):
+        """
+        typoを記録するコマンド
+        Parameters
+        ----------
+        raw_command: list<str>
+            コマンドの入ったリスト
+        """
         command = raw_command.group()
         MessageCommands.TYPO_COUNTER.append(self.member_id, command)
-    
+
     @staticmethod
     def static_init(members, harasyo, isso):
         """
