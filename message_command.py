@@ -74,6 +74,8 @@ class MessageCommands:
                 if content == "おやすみ":
                     await self.channel.send(MessageCommands.goodnight_time())
 
+        command_type = None
+
         for (key, regex) in MessageCommands.REGEXES.items():
             if regex.match(self.message):
                 command_type = key

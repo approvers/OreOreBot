@@ -14,7 +14,7 @@ class TimeSignal(Singleton):
     """
     時報を操作するClass
     """
-    def __init__(self, channel: discord.TextChannel, messages: dict, timezone=9: int, report_timing=(6, 19): tuple):
+    def __init__(self, channel: discord.TextChannel, messages: dict, timezone=9, report_timing=(6, 19)):
         """
         時報に使用する変数の初期化
         Parameters
