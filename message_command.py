@@ -35,7 +35,7 @@ class MessageCommands:
     }
 
 
-    def __init__(self, message, channel, member):
+    def __init__(self, message: str, channel: discord.TextChannel, member: discord.Member):
         """
         インスタンス化の際に必要インスタンスを受け取る
         message: str
@@ -102,12 +102,12 @@ class MessageCommands:
         return "また明日"
 
 
-    async def github(self, raw_command):
+    async def github(self, raw_command: re.Match):
         """
         GitHubのリポジトリ参照などのコマンド
         Parameters
         ----------
-        raw_command: list<str>
+        raw_command: re.Match
             正規表現に引っかかったコマンド達
         """
         repo_name = raw_command[1]
@@ -158,7 +158,7 @@ class MessageCommands:
             await channel.send(message["file-not-found"])
         return
 
-    async def try_connect_other_repo(self, user_name, repo_name, message):
+    async def try_connect_other_repo(self, user_name: str, repo_name: str, message: dict):
         """
         他のユーザーやグループのリポジトリにアクセスを試みる
         Parameters
@@ -192,7 +192,7 @@ class MessageCommands:
                 MessageCommands.TYPO_COUNTER.call(self.member_id, self.member_name)
             )
 
-    async def typo(self, raw_command):
+    async def typo(self, raw_command: list):
         """
         typoを記録するコマンド
         Parameters
@@ -204,7 +204,7 @@ class MessageCommands:
         MessageCommands.TYPO_COUNTER.append(self.member_id, command)
 
     @staticmethod
-    def static_init(members, harasyo, isso):
+    def static_init(members: list, harasyo: discord.Emoji, isso: discord.Emoji):
         """
         lol_counterをこのインスタンスに渡す処理
         Parameters

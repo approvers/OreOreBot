@@ -25,7 +25,7 @@ class MainClient(discord.Client, Singleton):
         684655652182032404,
         685457071906619505
     ]
-    def __init__(self, token, base_channel_id):
+    def __init__(self, token: str, base_channel_id: int):
         """
         クライアントを起動する前の処理
         tokenとか最初にメッセージ送信するチャンネルの指定をしたりする
@@ -75,9 +75,13 @@ class MainClient(discord.Client, Singleton):
             MessageCommands.static_init(self.guilds[0].members, harasyo, isso)
             await self.base_channel.send("響だよ。その活躍ぶりから不死鳥の通り名もあるよ")
 
-    async def on_message(self, message):
+    async def on_message(self, message: discord.Message):
         """
         BOT以外がメッセージを送信したときに関数に処理をさせる
+        Parameters
+        ----------
+        message: discord.Message
+            受け取ったメッセージのデータ
         """
         if message.author.bot and not message.author.id in MainClient.CLI_BOTS:
             return

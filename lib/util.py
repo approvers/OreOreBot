@@ -1,3 +1,7 @@
+"""
+実装に利用できるclass
+"""
+
 class Singleton(object):
     """
     これを継承したclassはシングルトンになる

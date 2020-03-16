@@ -1,8 +1,15 @@
+"""
+天気を取得する
+"""
+
 import requests
 import lxml.html
 
 
 def get_weather():
+    """
+    水戸の天気を取得する関数
+    """
     url = "https://tenki.jp/forecast/3/11/4010/8201/"
     results = {
         "today":{},

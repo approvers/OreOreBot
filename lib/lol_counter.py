@@ -1,5 +1,7 @@
 from lib.util import Singleton
 
+import discord
+
 
 class LolCounter(Singleton):
     """
@@ -10,7 +12,7 @@ class LolCounter(Singleton):
         "too-many"     : "...いくらなんでも多すぎないかい?",
         "no-lol"       : "まだ「草」って言ってないみたいだね"
     }
-    def __init__(self, members):
+    def __init__(self, members: list):
         """
         変数の初期化を行う
         Parameters
@@ -22,7 +24,7 @@ class LolCounter(Singleton):
         for member in members:
             self.lol_count[member.id] = 0
 
-    def count(self, message, author_id):
+    def count(self, message: str, author_id: int):
         """
         草を行った回数をlol_countに追加する
         Parameters
@@ -37,7 +39,7 @@ class LolCounter(Singleton):
             return
         self.lol_count[author_id] = message.count("草")
 
-    async def output(self, channel, author_id):
+    async def output(self, channel: discord.TextChannel, author_id: int):
         """
         現在の草の数を出力する
         channel: discord.Channel
