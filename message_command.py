@@ -104,7 +104,7 @@ class MessageCommands:
         return "また明日"
 
 
-    async def github(self, raw_command: re.Match):
+    async def github(self, raw_command):
         """
         GitHubのリポジトリ参照などのコマンド
         Parameters
