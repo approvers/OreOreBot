@@ -90,6 +90,6 @@ class MainClient(discord.Client, Singleton):
 if __name__ == "__main__":
     TOKEN = os.environ["TOKEN"]
     BASE_CHANNEL = sys.argv[1]
-    MAIN = MainClient()
+    MAIN = MainClient(TOKEN. BASE_CHANNEL)
     MAIN.launch()
 
