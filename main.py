@@ -2,7 +2,6 @@
 はらちょの根幹ファイル
 """
 import asyncio
-import sys
 import os
 import json
 import codecs
@@ -93,7 +92,6 @@ class MainClient(discord.Client, Singleton):
 
 if __name__ == "__main__":
     TOKEN = os.environ["TOKEN"]
-    BASE_CHANNEL = sys.argv[1]
     MAIN = MainClient(TOKEN, 684289417682223150)
     MAIN.launch()
 
