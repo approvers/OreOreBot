@@ -25,7 +25,7 @@ class MainClient(discord.Client, Singleton):
         684655652182032404,
         685457071906619505
     ]
-    def __init__(self, token: str, base_channel_id: str):
+    def __init__(self, token: str, base_channel_id: int):
         """
         クライアントを起動する前の処理
         tokenとか最初にメッセージ送信するチャンネルの指定をしたりする
@@ -33,12 +33,12 @@ class MainClient(discord.Client, Singleton):
         ----------
         token: str
             discordのBotのトークン
-        base_channel_id: str
+        base_channel_id: int
             ログインをし、時報を送信するチャンネルのid
         """
         super(MainClient, self).__init__()
         self.token = token
-        self.base_channel_id = int(base_channel_id)
+        self.base_channel_id = base_channel_id
 
         # Initialize in on_ready()
         # Because use value in client
@@ -94,6 +94,6 @@ class MainClient(discord.Client, Singleton):
 if __name__ == "__main__":
     TOKEN = os.environ["TOKEN"]
     BASE_CHANNEL = sys.argv[1]
-    MAIN = MainClient(TOKEN, BASE_CHANNEL)
+    MAIN = MainClient(TOKEN, 684289417682223150)
     MAIN.launch()
 
