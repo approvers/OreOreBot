@@ -28,23 +28,16 @@
 	},
 	"repo": {
 		"not-found": "司令官、そんなリポジトリはないよ...？",
-		"repo-top": "司令官、頼まれていたリポジトリを持ってきたよ\nhttps://github.com/brokenManager/{}",
-		"issue-found": "司令官、このリポジトリで起きている問題のリストだよ\nhttps://github.com/brokenManager/{}/issues",
+		"top": "司令官、頼まれていたリポジトリを持ってきたよ\nhttps://github.com/brokenManager/{}",
+		"issues": "司令官、このリポジトリで起きている問題のリストだよ\nhttps://github.com/brokenManager/{}/issues",
 		"single-issue": "司令官、問題は一つじゃないんだよ?",
-		"pullreq-found": "ぷるりくえすと...?\nよくわからないけどそれのリストだよ\nhttps://github.com/brokenManager/{}/pulls",
+		"pull": "ぷるりくえすと...?\nよくわからないけどそれのリストだよ\nhttps://github.com/brokenManager/{}/pulls",
 		"branch-selected": "https://github.com/brokenManager/{}/tree/{}",
 		"master-suggested": "masterでいいんだよね?\nhttps://github.com/brokenManager/{}/tree/master/{}",
 		"file-not-found": "???それはどういう意味だい?",
 		"issue-not-found": "司令官、そこには何もないよ?",
 		"issue-found": "司令官、頼まれていた書類だよ\nhttps://github.com/brokenManager/{}/issues/{}",
     "other_repo": "司令官、他の鎮守府からの書類だよ\nhttps://github.com/{}/{}" 
-	},
-	"stop": {
-		"confirmation": "私がいなくても大丈夫かい?\n大丈夫だったら,```!stop confirm```って言ってね。",
-		"confirmed": "司令官、先に休ませてもらうね。\nお疲れ様"
-	},
-	"random": {
-		"no-list-given": "リストを！！！入れろ！！！"
 	},
 	"goodnight": {
 		"common": "おやすみ、司令官。",
@@ -53,19 +46,5 @@
 	},
 	"bold-italic-cop": {
 		"message": "Bold-Italic警察だ!!!{}"
-	},
-	"lol-counter": {
-		"counter-value": "私が起きてから、司令官は{}回「草」って言ってるね",
-		"too-many": "...いくら何でも多すぎないかい?",
-    "no-lol": "まだ司令官は「草」って言ってないね"
-	},
-	"random-list": {
-		"message": "うんたらかんたら{}"
-	},
-	"random-issue": {
-    		"message": "私が選んだいっしゅーだよ\n頑張ってね\n{}"
-	},
-  	"typo-text": {
-		"message": "***～～～本日のtypo～～～***\n***{}***\n{}"
 	}
 }
