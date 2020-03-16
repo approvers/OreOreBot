@@ -58,6 +58,6 @@ class Typo(Singleton):
         display_typo = ""
 
         for typo in user_typo:
-            display_name += "・{}\n".format(typo)
+            display_typo += "・{}\n".format(typo)
         return send_message + display_typo
 
