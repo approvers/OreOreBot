@@ -28,8 +28,8 @@ class MessageCommands:
     ISSO = None
 
     MESSAGE_COMMANDS = {
-        "ハラショー": HARASYO,
-        "いっそう"  : ISSO,
+        "ハラショー": None,
+        "いっそう"  : None,
         "疲れた"    : "大丈夫?司令官\n開発には休息も必要だよ。しっかり休んでね",
         "おやすみ"  : "おやすみ、司令官。"
     }
@@ -221,7 +221,7 @@ class MessageCommands:
         if hasattr(MessageCommands, "LOL_COUNTER"):
             return
         MessageCommands.LOL_COUNTER = LolCounter(members)
-        MessageCommands.HARASYO = harasyo
-        MessageCommands.ISSO    = isso
+        MessageCommands.MESSAGE_COMMANDS["ハラショー"] = harasyo
+        MessageCommands.MESSAGE_COMMANDS["いっそう"] = isso
         MessageCommands.TYPO_COUNTER = Typo(members)
 
