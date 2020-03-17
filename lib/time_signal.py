@@ -63,7 +63,7 @@ class TimeSignal(Singleton):
         await self.channel.send(self.messages[str(hour)])
 
         if hour in self.weather_report_timing.values():
-            day = [d for d, v in self.weather_report_timing.items() if v == hour]
+            day = [d for d, v in self.weather_report_timing.items() if v == hour][0]
 
             weather = get_weather()[day]
 
