@@ -1,3 +1,4 @@
 .token
 issomemo
 **/__pycache__/**
+.idea/
