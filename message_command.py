@@ -138,7 +138,7 @@ class MessageCommands:
             return
 
         if command.isdecimal():
-            response_issue = requests.get("https://github.com/brokenManager/{}/issues/{}")
+            response_issue = requests.get("https://github.com/brokenManager/{}/issues/{}".format(repo_name, command))
             if response_issue.status_code == 404:
                 await channel.send(message["issue-not-found"])
             else:
