@@ -224,4 +224,3 @@ class MessageCommands:
         MessageCommands.MESSAGE_COMMANDS["ハラショー"] = harasyo
         MessageCommands.MESSAGE_COMMANDS["いっそう"] = isso
         MessageCommands.TYPO_COUNTER = Typo(members)
-
