@@ -102,7 +102,7 @@ class TimeSignal(Singleton):
             天気の情報が入った辞書
         """
         await self.channel.send(
-            "昨日の天気は{}\n最高気温は{}℃で今日と{}℃違うよ\n最低気温は{}℃で今日と{}℃違うよ\n今日も一日お疲れ様"\
+            "明日の天気は{}\n最高気温は{}℃で今日と{}℃違うよ\n最低気温は{}℃で今日と{}℃違うよ\n今日も一日お疲れ様"\
             .format(
                 weather["weather"],
                 weather["high"],
