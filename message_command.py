@@ -65,7 +65,7 @@ class MessageCommands:
 
         if self.message.count("***") >= 2:
             await self.channel.send(
-                self.response_dict["bold-italic-cop"]["message"].format(MessageCommands.HARASYO)
+                self.response_dict["bold-italic-cop"]["message"].format(MessageCommands.MESSAGE_COMMANDS["ハラショー"])
             )
 
         for content in MessageCommands.MESSAGE_COMMANDS.keys():
@@ -224,4 +224,3 @@ class MessageCommands:
         MessageCommands.MESSAGE_COMMANDS["ハラショー"] = harasyo
         MessageCommands.MESSAGE_COMMANDS["いっそう"] = isso
         MessageCommands.TYPO_COUNTER = Typo(members)
-
