@@ -53,11 +53,11 @@ class Typo(Singleton):
 
         user_typo = self.typo_dict[member_id]
 
-        send_message = "***今日の{}のtypo***\n".format(member_name)
+        send_message = "***† 今日の{}のtypo †***\n".format(member_name)
 
         display_typo = ""
 
         for typo in user_typo:
-            display_typo += "・{}\n".format(typo)
+            display_typo += "・**{}**\n".format(typo)
         return send_message + display_typo
 
