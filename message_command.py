@@ -11,6 +11,7 @@ import discord
 
 from lib.lol_counter import LolCounter
 from lib.typo import Typo
+from lib.manual_judge import ManualJudge
 
 
 class MessageCommands:
@@ -194,6 +195,9 @@ class MessageCommands:
                 MessageCommands.TYPO_COUNTER.call(self.member_id, self.member_name)
             )
 
+        if commands[0] == "jd" or "judge":
+            await MessageCommands.MANUAL_JUDGE.call(commands,self.channel)
+
     async def typo(self, raw_command: list):
         """
         typoを記録するコマンド
@@ -206,7 +210,7 @@ class MessageCommands:
         MessageCommands.TYPO_COUNTER.append(self.member_id, command)
 
     @staticmethod
-    def static_init(members: list, harasyo: discord.Emoji, isso: discord.Emoji):
+    def static_init(members: list, harasyo: discord.Emoji, isso: discord.Emoji, abc_emojis: dict):
         """
         lol_counterをこのインスタンスに渡す処理
         Parameters
@@ -220,7 +224,8 @@ class MessageCommands:
         """
         if hasattr(MessageCommands, "LOL_COUNTER"):
             return
-        MessageCommands.LOL_COUNTER = LolCounter(members)
         MessageCommands.MESSAGE_COMMANDS["ハラショー"] = harasyo
         MessageCommands.MESSAGE_COMMANDS["いっそう"] = isso
+        MessageCommands.LOL_COUNTER = LolCounter(members)
         MessageCommands.TYPO_COUNTER = Typo(members)
+        MessageCommands.MANUAL_JUDGE = ManualJudge(abc_emojis)

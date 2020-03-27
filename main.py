@@ -71,7 +71,9 @@ class MainClient(discord.Client, Singleton):
 
             harasyo = self.get_emoji(684424533997912096)
             isso = self.get_emoji(685162743317266645)
-            MessageCommands.static_init(self.guilds[0].members, harasyo, isso)
+            abc_emojis = {"AC":self.get_emoji(693007620159832124),"WA":self.get_emoji(693007620201775174),
+                          "CE":self.get_emoji(693007619803185194),"TLE":self.get_emoji(693007620444913664)}
+            MessageCommands.static_init(self.guilds[0].members, harasyo, isso, abc_emojis)
             await self.base_channel.send("響だよ。その活躍ぶりから不死鳥の通り名もあるよ")
 
     async def on_message(self, message: discord.Message):
