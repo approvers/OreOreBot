@@ -2,7 +2,6 @@
 !Typo周りの処理
 """
 from lib.util import Singleton
-import discord
 
 class Typo(Singleton):
     """
