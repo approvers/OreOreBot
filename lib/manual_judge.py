@@ -14,7 +14,7 @@ class ManualJudge(Singleton):
     """
     _MANUAL_JUDGE_MESSAGE = {
         "invalid-command":"引数は少なくとも1つは必要だよ...?",
-        "count error": "回数は1回から30回にしてね"
+        "count_error": "回数は1回から30回にしてね"
     }
     def __init__(self,abc_emojis : dict):
         """
