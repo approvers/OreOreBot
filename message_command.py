@@ -155,11 +155,11 @@ class MessageCommands:
 
         if branch.status_code != 404:
             await channel.send(message["branch-selected"].format(repo_name, command))
-        elif master.status_code != 404:
+            return
+        if master.status_code != 404:
             await channel.send(message["master-suggested"].format(repo_name, command))
-        else:
-            await channel.send(message["file-not-found"])
-        return
+            return
+        await channel.send(message["file-not-found"])
 
     async def try_connect_other_repo(self, user_name: str, repo_name: str, message: dict):
         """
@@ -194,9 +194,11 @@ class MessageCommands:
             await self.channel.send(
                 MessageCommands.TYPO_COUNTER.call(self.member_id, self.member_name)
             )
+            return
 
-        if commands[0] == "jd" or "judge":
+        if commands[0] in ["jd" or "judge"]:
             await MessageCommands.MANUAL_JUDGE.call(commands,self.channel)
+            return
 
     async def typo(self, raw_command: list):
         """
