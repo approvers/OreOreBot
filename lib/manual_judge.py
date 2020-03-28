@@ -40,7 +40,7 @@ class ManualJudge(Singleton):
             await channel.send(ManualJudge._MANUAL_JUDGE_MESSAGE["invalid-command"])
             return
 
-        if commands[1] > 30 or commands[1] < 1:
+        if int(commands[1]) > 30 or int(commands[1]) < 1:
             await channel.send(ManualJudge._MANUAL_JUDGE_MESSAGE["count_error"])
             return
 
