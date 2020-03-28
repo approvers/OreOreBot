@@ -155,11 +155,11 @@ class MessageCommands:
 
         if branch.status_code != 404:
             await channel.send(message["branch-selected"].format(repo_name, command))
-        elif master.status_code != 404:
+            return
+        if master.status_code != 404:
             await channel.send(message["master-suggested"].format(repo_name, command))
-        else:
-            await channel.send(message["file-not-found"])
-        return
+            return
+        await channel.send(message["file-not-found"])
 
     async def try_connect_other_repo(self, user_name: str, repo_name: str, message: dict):
         """
@@ -196,7 +196,7 @@ class MessageCommands:
             )
             return
 
-        if commands[0].lower() in ["jd", "judge"]:
+        if commands[0].lower() in ["jd" or "judge"]:
             await MessageCommands.MANUAL_JUDGE.call(commands,self.channel)
             return
 
