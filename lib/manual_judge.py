@@ -83,10 +83,6 @@ class ManualJudge(Singleton):
         if (await self.checker(commands, channel)):
             return
 
-        if int(commands[1]) > 30 or int(commands[1]) < 1:
-            await channel.send(ManualJudge._MANUAL_JUDGE_MESSAGE["count_error"])
-            return
-
         is_all_error = True if "-all" in commands else False
 
         if len(commands) >= 3:
