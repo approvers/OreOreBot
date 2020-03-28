@@ -194,9 +194,11 @@ class MessageCommands:
             await self.channel.send(
                 MessageCommands.TYPO_COUNTER.call(self.member_id, self.member_name)
             )
+            return
 
-        if commands[0] == "jd" or "judge":
+        if commands[0].lower() in ["jd", "judge"]:
             await MessageCommands.MANUAL_JUDGE.call(commands,self.channel)
+            return
 
     async def typo(self, raw_command: list):
         """
