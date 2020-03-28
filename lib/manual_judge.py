@@ -13,7 +13,8 @@ class ManualJudge(Singleton):
     !jd / !judge コマンドの処理をするクラス
     """
     _MANUAL_JUDGE_MESSAGE = {
-        "invalid-command":"引数は少なくとも1つは必要だよ...?"
+        "invalid-command":"引数は少なくとも1つは必要だよ...?",
+        "count error": "回数は1回から30回にしてね"
     }
     def __init__(self,abc_emojis : dict):
         """
@@ -37,6 +38,10 @@ class ManualJudge(Singleton):
         """
         if len(commands) <= 1:
             await channel.send(ManualJudge._MANUAL_JUDGE_MESSAGE["invalid-command"])
+            return
+
+        if commands[1] > 30 or commands[1] < 1:
+            await channel.send(ManualJudge._MANUAL_JUDGE_MESSAGE["count_error"])
             return
 
         is_all_error = True if "-all" in commands else False
