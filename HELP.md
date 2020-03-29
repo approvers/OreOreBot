@@ -17,7 +17,8 @@
      - "i": "issues",
      - "pr": "pull",
      -  "p": "pull"
-  -  特に指定がない場合、brokenManagerから拾ってくる
+  -  特に指定がない場合、brokenManagerから拾ってくる、ただし別のリポジトリを指定することもできる
+  -  そのときは「他の鎮守府から...」というメッセージを追加して送信する
   -  例:#OreOreBot/i → https://github.com/brokenManager/OreOreBot/issues をメッセージとともに送信
 - 特殊系
   - typoカウンター *だカス というメッセージを検出した場合、そのユーザーごとに*を内部的に保持する
@@ -25,9 +26,11 @@
 - !コマンド系
   - !lol そのユーザーが「草」と発言したを送信する
   - !typo そのユーザーの記録されたtypoを送信する
-  - !jd はらちょオンラインジャッジメントシステム ABC風にジャッジみたいなことをする
+  - !jd / !judge はらちょオンラインジャッジメントシステム ABC風にジャッジみたいなことをする
     - コマンドの形式は[ここを参照](https://github.com/brokenManager/OreOreBot/pull/68#issuecomment-605038105)
 - システム的な機能
   - Bot(中身は人間)の処理を通す機能
   - ~~JSONメッセージをうまく扱うためのクラス、Pythonのstr.format機能{}に対応 使い方は~~ ```instance.get_message()```
   - ↑もしかして消えてる？
+- 注釈
+  - 各機能はクラスごとに分けられており、シングルトンを継承している
