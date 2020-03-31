@@ -196,7 +196,7 @@ class MessageCommands:
             )
             return
 
-        if commands[0] in ["jd" or "judge"]:
+        if commands[0].lower() in ["jd" or "judge"]:
             await MessageCommands.MANUAL_JUDGE.call(commands,self.channel)
             return
 
