@@ -91,6 +91,28 @@ class MainClient(discord.Client, Singleton):
         command = MessageCommands(message_str, channel, message.author)
         await command.execute()
 
+    async def on_voice_state_update(self, member, before, after):
+        """
+        ボイスチャンネル関連の処理をする
+        Parameters
+        ----------
+        member: discord.Member
+            受け取ったメッセージのデータ
+        before: discord.VoiceState
+            変更前のVoiceState
+        after: discord.VoiceState
+            変更後のVoiceState
+        """
+        base_channel = self.get_channel(690909527461199922)
+
+        if after.channel == before.channel:
+            return
+
+        if not (after.channel is None):
+            await base_channel.send("**"+str(member.display_name)+"**" + "さんが"+"**"+ str(after.channel) +"**"+ "に入りました")
+            return
+
+        await base_channel.send("**"+str(member.display_name)+"**" + "さんが" +"**"+ str(before.channel) +"**"+ "から抜けました")
 
 if __name__ == "__main__":
     TOKEN = os.environ["TOKEN"]
