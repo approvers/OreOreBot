@@ -58,4 +58,3 @@ class LolCounter(Singleton):
         await channel.send(LolCounter._LOL_MESSAGE["counter-value"].format(count))
         if count >= 10:
             await channel.send(LolCounter._LOL_MESSAGE["too-many"])
-
