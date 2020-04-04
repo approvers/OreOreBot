@@ -71,16 +71,15 @@ class PartyIchiyo(Singleton):
         ゲリラのループ処理を行う関数
         """
         while True:
-            while not self.is_disabled:
-                time = datetime.datetime.now(tz=self.timezone)
+             time = datetime.datetime.now(tz=self.timezone)
 
-                if time.hour % self.time_interval == 0 and\
-                        time.minute == self.random_minute and\
-                        len(self.base_voice_channel.members) != 0:
-                    await self.do()
-                    self.change_propaty(random_minute=random.randint(0,60))
+             if time.hour % self.time_interval == 0 and time.minute == self.random_minute and\
+                     len(self.base_voice_channel.members) != 0 and not self.is_disabled:
+                await self.do()
+                self.change_propaty(random_minute=random.randint(0,60))
 
-            await asyncio.sleep(50)
+             await asyncio.sleep(50)
+
 
     async def do(self):
         """
