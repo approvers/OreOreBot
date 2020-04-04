@@ -12,6 +12,7 @@ import discord
 from lib.lol_counter import LolCounter
 from lib.typo import Typo
 from lib.manual_judge import ManualJudge
+from lib.party_ichiyo import PartyIchiyo
 
 
 class MessageCommands:
@@ -200,6 +201,20 @@ class MessageCommands:
             await MessageCommands.MANUAL_JUDGE.call(commands,self.channel)
             return
 
+        if commands[0].lower() == "partyichiyo":
+            if len(commands) >= 2:
+                if commands[1].lower() == "disable":
+                    MessageCommands.PARTY_ICHIYO.change_propaty(is_disabled=True)
+                    await self.channel.send("ゲリラpartyichiyoは無効化されました")
+                elif commands[1].lower() == "enable":
+                    MessageCommands.PARTY_ICHIYO.change_propaty(is_disabled=False)
+                    await self.channel.send("ゲリラpartyichiyoは有効化されました")
+                elif commands[1].lower() == "status":
+                    await self.channel.send("ゲリラ一葉の現在の状態は"+ str(not MessageCommands.PARTY_ICHIYO.is_disabled)+"です。")
+                return
+            await MessageCommands.PARTY_ICHIYO.do()
+            return
+
     async def typo(self, raw_command: list):
         """
         typoを記録するコマンド
@@ -212,7 +227,8 @@ class MessageCommands:
         MessageCommands.TYPO_COUNTER.append(self.member_id, command)
 
     @staticmethod
-    def static_init(members: list, harasyo: discord.Emoji, isso: discord.Emoji, abc_emojis: dict):
+    def static_init(members: list, harasyo: discord.Emoji, isso: discord.Emoji, abc_emojis: dict,
+                    base_voice_channel: discord.TextChannel, kikisen_channel: discord.VoiceChannel):
         """
         lol_counterをこのインスタンスに渡す処理
         Parameters
@@ -223,6 +239,10 @@ class MessageCommands:
             ハラショーって言った際に返信するemoji
         isso: discord.Emoji
             いっそうって言った際に返信するemoji
+        base_voice_channel: discord.VoiceChannel
+            一般ボイスチャンネル PartyIchiyoはここに出てくる
+        kikisen_channel: discord.TextChannel
+            聞き専のテキストチャンネル PartyIchiyoのテキスト通知もここ
         """
         if hasattr(MessageCommands, "LOL_COUNTER"):
             return
@@ -231,3 +251,4 @@ class MessageCommands:
         MessageCommands.LOL_COUNTER = LolCounter(members)
         MessageCommands.TYPO_COUNTER = Typo(members)
         MessageCommands.MANUAL_JUDGE = ManualJudge(abc_emojis)
+        MessageCommands.PARTY_ICHIYO = PartyIchiyo(base_voice_channel, kikisen_channel)
