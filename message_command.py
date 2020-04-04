@@ -203,24 +203,7 @@ class MessageCommands:
             return
 
         if commands[0].lower() == "partyichiyo":
-            if len(commands) >= 2:
-                if commands[1].lower() == "disable":
-                    MessageCommands.PARTY_ICHIYO.change_propaty(is_disabled=True)
-                    await self.channel.send("ゲリラpartyichiyoは無効化されました")
-                elif commands[1].lower() == "enable":
-                    MessageCommands.PARTY_ICHIYO.change_propaty(is_disabled=False)
-                    await self.channel.send("ゲリラpartyichiyoは有効化されました")
-                elif commands[1].lower() == "status":
-                    await self.channel.send("ゲリラ一葉の現在の状態は"+ str(not MessageCommands.PARTY_ICHIYO.is_disabled)+"です。")
-                elif commands[1].lower() == "change":
-                    if len(commands) >= 3:
-                        MessageCommands.PARTY_ICHIYO.change_propaty(random_minute = int(commands[2]))
-                        await self.channel.send("次回のゲリラが" + str(MessageCommands.PARTY_ICHIYO.random_minute) + "に設定されました")
-                    else:
-                        MessageCommands.PARTY_ICHIYO.change_propaty(random_minute = random.randint(0,60))
-                        await self.channel.send("次回のゲリラが" + str(MessageCommands.PARTY_ICHIYO.random_minute) + "に設定されました")
-                return
-            await MessageCommands.PARTY_ICHIYO.do()
+            await MessageCommands.PARTY_ICHIYO.change_command(commands, self.channel)
             return
 
     async def typo(self, raw_command: list):

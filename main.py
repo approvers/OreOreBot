@@ -109,4 +109,3 @@ if __name__ == "__main__":
     MAIN = MainClient(TOKEN, base_channel_id=684289417682223150, base_voice_id=683939861539192865,
                       kikisen_channel_id=690909527461199922)
     MAIN.launch()
-

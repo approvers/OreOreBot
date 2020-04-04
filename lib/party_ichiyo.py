@@ -28,10 +28,7 @@ class PartyIchiyo(Singleton):
         self.kikisen_channel      = kikisen_channel
         self.timezone = datetime.timezone(datetime.timedelta(hours=9))
 
-        self.is_disabled = True
-        self.time_interval: int = 1
-        self.random_minute: int = int(random.randint(0,60))
-        print("Next guerrilla will be:{}".format(self.random_minute))
+        self.change_propaty(is_disabled=True, time_interval=1, random_minute=int(random.randint(0,60)))
 
     def change_propaty(self, is_disabled = None, time_interval = None, random_minute = None):
         if not is_disabled is None:
@@ -42,19 +39,46 @@ class PartyIchiyo(Singleton):
             self.random_minute = random_minute
             print("Next guerrilla will be:{}".format(self.random_minute))
 
+    async def change_command(self, commands, channel):
+        if commands[0].lower() == "partyichiyo":
+            if len(commands) >= 2:
+                if commands[1].lower() == "disable":
+                    self.change_propaty(is_disabled=True)
+                    await channel.send("ゲリラpartyichiyoは無効化されました")
+                elif commands[1].lower() == "enable":
+                    self.change_propaty(is_disabled=False)
+                    await channel.send("ゲリラpartyichiyoは有効化されました")
+                elif commands[1].lower() == "status":
+                    await channel.send("ゲリラ一葉の現在の状態は" + str(not self.is_disabled) + "です。")
+                elif commands[1].lower() == "change":
+                    if len(commands) >= 3:
+                        if self.is_disabled:
+                            await channel.send("partyichiyoは無効化されています")
+                            return
+                        self.change_propaty(random_minute=int(commands[2]))
+                        await channel.send(
+                            "次回のゲリラが" + str(self.random_minute) + "に設定されました")
+                    else:
+                        self.change_propaty(random_minute=random.randint(0, 60))
+                        await channel.send(
+                            "次回のゲリラが" + str(self.random_minute) + "に設定されました")
+                return
+            await self.do()
+            return
+
     async def base(self):
         """
         ゲリラのループ処理を行う関数
         """
-        while not self.is_disabled:
-            time = datetime.datetime.now(tz=self.timezone)
+        while True:
+            while not self.is_disabled:
+                time = datetime.datetime.now(tz=self.timezone)
 
-            if time.hour % self.time_interval == 0 and\
-                    time.minute == self.random_minute and\
-                    len(self.base_voice_channel.members) != 0:
-                await self.do()
-                self.change_propaty(random_minute=random.randint(0,60))
-                print("Next guerrilla will be:{}".format(self.random_minute))
+                if time.hour % self.time_interval == 0 and\
+                        time.minute == self.random_minute and\
+                        len(self.base_voice_channel.members) != 0:
+                    await self.do()
+                    self.change_propaty(random_minute=random.randint(0,60))
 
             await asyncio.sleep(50)
 
