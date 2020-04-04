@@ -215,8 +215,10 @@ class MessageCommands:
                 elif commands[1].lower() == "change":
                     if len(commands) >= 3:
                         MessageCommands.PARTY_ICHIYO.change_propaty(random_minute = int(commands[2]))
+                        await self.channel.send("次回のゲリラが" + str(MessageCommands.PARTY_ICHIYO.random_minute) + "に設定されました")
                     else:
                         MessageCommands.PARTY_ICHIYO.change_propaty(random_minute = random.randint(0,60))
+                        await self.channel.send("次回のゲリラが" + str(MessageCommands.PARTY_ICHIYO.random_minute) + "に設定されました")
                 return
             await MessageCommands.PARTY_ICHIYO.do()
             return
