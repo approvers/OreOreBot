@@ -202,6 +202,16 @@ class MessageCommands:
             return
 
         if commands[0].lower() == "partyichiyo":
+            if len(commands) >= 2:
+                if commands[1].lower() == "disable":
+                    MessageCommands.PARTY_ICHIYO.change_propaty(is_disabled=True)
+                    await self.channel.send("ゲリラpartyichiyoは無効化されました")
+                elif commands[1].lower() == "enable":
+                    MessageCommands.PARTY_ICHIYO.change_propaty(is_disabled=False)
+                    await self.channel.send("ゲリラpartyichiyoは有効化されました")
+                elif commands[1].lower() == "status":
+                    await self.channel.send("ゲリラ一葉の現在の状態は"+ str(not MessageCommands.PARTY_ICHIYO.is_disabled)+"です。")
+                return
             await MessageCommands.PARTY_ICHIYO.do()
             return
 

@@ -81,6 +81,7 @@ class MainClient(discord.Client, Singleton):
                           "CE":self.get_emoji(693007619803185194),"TLE":self.get_emoji(693007620444913664)}
             MessageCommands.static_init(self.guilds[0].members, harasyo, isso, abc_emojis,
                                         self.base_voice_channel, self.kikisen_channel)
+            asyncio.ensure_future(MessageCommands.PARTY_ICHIYO.base())
             await self.base_channel.send("響だよ。その活躍ぶりから不死鳥の通り名もあるよ")
 
     async def on_message(self, message: discord.Message):
@@ -104,7 +105,7 @@ class MainClient(discord.Client, Singleton):
 
 
 if __name__ == "__main__":
-    TOKEN = "Njk0OTI1NjkxODAzNjY0NTI1.Xoensw.iy9sdlOSGp5xw4aQf9Q78lyeAuw"
+    TOKEN = "Njk0OTI1NjkxODAzNjY0NTI1.Xoe4tw.5EuK2VMU9i09xqbMvtUtezFx2Gs"
     MAIN = MainClient(TOKEN, base_channel_id=684289417682223150, base_voice_id=683939861539192865,
                       kikisen_channel_id=690909527461199922)
     MAIN.launch()
