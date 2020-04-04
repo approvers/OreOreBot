@@ -5,6 +5,7 @@ import re
 import codecs
 import json
 import datetime
+import random
 
 import requests
 import discord
@@ -211,6 +212,11 @@ class MessageCommands:
                     await self.channel.send("ゲリラpartyichiyoは有効化されました")
                 elif commands[1].lower() == "status":
                     await self.channel.send("ゲリラ一葉の現在の状態は"+ str(not MessageCommands.PARTY_ICHIYO.is_disabled)+"です。")
+                elif commands[1].lower() == "change":
+                    if len(commands) >= 3:
+                        MessageCommands.PARTY_ICHIYO.change_propaty(random_minute = int(commands[2]))
+                    else:
+                        MessageCommands.PARTY_ICHIYO.change_propaty(random_minute = random.randint(0,60))
                 return
             await MessageCommands.PARTY_ICHIYO.do()
             return
