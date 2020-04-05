@@ -24,7 +24,7 @@ class MainClient(discord.Client, Singleton):
         684655652182032404,
         685457071906619505
     ]
-    def __init__(self, token: str, base_channel_id: int, base_voice_id: int, kikisen_channel_id: int):
+    def __init__(self, token: str, base_channel_id: int, base_voice_id: int, kikisen_channel_id: int, hakaba_voice_id: int):
         """
         クライアントを起動する前の処理
         tokenとか最初にメッセージ送信するチャンネルの指定をしたりする
@@ -40,12 +40,14 @@ class MainClient(discord.Client, Singleton):
         self.base_channel_id = base_channel_id
         self.base_voice_id = base_voice_id
         self.kikisen_channel_id = kikisen_channel_id
+        self.hakaba_voice_id = hakaba_voice_id
 
         # Initialize in on_ready()
         # Because use value in client
         self.base_channel = None
         self.base_voice_channel = None
         self.kikisen_channel = None
+        self.hakaba_voice_channel = None
 
         # mesm_json_syntax_conceal = 0sages.json (時報json) の読み込みを試みる
         # msg_dictのkeyはstr型です、int型で呼び出そうとしないで()
@@ -67,6 +69,7 @@ class MainClient(discord.Client, Singleton):
             self.base_channel = self.get_channel(self.base_channel_id)
             self.base_voice_channel = self.get_channel(self.base_voice_id)
             self.kikisen_channel = self.get_channel(self.kikisen_channel_id)
+            self.hakaba_voice_channel = self.get_channel(self.hakaba_voice_id)
 
             time_signal = TimeSignal(
                 self.base_channel,
@@ -80,8 +83,9 @@ class MainClient(discord.Client, Singleton):
             abc_emojis = {"AC":self.get_emoji(693007620159832124),"WA":self.get_emoji(693007620201775174),
                           "CE":self.get_emoji(693007619803185194),"TLE":self.get_emoji(693007620444913664)}
             MessageCommands.static_init(self.guilds[0].members, harasyo, isso, abc_emojis,
-                                        self.base_voice_channel, self.kikisen_channel)
+                                        self.base_voice_channel, self.kikisen_channel, self.hakaba_voice_channel)
             asyncio.ensure_future(MessageCommands.PARTY_ICHIYO.base())
+            asyncio.ensure_future(MessageCommands.KAERE.base())
             await self.base_channel.send("響だよ。その活躍ぶりから不死鳥の通り名もあるよ")
 
     async def on_message(self, message: discord.Message):
@@ -107,5 +111,5 @@ class MainClient(discord.Client, Singleton):
 if __name__ == "__main__":
     TOKEN = os.environ["TOKEN"]
     MAIN = MainClient(TOKEN, base_channel_id=684289417682223150, base_voice_id=683939861539192865,
-                      kikisen_channel_id=690909527461199922)
+                      kikisen_channel_id=690909527461199922, hakaba_voice_id=696340084370178079)
     MAIN.launch()

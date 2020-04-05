@@ -14,6 +14,7 @@ from lib.lol_counter import LolCounter
 from lib.typo import Typo
 from lib.manual_judge import ManualJudge
 from lib.party_ichiyo import PartyIchiyo
+from lib.kaere import Kaere
 
 
 class MessageCommands:
@@ -206,6 +207,10 @@ class MessageCommands:
             await MessageCommands.PARTY_ICHIYO.change_command(commands, self.channel)
             return
 
+        if commands[0].lower() == "kaere":
+            await MessageCommands.KAERE.command_controller(commands, self.member_name)
+            return
+
     async def typo(self, raw_command: list):
         """
         typoを記録するコマンド
@@ -219,7 +224,8 @@ class MessageCommands:
 
     @staticmethod
     def static_init(members: list, harasyo: discord.Emoji, isso: discord.Emoji, abc_emojis: dict,
-                    base_voice_channel: discord.TextChannel, kikisen_channel: discord.VoiceChannel):
+                    base_voice_channel: discord.TextChannel, kikisen_channel: discord.VoiceChannel,
+                    hakaba_voice_channel: discord.VoiceChannel):
         """
         lol_counterをこのインスタンスに渡す処理
         Parameters
@@ -243,3 +249,4 @@ class MessageCommands:
         MessageCommands.TYPO_COUNTER = Typo(members)
         MessageCommands.MANUAL_JUDGE = ManualJudge(abc_emojis)
         MessageCommands.PARTY_ICHIYO = PartyIchiyo(base_voice_channel, kikisen_channel)
+        MessageCommands.KAERE = Kaere(base_voice_channel, kikisen_channel, hakaba_voice_channel)
