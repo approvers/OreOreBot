@@ -65,9 +65,9 @@ class MainClient(discord.Client, Singleton):
         """
         Clientの情報をもとにした初期化と時報の起動
         """
-        if (__ready):
+        if (MainClient.__ready):
             return
-        __ready = True
+        MainClient.__ready = True
         if len(self.guilds) == 1:
             self.base_channel = self.get_channel(self.base_channel_id)
             self.base_voice_channel = self.get_channel(self.base_voice_id)
