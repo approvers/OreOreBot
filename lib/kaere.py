@@ -117,4 +117,5 @@ class Kaere(Singleton):
         if self.do_disconnect and is_not_list:
             for member in self.voice_channel.members:
                 await member.move_to(channel=self.hakaba_voice_channel, reason="†***R.I.P.***† ***安らかに眠れ***")
+                await asyncio.sleep(0.50)
         await voice_client.disconnect(force=True)
