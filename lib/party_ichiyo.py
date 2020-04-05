@@ -87,6 +87,6 @@ class PartyIchiyo(Singleton):
         """
         voice_client = await self.base_voice_channel.connect(reconnect=False)
         voice_client.play(discord.FFmpegPCMAudio("ast/snd/edm.mp3"))
-        await self.kikisen_channel.send("パーティー Nigth")
+        await self.kikisen_channel.send("パーティー Night")
         await asyncio.sleep(5)
         await voice_client.disconnect(force=True)
