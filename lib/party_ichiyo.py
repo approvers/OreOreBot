@@ -14,6 +14,8 @@ class PartyIchiyo(Singleton):
     PartyIchiyoを司るクラス
     """
 
+    MUSICS_LIST = {1:"ast/snd/party/edm.mp3", 2:"ast/snd/party/emd_2.mp3", 3:"emd_2_another.mp3"}
+
     def __init__(self, base_voice_channel, kikisen_channel):
         """
         初期化処理
@@ -27,6 +29,7 @@ class PartyIchiyo(Singleton):
         self.base_voice_channel    = base_voice_channel
         self.kikisen_channel      = kikisen_channel
         self.timezone = datetime.timezone(datetime.timedelta(hours=9))
+        self.music                 = 0
 
         self.change_propaty(is_disabled=True, time_interval=1, random_minute=int(random.randint(0,60)))
 
@@ -62,6 +65,12 @@ class PartyIchiyo(Singleton):
                         self.change_propaty(random_minute=random.randint(0, 60))
                         await channel.send(
                             "次回のゲリラが" + str(self.random_minute) + "に設定されました")
+                elif commands[1].lower() == "music":
+                    self.music = int(commands[2])
+                    if commands[2] == "0":
+                        await channel.send("BGMがランダムになりました")
+                    await channel.send("次回のBGMが" + str(PartyIchiyo.MUSICS_LIST[self.music]) + "に設定されました。")
+
                 return
             await self.do()
             return
@@ -86,7 +95,10 @@ class PartyIchiyo(Singleton):
         実際にPartyIchiyoを実行する
         """
         voice_client = await self.base_voice_channel.connect(reconnect=False)
-        voice_client.play(discord.FFmpegPCMAudio("ast/snd/edm.mp3"))
+        if self.music == 0:
+            voice_client.play(discord.FFmpegPCMAudio(random.choice(PartyIchiyo.MUSICS_LIST.values())))
+        else:
+            voice_client.play(discord.FFmpegPCMAudio(PartyIchiyo.MUSICS_LIST[self.music]))
         await self.kikisen_channel.send("パーティー Nigth")
-        await asyncio.sleep(5)
+        await asyncio.sleep(17)
         await voice_client.disconnect(force=True)
