@@ -14,7 +14,7 @@ class PartyIchiyo(Singleton):
     PartyIchiyoを司るクラス
     """
 
-    MUSICS_LIST = {1:"ast/snd/party/edm.mp3", 2:"ast/snd/party/emd_2.mp3", 3:"emd_2_another.mp3"}
+    MUSICS_LIST = {1:"ast/snd/party/edm.mp3", 2:"ast/snd/party/emd_2.mp3", 3:"ast/snd/party/emd_2_another.mp3"}
 
     def __init__(self, base_voice_channel, kikisen_channel):
         """
