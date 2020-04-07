@@ -112,6 +112,7 @@ class Kaere(Singleton):
         """
         if self.is_doing:
             return
+        self.is_doing = True
         voice_client = await self.voice_channel.connect(reconnect=False)
         voice_client.play(discord.FFmpegPCMAudio(source="ast/snd/neroyo.mp3"))
         if self.do_disconnect and is_not_list:
