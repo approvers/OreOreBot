@@ -64,7 +64,7 @@ class Kaere(Singleton):
 
         if commands[0] == "remove":
             if len(commands) < 2:
-                await self.text_channel.send("お知らせしてほしい時間を`!kaere set HHMM`の形式でおしえてね")
+                await self.text_channel.send("お知らせをキャンセルしたい時間を`!kaere set HHMM`の形式でおしえてね")
                 return
             if not await self.time_valid(commands[1]):
                 return
@@ -85,7 +85,7 @@ class Kaere(Singleton):
 
     async def time_valid(self,check_str):
         try:
-            is_ok = ((0 <= int(check_str[0:2]) <= 23) and (0 <= int(check_str[2:4]) < 60))
+            is_ok = ((0 <= int(check_str[0:2]) <= 23) and (0 <= int(check_str[2:4]) < 60)) and (len(check_str) == 4)
             if not is_ok:
                 await self.text_channel.send("そんな時間は存在しないよ...？")
                 return False
