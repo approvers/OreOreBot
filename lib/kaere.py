@@ -65,7 +65,7 @@ class Kaere(Singleton):
 
         if commands[0] == "remove":
             if len(commands) < 2:
-                await self.text_channel.send("お知らせをキャンセルしたい時間を`!kaere set HHMM`の形式でおしえてね")
+                await self.text_channel.send("お知らせをキャンセルしたい時間を`!kaere remove HHMM`の形式でおしえてね")
                 return
             if not await self.time_valid(commands[1]):
                 return
