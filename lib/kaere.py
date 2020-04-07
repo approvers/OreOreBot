@@ -30,6 +30,7 @@ class Kaere(Singleton):
 
         self.kaere_do_dict = {} # {str:discord.User}
         self.do_disconnect = False
+        self.is_doing = False
 
     async def command_controller(self, commands, member_name):
         commands.pop(0)
@@ -109,6 +110,8 @@ class Kaere(Singleton):
         """
         実際にkaereを実行する
         """
+        if self.is_doing:
+            return
         voice_client = await self.voice_channel.connect(reconnect=False)
         voice_client.play(discord.FFmpegPCMAudio(source="ast/snd/neroyo.mp3"))
         if self.do_disconnect and is_not_list:
@@ -119,3 +122,4 @@ class Kaere(Singleton):
                 await member.move_to(channel=self.hakaba_voice_channel, reason="†***R.I.P.***† ***安らかに眠れ***")
                 await asyncio.sleep(0.50)
         await voice_client.disconnect(force=True)
+        self.is_doing = False
