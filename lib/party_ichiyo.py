@@ -53,7 +53,7 @@ class PartyIchiyo(Singleton):
                     await channel.send("ゲリラpartyichiyoは有効化されました")
                 elif commands[1].lower() == "status":
                     await channel.send("ゲリラ一葉の現在の状態は" + str(not self.is_disabled) + "です。")
-                elif commands[1].lower() == "change":
+                elif commands[1].lower() == "time":
                     if len(commands) >= 3:
                         if self.is_disabled:
                             await channel.send("partyichiyoは無効化されています")
@@ -65,7 +65,7 @@ class PartyIchiyo(Singleton):
                         self.change_propaty(random_minute=random.randint(0, 60))
                         await channel.send(
                             "次回のゲリラが" + str(self.random_minute) + "に設定されました")
-                elif commands[1].lower() == "music":
+                elif commands[1].lower() == "set":
                     self.music = int(commands[2])
                     if commands[2] == "0":
                         await channel.send("BGMがランダムになりました")
