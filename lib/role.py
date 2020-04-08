@@ -7,18 +7,24 @@ import discord
 
 async def role(commands, channel, member_name):
     """
-    commandsの中身とそれに対する挙動
-    commands[0] = "!role"
-    commands[1] = 入力されたuser_idです
-    commands[2] = 新しくつくる役職の名前です
-    commands[3] = (任意)↑のカラーコードです"#ffffff"で指定します
+    Parameters
+    ----------
+    commands: list
+        commands[0] : str = "!role"
+        commands[1] : str = 入力されたuser_idです
+        commands[2] : str = 新しくつくる役職の名前です
+        commands[3] : str = (任意)↑のカラーコードです"#ffffff"で指定します
+    channel: discord.TextChannel
+        messageを受け取ったチャンネルのオブジェクト
+    member_name: str
+        messageを発したユーザーのdisplay_name
     """
 
     if len(commands) < 3:
         await channel.send("引数は少なくとも2つは必要だよ...?")
         return
 
-    if len(commands) <= 5:
+    if len(commands) >= 5:
         await channel.send("引数は2つか3つで指定してね")
         return
 
@@ -38,6 +44,7 @@ async def role(commands, channel, member_name):
 
         if (not color_input.startswith("#") or len(color_input) != 7):
             await channel.send("カラーコードの形式が間違っているよ")
+            return
 
         try:
             color_r = int(color_input[1:3], 16)
