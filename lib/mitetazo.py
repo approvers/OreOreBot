@@ -10,6 +10,9 @@ mitetazo_message = """\
 
 
 async def mitetazo(message: discord.message):
+    if message.author.bot:
+        return
+
     author_name = message.author.name
 
     await message.channel.send(

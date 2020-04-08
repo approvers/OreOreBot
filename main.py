@@ -117,8 +117,6 @@ class MainClient(discord.Client, Singleton):
         await mitetazo(message)
 
 
-
-
 if __name__ == "__main__":
     TOKEN = os.environ["TOKEN"]
     MAIN = MainClient(TOKEN, base_channel_id=684289417682223150, base_voice_id=683939861539192865,
