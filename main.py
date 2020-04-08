@@ -10,7 +10,8 @@ import discord
 
 from lib.util import Singleton
 from lib.time_signal import TimeSignal
-from lib.voice_diff import voice_diff
+from lib.voice_diff import voice_dif
+from lib.message_debug import message_debug
 from lib.mitetazo import mitetazo
 
 from message_command import MessageCommands
@@ -112,6 +113,11 @@ class MainClient(discord.Client, Singleton):
 
     async def on_voice_state_update(self, member, before, after):
         await voice_diff(self.kikisen_channel, member, before, after)
+        
+    async def on_message_edit(self, before, after):
+        if not after.content.endswith("!d"):
+            return
+        await message_debug(before, after)
 
     async def on_message_delete(self, message: discord.Message):
         await mitetazo(message)
