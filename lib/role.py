@@ -17,6 +17,7 @@ class Role():
 
         if channel.guild.get_member(int(commands[1])) == None:
             await channel.send("そんなユーザーIDのメンバーはいないよ...?")
+            return
 
         if len(commands) == 3:
             target = channel.guild.get_member(int(commands[1]))
