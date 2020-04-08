@@ -10,10 +10,10 @@ async def role(commands, channel, member_name):
     Parameters
     ----------
     commands: list
-        commands[0] : str = "!role"
-        commands[1] : str = 入力されたuser_idです
-        commands[2] : str = 新しくつくる役職の名前です
-        commands[3] : str = (任意)↑のカラーコードです"#ffffff"で指定します
+        commands[0]: str = "!role"
+        commands[1]: str = 入力されたuser_idです
+        commands[2]: str = 新しくつくる役職の名前です
+        commands[3]: str = (任意)↑のカラーコードです"#ffffff"で指定します
     channel: discord.TextChannel
         messageを受け取ったチャンネルのオブジェクト
     member_name: str
