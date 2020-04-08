@@ -37,4 +37,4 @@ class Role():
 
         await target.add_roles(created_role)
 
-        await channel.send("<@&{}>を作成して<@!{}>に付与しました！".format(str(created_role.id),str(target.id)))
+        await channel.send("<@&{}>を作成して<@!{}>に付与しました！".format(created_role.id,target.id))
