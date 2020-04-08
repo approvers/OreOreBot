@@ -10,7 +10,7 @@ import discord
 
 from lib.util import Singleton
 from lib.time_signal import TimeSignal
-from lib.voice_diff import voice_dif
+from lib.voice_diff import voice_diff
 from lib.message_debug import message_debug
 from lib.mitetazo import mitetazo
 
