@@ -64,7 +64,7 @@ class MessageCommands:
         """
         __init__で渡された情報をもとにコマンドを実行
         """
-        if "草" in self.message:
+        if "草" in self.message or "くさ" in self.message:
             MessageCommands.LOL_COUNTER.count(self.message, self.member_id)
 
         if self.message.count("***") >= 2:
