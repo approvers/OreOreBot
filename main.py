@@ -114,7 +114,7 @@ class MainClient(discord.Client, Singleton):
 
 
 if __name__ == "__main__":
-    TOKEN = "Njg0NDEwMjU0NjgzMDEzMTI1.XosrBw.XPkv3_phNupyKag4YSRUV1KrR7M"
-    MAIN = MainClient(TOKEN, base_channel_id=684410118452150313, base_voice_id=684410118452150315,
-                      kikisen_channel_id=689080238579515404, hakaba_voice_id=696341730295021638)
+    TOKEN = os.environ["TOKEN"]
+    MAIN = MainClient(TOKEN, base_channel_id=684289417682223150, base_voice_id=683939861539192865,
+                      kikisen_channel_id=690909527461199922, hakaba_voice_id=696340084370178079)
     MAIN.launch()
