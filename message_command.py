@@ -14,7 +14,7 @@ from lib.typo import Typo
 from lib.manual_judge import ManualJudge
 from lib.party_ichiyo import PartyIchiyo
 from lib.kaere import Kaere
-from lib.role import Role
+from lib.role import role
 
 
 class MessageCommands:
@@ -212,8 +212,7 @@ class MessageCommands:
             return
 
         if commands[0].lower() == "role":
-            role = Role()
-            await role.role(commands, self.channel, self.member_name)
+            await role(commands, self.channel, self.member_name)
             return
 
     async def typo(self, raw_command: list):
