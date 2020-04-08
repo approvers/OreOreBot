@@ -7,5 +7,5 @@ import discord
 from lib.util import Singleton
 
 async def message_debug(before, after):
-    before.channel.send("メッセージのデバッグを表示します。")
-    before.channel.send("```\n{}\n```".format(str(before.content)))
+    await before.channel.send("メッセージのデバッグを表示します。")
+    await before.channel.send("```\n{}\n```".format(str(before.content)))
