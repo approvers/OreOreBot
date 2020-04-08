@@ -59,7 +59,8 @@ class Kaere(Singleton):
                 await self.text_channel.send("まだお知らせする予定はないよ")
                 return
             display_text = "***蛍の光予約一覧***\n"
-            for do_time, member_in in self.kaere_do_dict.items():
+            sorted_dict = sorted(self.kaere_do_dict.items(), key=lambda a: a[0])
+            for do_time, member_in in sorted_dict:
                 display_text += ("***・{}*** ({})\n").format(str(do_time)[0:5], member_in)
             await self.text_channel.send("お知らせする時間のリストだよ\n" + display_text)
             return
