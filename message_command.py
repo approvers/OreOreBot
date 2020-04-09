@@ -5,7 +5,6 @@ import re
 import codecs
 import json
 import datetime
-import random
 
 import requests
 import discord
@@ -15,6 +14,7 @@ from lib.typo import Typo
 from lib.manual_judge import ManualJudge
 from lib.party_ichiyo import PartyIchiyo
 from lib.kaere import Kaere
+from lib.role import role
 
 
 class MessageCommands:
@@ -209,6 +209,10 @@ class MessageCommands:
 
         if commands[0].lower() == "kaere":
             await MessageCommands.KAERE.command_controller(commands, self.member_name)
+            return
+
+        if commands[0].lower() == "role":
+            await role(commands, self.channel, self.member_name)
             return
 
     async def typo(self, raw_command: list):
