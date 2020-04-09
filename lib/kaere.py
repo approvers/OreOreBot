@@ -125,6 +125,9 @@ class Kaere(Singleton):
                 for member in self.voice_channel.members:
                     await member.move_to(channel=self.hakaba_voice_channel, reason="†***R.I.P.***† ***安らかに眠れ***")
                     await asyncio.sleep(0.50)
+        except discord.errors.ClientException:
+            await self.text_channel.send("もう実行されてるぞカス")
         except:
+            await self.text_channel.send("不明な例外が発生したぞカス")
             self.is_doing = False
         self.is_doing = False
