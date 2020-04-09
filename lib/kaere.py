@@ -112,16 +112,19 @@ class Kaere(Singleton):
         """
         if self.is_doing:
             return
-        self.is_doing = True
-        voice_client = await self.voice_channel.connect(reconnect=False)
-        voice_client.play(discord.FFmpegPCMAudio(source="ast/snd/neroyo.mp3"))
-        if self.do_disconnect and is_not_list:
-            await self.text_channel.send("アナウンスの終了後、強制切断するナリ")
-        await asyncio.sleep(100)
-        if self.do_disconnect and is_not_list:
-            await voice_client.disconnect(force=True)
-            await asyncio.sleep(0.50)
-            for member in self.voice_channel.members:
-                await member.move_to(channel=self.hakaba_voice_channel, reason="†***R.I.P.***† ***安らかに眠れ***")
+        try:
+            self.is_doing = True
+            voice_client = await self.voice_channel.connect(reconnect=False)
+            voice_client.play(discord.FFmpegPCMAudio(source="ast/snd/neroyo.mp3"))
+            if self.do_disconnect and is_not_list:
+                await self.text_channel.send("アナウンスの終了後、強制切断するナリ")
+            await asyncio.sleep(100)
+            if self.do_disconnect and is_not_list:
+                await voice_client.disconnect(force=True)
                 await asyncio.sleep(0.50)
+                for member in self.voice_channel.members:
+                    await member.move_to(channel=self.hakaba_voice_channel, reason="†***R.I.P.***† ***安らかに眠れ***")
+                    await asyncio.sleep(0.50)
+        except:
+            self.is_doing = False
         self.is_doing = False
