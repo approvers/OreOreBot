@@ -200,3 +200,4 @@ class Kaere(Singleton):
         except Exception as e:
             await self.text_channel.send("例外が発生したよ\n内容は{}だよ".format(e))
 
+    self.is_doing = False
