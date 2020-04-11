@@ -179,7 +179,7 @@ class Kaere(Singleton):
                 if not voice_client.is_connected():
                     self.is_doing = False
                     await voice_client.disconnect(force=True)
-                    break
+                    return
                 await asyncio.sleep(5)
 
             if self.do_disconnect and is_auto:
@@ -191,10 +191,13 @@ class Kaere(Singleton):
                         reason="†***R.I.P.***† ***安らかに眠れ***"
                     )
                     await asyncio.sleep(0.50)
+
+            if voice_client.is_connected():
+                await voice_client.disconnect(force=True)
+
         except discord.errors.ClientException:
             await self.text_channel.send("もう実行されてるよ")
         except Exception as e:
             await self.text_channel.send("例外が発生したよ\n内容は{}だよ".format(e))
 
         self.is_doing = False
-
