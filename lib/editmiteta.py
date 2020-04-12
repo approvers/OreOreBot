@@ -21,7 +21,7 @@ async def mitetazo_edit(before, after):
     before_text = before.content
     after_text = after.content
     composed_text = diff_composer(before_text, after_text)
-    await after.channel(composed_text)
+    await after.channel.send(composed_text)
 
 
 def diff_composer(before_text, after_text):
