@@ -13,6 +13,7 @@ from lib.time_signal import TimeSignal
 from lib.voice_diff import voice_diff
 from lib.message_debug import message_debug
 from lib.mitetazo import mitetazo
+from lib.editmiteta import mitetazo_edit
 
 from message_command import MessageCommands
 
@@ -56,7 +57,7 @@ class MainClient(discord.Client, Singleton):
 
         # mesm_json_syntax_conceal = 0sages.json (時報json) の読み込みを試みる
         # msg_dictのkeyはstr型です、int型で呼び出そうとしないで()
-        with codecs.open("messages.json", 'r', 'utf-8') as json_file:
+        with codecs.open(os.path.dirname(__file__) + "/messages.json", 'r', 'utf-8') as json_file:
             self.msg_dict = json.loads(json_file.read())
 
     def launch(self):
@@ -115,9 +116,10 @@ class MainClient(discord.Client, Singleton):
         await voice_diff(self.kikisen_channel, member, before, after)
         
     async def on_message_edit(self, before, after):
-        if not after.content.endswith("!d"):
+        if after.content.endswith("!d"):
+            await message_debug(before, after)
             return
-        await message_debug(before, after)
+        await mitetazo_edit(before, after)
 
     async def on_message_delete(self, message: discord.Message):
         await mitetazo(message)
