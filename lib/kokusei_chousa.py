@@ -10,6 +10,14 @@ NUMBER_TEXT = "***†只今の限界開発鯖の人口†***\n```\n・通常ユ�
 
 
 async def number(channel: discord.TextChannel):
+    """
+    メッセージが発言されたギルドのBotとUserの人口を調べる関数
+    統計後、それを発言されたチャンネルに送信する
+    Parameters
+    ----------
+    channel: discord.TextChannel
+        発言されたテキストチャンネル
+    """
     bot_number = 0
     user_number = 0
     for member in channel.guild.members:
