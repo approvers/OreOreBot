@@ -21,6 +21,8 @@ async def mitetazo_edit(before, after):
     before_text = before.content
     after_text = after.content
     composed_text = diff_composer(before_text, after_text)
+    if composed_text == "":
+        return
     await after.channel.send("見てたぞ\n```\n{}\n```".format(composed_text))
 
 
@@ -44,9 +46,3 @@ def diff_composer(before_text, after_text):
     diff_list = list(diff)
     diff_text_list = [i for i in diff_list if i.startswith("+") or i.startswith("-")]
     return "\n".join(diff_text_list)
-
-
-if None == "__main__":
-    before_text = "吾輩は猫である。\n名前はまだ無い。\nどこで生まれたかとんと検討がつかぬ。"
-    after_text = "吾輩はカスである。\nうんち\nどこで生まれたかとんと検討がつかぬ。"
-    print(diff_composer(before_text, after_text))
