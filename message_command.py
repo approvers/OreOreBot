@@ -59,7 +59,7 @@ class MessageCommands:
         self.member_id   = member.id
         self.member_name = member.display_name
 
-        with codecs.open(os.path.dirname(__file__) + "/messages.json", 'r', 'utf-8') as json_file:
+        with codecs.open(os.getcwd() + "/messages.json", 'r', 'utf-8') as json_file:
             self.response_dict = json.loads(json_file.read())
 
     async def execute(self):
