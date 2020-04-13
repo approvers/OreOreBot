@@ -16,6 +16,7 @@ from lib.manual_judge import ManualJudge
 from lib.party_ichiyo import PartyIchiyo
 from lib.kaere import Kaere
 from lib.role import role
+from lib.kokusei_chousa import number
 
 
 class MessageCommands:
@@ -210,6 +211,10 @@ class MessageCommands:
 
         if commands[0].lower() == "kaere":
             await MessageCommands.KAERE.command_controller(commands, self.member_name)
+            return
+
+        if commands[0].lower() in ["number", "zinnkou", "zinkou", "population"]:
+            await number(self.channel)
             return
 
         if commands[0].lower() == "role":
