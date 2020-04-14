@@ -46,7 +46,7 @@ def diff_composer(before_text: list, after_text: list):
     diff = diff_object.compare(before_text, after_text)
     diff_list = list(diff)
     diff_text_list = [i for i in diff_list if i.startswith("+") or i.startswith("-")]
-    
+
     for n in range(len(diff_text_list)):
         composed_text += diff_text_list[n] + "\n"
         if n % 2 == 1 and not n == len(diff_text_list) - 1:
