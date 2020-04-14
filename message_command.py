@@ -5,6 +5,7 @@ import re
 import codecs
 import json
 import datetime
+import os
 
 import requests
 import discord
@@ -15,6 +16,7 @@ from lib.manual_judge import ManualJudge
 from lib.party_ichiyo import PartyIchiyo
 from lib.kaere import Kaere
 from lib.role import role
+from lib.kokusei_chousa import number
 
 
 class MessageCommands:
@@ -57,7 +59,7 @@ class MessageCommands:
         self.member_id   = member.id
         self.member_name = member.display_name
 
-        with codecs.open("messages.json", 'r', 'utf-8') as json_file:
+        with codecs.open(os.getcwd() + "/messages.json", 'r', 'utf-8') as json_file:
             self.response_dict = json.loads(json_file.read())
 
     async def execute(self):
@@ -209,6 +211,10 @@ class MessageCommands:
 
         if commands[0].lower() == "kaere":
             await MessageCommands.KAERE.command_controller(commands, self.member_name)
+            return
+
+        if commands[0].lower() in ["number", "zinnkou", "zinkou", "population"]:
+            await number(self.channel)
             return
 
         if commands[0].lower() == "role":
