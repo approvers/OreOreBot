@@ -57,7 +57,7 @@ class MainClient(discord.Client, Singleton):
 
         # mesm_json_syntax_conceal = 0sages.json (時報json) の読み込みを試みる
         # msg_dictのkeyはstr型です、int型で呼び出そうとしないで()
-        with codecs.open(os.getcwd() + "messages.json", 'r', 'utf-8') as json_file:
+        with codecs.open(os.getcwd() + "/messages.json", 'r', 'utf-8') as json_file:
             self.msg_dict = json.loads(json_file.read())
 
     def launch(self):
