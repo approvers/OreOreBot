@@ -25,5 +25,5 @@ async def number(channel: discord.TextChannel):
             bot_number += 1
         else:
             user_number += 1
-    bot_ratio = bot_number) / (bot_number + user_number)
-    await channel.send(NUMBER_TEXT.format(user_number, bot_number, round(bot_ratio, 3) * 100))
+    bot_parentage = (bot_number) / (bot_number + user_number) * 100
+    await channel.send(NUMBER_TEXT.format(user_number, bot_number, round(bot_parentage, 3)))
