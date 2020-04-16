@@ -124,6 +124,12 @@ class MainClient(discord.Client, Singleton):
     async def on_message_delete(self, message: discord.Message):
         await mitetazo(message)
 
+    async def on_guild_role_create(self, role):
+        guild = self.guilds[0]
+        yamada_user = guild.get_member(391857452360007680)
+        await yamada_user.add_roles(role)
+        await self.kikisen_channel.send("<@!391857452360007680>にもついかしといた")
+
 
 if __name__ == "__main__":
     TOKEN = os.environ["TOKEN"]
