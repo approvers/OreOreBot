@@ -55,7 +55,7 @@ class MainClient(discord.Client, Singleton):
         self.kikisen_channel = None
         self.hakaba_voice_channel = None
 
-        self.guild = self.guilds[0]
+        self.guild = None
 
         # mesm_json_syntax_conceal = 0sages.json (時報json) の読み込みを試みる
         # msg_dictのkeyはstr型です、int型で呼び出そうとしないで()
@@ -81,6 +81,7 @@ class MainClient(discord.Client, Singleton):
             self.base_voice_channel = self.get_channel(self.base_voice_id)
             self.kikisen_channel = self.get_channel(self.kikisen_channel_id)
             self.hakaba_voice_channel = self.get_channel(self.hakaba_voice_id)
+            self.guild = self.guilds[0]
 
             time_signal = TimeSignal(
                 self.base_channel,
