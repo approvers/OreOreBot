@@ -55,6 +55,8 @@ class MainClient(discord.Client, Singleton):
         self.kikisen_channel = None
         self.hakaba_voice_channel = None
 
+        self.guild = None
+
         # mesm_json_syntax_conceal = 0sages.json (時報json) の読み込みを試みる
         # msg_dictのkeyはstr型です、int型で呼び出そうとしないで()
         with codecs.open(os.getcwd() + "/messages.json", 'r', 'utf-8') as json_file:
@@ -79,6 +81,7 @@ class MainClient(discord.Client, Singleton):
             self.base_voice_channel = self.get_channel(self.base_voice_id)
             self.kikisen_channel = self.get_channel(self.kikisen_channel_id)
             self.hakaba_voice_channel = self.get_channel(self.hakaba_voice_id)
+            self.guild = self.guilds[0]
 
             time_signal = TimeSignal(
                 self.base_channel,
@@ -123,6 +126,11 @@ class MainClient(discord.Client, Singleton):
 
     async def on_message_delete(self, message: discord.Message):
         await mitetazo(message)
+
+    async def on_guild_role_create(self, role):
+        yamada_user = self.guild.get_member(391857452360007680)
+        await yamada_user.add_roles(role)
+        await self.kikisen_channel.send("<@!391857452360007680>にもついかしといた")
 
 
 if __name__ == "__main__":
