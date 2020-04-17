@@ -23,7 +23,7 @@ async def mitetazo_edit(before: discord.Message, after: discord.Message):
     composed_text = diff_composer(before_text, after_text)
     if composed_text.strip() == "":
         return
-    await after.channel.send("見てたぞ\n```\n{}\n```".format(composed_text))
+    await after.channel.send("見てたぞ\n```diff\n{}\n```".format(composed_text))
 
 
 def diff_composer(before_text: list, after_text: list):
