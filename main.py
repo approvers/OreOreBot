@@ -120,19 +120,57 @@ class MainClient(discord.Client, Singleton):
         await command.execute()
 
     async def on_voice_state_update(self, member, before, after):
+        """
+        音声チャンネルへの接続状況に差異がうまれたときに呼び出される関数
+        VoiceManagerにバインドされる
+        Parameters
+        ----------
+        member: discord.Member
+            該当するメンバーののオブジェクト
+        before: discord.VoiceState
+            変更前のVoiceStateオブジェクト
+        after: discord.VoiceState
+            変更後のVoiceStateオブジェクト
+        """
         obj = VoiceManager()
         await obj.diff_embed(member, before, after)
         
     async def on_message_edit(self, before, after):
+        """
+        メッセージが編集されたときに呼び出される関数
+        見てたぞ(編集版)にバインドされる
+        Parameters
+        ----------
+        before: discord.Message
+            編集前のメッセージオブジェクト
+        after: discord.Message
+            編集後のメッセージオブジェクト
+        """
         if after.content.endswith("!d"):
             await message_debug(before, after)
             return
         await mitetazo_edit(before, after)
 
     async def on_message_delete(self, message: discord.Message):
+        """
+        メッセージが削除されたときに呼び出される関数
+        見てたぞ(削除版)にバインドされる
+        Parameters
+        ----------
+        message: discord.Message
+            削除されたメッセージのオブジェクト
+        """
         await mitetazo(message)
 
-    async def on_guild_role_create(self, role):
+    async def on_guild_role_create(self, role: discord.Role):
+        """
+        roleが新しく作られたときに呼び出される関数
+        新しく作られるとやまだに自動的に付与される
+        Parameters
+        ----------
+        role: discord.Role
+            つくられたロールのオブジェクト
+        """
         yamada_user = self.guild.get_member(391857452360007680)
         await yamada_user.add_roles(role)
         await self.kikisen_channel.send("<@!391857452360007680>にもついかしといた")
