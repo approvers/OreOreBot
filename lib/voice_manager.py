@@ -39,12 +39,7 @@ class VoiceManager():
 
         if after.channel == before.channel or member.id in VoiceManager.ignore_members:
             return
-        if after.channel is None:
-            self.is_join = False
-            await VoiceManager.KIKISEN_CHANNEL.send(embed=self.embed_generater())
-            await self.role_manager()
-            return
-        self.is_join = True
+        self.is_join = after.channel is not None
         await VoiceManager.KIKISEN_CHANNEL.send(embed=self.embed_generater())
         await self.role_manager()
 
@@ -53,15 +48,12 @@ class VoiceManager():
         instanceの状況に応じてembedを返す関数
         """
         if self.is_join:
-            embed_in = discord.Embed(title="{}が{}に入りました".format(self.member.display_name, str(self.after.channel)),
-                                     description="何かが始まる予感がする。", color=0x1e63e9)
-            embed_in.set_author(name="はらちょからのおしらせ", icon_url="https://lohas.nicoseiga.jp/thumb/3877931i?")
-            embed_in.set_thumbnail(
-                url="https://cdn.discordapp.com/avatars/{}/{}.png".format(self.member.id, self.member.avatar))
-            return embed_in
-
-        embed_out = discord.Embed(title="{}が{}から抜けました".format(self.member.display_name, str(self.before.channel)),
-                                  description="あいつは良い奴だったよ...", color=0x1e63e9)
+            embed_title = "{}が{}に入りました"
+            embed_message = "何かが始まる予感がする。"
+        else: #<--- !!!!!!!!!!!!!!!!!!!!!!!!!
+            embed_title = "{}が{}にから抜けました"
+            embed_message = "あいつは良い奴だったよ…"
+        embed_out = discord.Embed(title=embed_title.format(self.member.display_name, str(self.before.channel)), description=embed_message, color=0x1e63e9)
         embed_out.set_author(name="はらちょからのおしらせ", icon_url="https://lohas.nicoseiga.jp/thumb/3877931i?")
         embed_out.set_thumbnail(
             url="https://cdn.discordapp.com/avatars/{}/{}.png".format(self.member.id, self.member.avatar))
