@@ -37,12 +37,7 @@ class VoiceManager():
 
         if after.channel == before.channel or member.id in [684295118643265548]:
             return
-        if after.channel is None:
-            self.is_join = False
-            await VoiceManager.KIKISEN_CHANNEL.send(embed=self.embed_generater())
-            await self.role_manager()
-            return
-        self.is_join = True
+        self.is_join = after.channel is not None
         await VoiceManager.KIKISEN_CHANNEL.send(embed=self.embed_generater())
         await self.role_manager()
 
