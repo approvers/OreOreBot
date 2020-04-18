@@ -19,6 +19,8 @@ class VoiceManager():
         self.after = None
         self.is_join = None
 
+        ignore_members = [684295118643265548]
+
     async def diff_embed(self, member: discord.Member, before: discord.VoiceState, after: discord.VoiceState):
         """
         embedを送信する関数
@@ -35,7 +37,7 @@ class VoiceManager():
         self.before = before
         self.after = after
 
-        if after.channel == before.channel or member.id in [684295118643265548]:
+        if after.channel == before.channel or member.id in VoiceManager.ignore_members:
             return
         if after.channel is None:
             self.is_join = False
