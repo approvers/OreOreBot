@@ -10,10 +10,10 @@ import discord
 
 from lib.util import Singleton
 from lib.time_signal import TimeSignal
-from lib.voice_diff import voice_diff
 from lib.message_debug import message_debug
 from lib.mitetazo import mitetazo
 from lib.editmiteta import mitetazo_edit
+from lib.voice_manager import VoiceManager
 
 from message_command import MessageCommands
 
@@ -57,6 +57,8 @@ class MainClient(discord.Client, Singleton):
 
         self.guild = None
 
+        self.voice_diff = None
+
         # mesm_json_syntax_conceal = 0sages.json (時報json) の読み込みを試みる
         # msg_dictのkeyはstr型です、int型で呼び出そうとしないで()
         with codecs.open(os.getcwd() + "/messages.json", 'r', 'utf-8') as json_file:
@@ -88,6 +90,8 @@ class MainClient(discord.Client, Singleton):
                 self.msg_dict["ziho"]
             )
 
+            VoiceManager.static_init(self.guild, self.kikisen_channel)
+
             asyncio.ensure_future(time_signal.base())
 
             harasyo = self.get_emoji(684424533997912096)
@@ -116,7 +120,8 @@ class MainClient(discord.Client, Singleton):
         await command.execute()
 
     async def on_voice_state_update(self, member, before, after):
-        await voice_diff(self.kikisen_channel, member, before, after)
+        obj = VoiceManager()
+        await obj.diff_embed(member, before, after)
         
     async def on_message_edit(self, before, after):
         if after.content.endswith("!d"):

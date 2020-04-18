@@ -17,6 +17,7 @@ from lib.party_ichiyo import PartyIchiyo
 from lib.kaere import Kaere
 from lib.role import role
 from lib.kokusei_chousa import number
+from lib.voice_manager import VoiceManager
 
 
 class MessageCommands:
@@ -219,6 +220,10 @@ class MessageCommands:
 
         if commands[0].lower() == "role":
             await role(commands, self.channel, self.member_name)
+            return
+
+        if commands[0].lower() == "reset" and commands[1].lower() == "role":
+            await VoiceManager.reset_roles()
             return
 
     async def typo(self, raw_command: list):
