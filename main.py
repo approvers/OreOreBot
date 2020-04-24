@@ -10,10 +10,11 @@ import discord
 
 from lib.util import Singleton
 from lib.time_signal import TimeSignal
-from lib.voice_diff import voice_diff
 from lib.message_debug import message_debug
 from lib.mitetazo import mitetazo
 from lib.editmiteta import mitetazo_edit
+from lib.voiceman import VoiceEmbed
+from lib.voiceman import VoiceRole
 
 from message_command import MessageCommands
 
@@ -96,6 +97,10 @@ class MainClient(discord.Client, Singleton):
                           "CE":self.get_emoji(693007619803185194),"TLE":self.get_emoji(693007620444913664)}
             MessageCommands.static_init(self.guilds[0].members, harasyo, isso, abc_emojis,
                                         self.base_voice_channel, self.kikisen_channel, self.hakaba_voice_channel)
+
+            listener_role_id = 700565764117233685
+            VoiceRole.static_init(self.guild.get_role(700565764117233685))
+
             asyncio.ensure_future(MessageCommands.PARTY_ICHIYO.base())
             asyncio.ensure_future(MessageCommands.KAERE.base())
             await self.base_channel.send("響だよ。その活躍ぶりから不死鳥の通り名もあるよ")
@@ -116,7 +121,7 @@ class MainClient(discord.Client, Singleton):
         await command.execute()
 
     async def on_voice_state_update(self, member, before, after):
-        await voice_diff(self.kikisen_channel, member, before, after)
+        pass
         
     async def on_message_edit(self, before, after):
         if after.content.endswith("!d"):

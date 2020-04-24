@@ -17,6 +17,7 @@ from lib.party_ichiyo import PartyIchiyo
 from lib.kaere import Kaere
 from lib.role import role
 from lib.kokusei_chousa import number
+from lib.voiceman import VoiceRole
 
 
 class MessageCommands:
@@ -221,6 +222,10 @@ class MessageCommands:
             await role(commands, self.channel, self.member_name)
             return
 
+        if commands[0].lower() == "reset" and commands[1].lower() == "rold":
+            await VoiceRole.reset_roles(members=MessageCommands.members, respond_ch=self.channel)
+            return
+
     async def typo(self, raw_command: list):
         """
         typoを記録するコマンド
@@ -255,6 +260,7 @@ class MessageCommands:
             return
         MessageCommands.MESSAGE_COMMANDS["ハラショー"] = harasyo
         MessageCommands.MESSAGE_COMMANDS["いっそう"] = isso
+        MessageCommands.members = members
         MessageCommands.LOL_COUNTER = LolCounter(members)
         MessageCommands.TYPO_COUNTER = Typo(members)
         MessageCommands.MANUAL_JUDGE = ManualJudge(abc_emojis)
