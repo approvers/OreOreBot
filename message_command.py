@@ -10,6 +10,7 @@ import os
 import requests
 import discord
 
+from lib.chinchin_game import ChinchinGame
 from lib.lol_counter import LolCounter
 from lib.typo import Typo
 from lib.manual_judge import ManualJudge
@@ -27,7 +28,7 @@ class MessageCommands:
         "GitHub"      : re.compile(r".*?\#(.+?)\/([^\s]+).*?"),
         "Channel"     : re.compile(r"^<#([0-9]+?)>$"),
         "Util Command": re.compile(r"^!(\w+?)*(\s\w+)*"),
-        "Typo"        : re.compile(r"^.*だカス$")
+        "Typo"        : re.compile(r"^.*だカス$"),
     }
 
     HARASYO = None
@@ -66,6 +67,7 @@ class MessageCommands:
         """
         __init__で渡された情報をもとにコマンドを実行
         """
+
         if "草" in self.message or "くさ" in self.message:
             MessageCommands.LOL_COUNTER.count(self.message, self.member_id)
 
@@ -79,6 +81,10 @@ class MessageCommands:
                 await self.channel.send(MessageCommands.MESSAGE_COMMANDS[content])
                 if content == "おやすみ":
                     await self.channel.send(MessageCommands.goodnight_time())
+
+        print("parsing...")
+        if ChinchinGame.get_summarized_regex().match(self.message):
+            MessageCommands.CHINCHIN_GAME.parse_prefixless_command(self.message, self.member_id, self.channel.id)
 
         command_type = None
 
@@ -94,7 +100,7 @@ class MessageCommands:
         commands_list = {
             "GitHub"      : self.github,
             "Util Command": self.util_command,
-            "Typo"        : self.typo
+            "Typo"        : self.typo,
         }
 
         await commands_list[command_type](command)
@@ -221,6 +227,10 @@ class MessageCommands:
             await role(commands, self.channel, self.member_name)
             return
 
+        if commands[0].lower() == "chinchin":
+            await MessageCommands.CHINCHIN_GAME.parse_prefix_command(commands, self.member_id, self.channel)
+            return
+
     async def typo(self, raw_command: list):
         """
         typoを記録するコマンド
@@ -260,3 +270,4 @@ class MessageCommands:
         MessageCommands.MANUAL_JUDGE = ManualJudge(abc_emojis)
         MessageCommands.PARTY_ICHIYO = PartyIchiyo(base_voice_channel, kikisen_channel)
         MessageCommands.KAERE = Kaere(base_voice_channel, kikisen_channel, hakaba_voice_channel)
+        MessageCommands.CHINCHIN_GAME = ChinchinGame()
