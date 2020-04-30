@@ -17,6 +17,7 @@ from lib.party_ichiyo import PartyIchiyo
 from lib.kaere import Kaere
 from lib.role import role
 from lib.kokusei_chousa import number
+from lib.message_debug import *
 
 
 class MessageCommands:
@@ -220,6 +221,19 @@ class MessageCommands:
         if commands[0].lower() == "role":
             await role(commands, self.channel, self.member_name)
             return
+
+        if commands[0].lower() in ["debug", "d"]:
+            try:
+                message_id = int(commands[1])
+            except IndexError:
+                await self.channel.send("メッセージのidを指定してね")
+                return
+            except ValueError:
+                await self.channel.send("正しい数字でidを教えてね")
+                return
+            except Exception as e:
+                await self.text_channel.send("例外が発生したよ\n内容は{}だよ".format(e))
+            await debug_on_message(message_id=message_id, respond_channel=self.channel)
 
     async def typo(self, raw_command: list):
         """

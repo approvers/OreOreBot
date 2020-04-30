@@ -11,7 +11,7 @@ import discord
 from lib.util import Singleton
 from lib.time_signal import TimeSignal
 from lib.voice_diff import voice_diff
-from lib.message_debug import message_debug
+from lib.message_debug import *
 from lib.mitetazo import mitetazo
 from lib.editmiteta import mitetazo_edit
 
@@ -98,6 +98,7 @@ class MainClient(discord.Client, Singleton):
                                         self.base_voice_channel, self.kikisen_channel, self.hakaba_voice_channel)
             asyncio.ensure_future(MessageCommands.PARTY_ICHIYO.base())
             asyncio.ensure_future(MessageCommands.KAERE.base())
+            print("Bot started successfully!")
             await self.base_channel.send("響だよ。その活躍ぶりから不死鳥の通り名もあるよ")
 
     async def on_message(self, message: discord.Message):
@@ -120,7 +121,7 @@ class MainClient(discord.Client, Singleton):
         
     async def on_message_edit(self, before, after):
         if after.content.endswith("!d"):
-            await message_debug(before, after)
+            await debug_on_edit(message=before)
             return
         await mitetazo_edit(before, after)
 
