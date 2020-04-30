@@ -223,17 +223,8 @@ class MessageCommands:
             return
 
         if commands[0].lower() in ["debug", "d"]:
-            try:
-                message_id = int(commands[1])
-            except IndexError:
-                await self.channel.send("メッセージのidを指定してね")
-                return
-            except ValueError:
-                await self.channel.send("正しい数字でidを教えてね")
-                return
-            except Exception as e:
-                await self.text_channel.send("例外が発生したよ\n内容は{}だよ".format(e))
-            await debug_on_message(message_id=message_id, respond_channel=self.channel)
+            await debug_on_message(commands=commands, respond_channel=self.channel)
+            return
 
     async def typo(self, raw_command: list):
         """
