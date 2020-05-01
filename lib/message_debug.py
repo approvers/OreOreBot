@@ -5,7 +5,7 @@ message_debug関連の処理がなされます
 import discord
 
 
-async def debug_on_edit(message: discord.Message):
+async def debug_on_edit(debug_text: str, respond_channel: discord.channel):
     """
     編集でデバッグを表示したいときに呼び出される関数
     send_resultに必要なパラメーターを渡す
@@ -14,10 +14,7 @@ async def debug_on_edit(message: discord.Message):
     message: discord.Message
         ターゲットメッセージのオブジェクト
     """
-    debug_text = message.content
-    respond_channel = message.channel
-
-    await send_result(debug_text=debug_text, respond_channel=respond_channel)
+    await send_result(debug_text, respond_channel)
 
 
 async def debug_on_message(commands: list, respond_channel: discord.TextChannel):
@@ -34,31 +31,27 @@ async def debug_on_message(commands: list, respond_channel: discord.TextChannel)
     """
 
     # コマンドの書式チェック
-    try:
-        target_message_id = int(commands[1])
-
-    except IndexError:
+    if len(commands) < 2:
         await respond_channel.send("メッセージのidを指定してね")
         return
 
-    except ValueError:
+    if not commands[1].isdecimal():
         await respond_channel.send("正しい数字でidを教えてね")
         return
 
-    except Exception as caught_exception:
-        await respond_channel.send("例外が発生したよ\n内容は{}だよ".format(caught_exception))
-        return
+    target_message_id = commands[1]
 
     # メッセージの存在を確認
     try:
         target_message = await respond_channel.fetch_message(target_message_id)
 
     except discord.errors.NotFound:
-        await respond_channel.send("そんなidのメッセージは存在しないよ...?\nそのメッセージのあるチャンネルで試してみてね")
+        await respond_channel.send("このチャンネルにはそのidのメッセージは存在しないよ...?...?\nそのメッセージのあるチャンネルで試してみてね")
         return
 
     except Exception as caught_exception:
         await respond_channel.send("例外が発生したよ\n内容は{}だよ".format(caught_exception))
+        return
 
     # 送信！
     await send_result(debug_text=target_message.content, respond_channel=respond_channel)

@@ -121,7 +121,7 @@ class MainClient(discord.Client, Singleton):
         
     async def on_message_edit(self, before, after):
         if after.content.endswith("!d"):
-            await debug_on_edit(message=before)
+            await debug_on_edit(before.content, before.channel)
             return
         await mitetazo_edit(before, after)
 
