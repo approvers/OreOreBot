@@ -5,14 +5,16 @@ message_debug関連の処理がなされます
 import discord
 
 
-async def debug_on_edit(debug_text: str, respond_channel: discord.channel):
+async def debug_on_edit(debug_text: str, respond_channel: discord.textChannel):
     """
     編集でデバッグを表示したいときに呼び出される関数
     send_resultに必要なパラメーターを渡す
     Parameters
     ----------
-    message: discord.Message
-        ターゲットメッセージのオブジェクト
+    debug_text: str
+        デバッグ表示するテキスト
+    respond_channel: discord.TextChannel
+        返答するチャンネルのオブジェクト
     """
     await send_result(debug_text, respond_channel)
 
