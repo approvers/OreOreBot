@@ -44,7 +44,7 @@ async def debug_on_message(target_message_id: str, respond_channel: discord.Text
         target_message = await respond_channel.fetch_message(target_message_id_int)
 
     except discord.errors.NotFound:
-        await respond_channel.send("このチャンネルにはそのidのメッセージは存在しないよ...?...?\nそのメッセージのあるチャンネルで試してみてね")
+        await respond_channel.send("このチャンネルにはそのidのメッセージは存在しないよ...?\nそのメッセージのあるチャンネルで試してみてね")
         return
 
     except Exception as caught_exception:
