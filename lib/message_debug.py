@@ -19,7 +19,7 @@ async def debug_on_edit(debug_text: str, respond_channel: discord.TextChannel):
     await send_result(debug_text, respond_channel)
 
 
-async def debug_on_message(target_message_id: str, respond_channel: discord.TextChannel):
+async def debug_on_message(received_message: str, respond_channel: discord.TextChannel):
     """
     コマンドによってデバッグを表示したいときに呼び出される関数
     send_resultに必要なパラメーターを渡す
