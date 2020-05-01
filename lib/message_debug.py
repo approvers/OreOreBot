@@ -37,11 +37,11 @@ async def debug_on_message(target_message_id: str, respond_channel: discord.Text
         await respond_channel.send("正しい数字でidを教えてね")
         return
 
-    target_message_id_int = int(target_message_id)
+    parsed_message_id = int(target_message_id)
 
     # メッセージの存在を確認
     try:
-        target_message = await respond_channel.fetch_message(target_message_id_int)
+        target_message = await respond_channel.fetch_message(parsed_message_id)
 
     except discord.errors.NotFound:
         await respond_channel.send("このチャンネルにはそのidのメッセージは存在しないよ...?\nそのメッセージのあるチャンネルで試してみてね")
