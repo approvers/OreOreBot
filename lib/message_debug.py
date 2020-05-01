@@ -69,7 +69,7 @@ async def send_result(debug_text: str, respond_channel: discord.TextChannel):
     """
     await respond_channel.send("メッセージのデバッグを表示するよ")
 
-    if debug_text in "`":
+    if "`" in debug_text:
         await respond_channel.send("\\`が含まれているので'で置換するよ")
         debug_text = debug_text.replace("`", "'")
 
