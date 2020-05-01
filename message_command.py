@@ -17,6 +17,7 @@ from lib.party_ichiyo import PartyIchiyo
 from lib.kaere import Kaere
 from lib.role import role
 from lib.kokusei_chousa import number
+from lib.message_debug import *
 
 
 class MessageCommands:
@@ -191,34 +192,40 @@ class MessageCommands:
         user_message = self.message[1:]
         commands = user_message.split()
 
-        if commands[0] == "lol":
+        command_name = commands[0].lower()
+
+        if command_name == "lol":
             await MessageCommands.LOL_COUNTER.output(self.channel, self.member_id)
             return
 
-        if commands[0] == "typo":
+        if command_name == "typo":
             await self.channel.send(
                 MessageCommands.TYPO_COUNTER.call(self.member_id, self.member_name)
             )
             return
 
-        if commands[0].lower() in ["jd" or "judge"]:
+        if command_name in ["jd" or "judge"]:
             await MessageCommands.MANUAL_JUDGE.call(commands, self.channel)
             return
 
-        if commands[0].lower() == "partyichiyo":
+        if command_name == "partyichiyo":
             await MessageCommands.PARTY_ICHIYO.change_command(commands, self.channel)
             return
 
-        if commands[0].lower() == "kaere":
+        if command_name == "kaere":
             await MessageCommands.KAERE.command_controller(commands, self.member_name)
             return
 
-        if commands[0].lower() in ["number", "zinnkou", "zinkou", "population"]:
+        if command_name in ["number", "zinnkou", "zinkou", "population"]:
             await number(self.channel)
             return
 
-        if commands[0].lower() == "role":
+        if command_name == "role":
             await role(commands, self.channel, self.member_name)
+            return
+
+        if command_name in ["debug", "d"] and len(commands) >= 2:
+            await debug_on_message(commands[1], self.channel)
             return
 
     async def typo(self, raw_command: list):
