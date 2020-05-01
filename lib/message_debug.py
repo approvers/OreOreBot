@@ -25,8 +25,8 @@ async def debug_on_message(received_message: str, respond_channel: discord.TextC
     send_resultに必要なパラメーターを渡す
     Parameters
     ----------
-    target_message_id: str
-        ユーザーが指定したid
+    received_message: str
+        ユーザーが指定したid(str)
     respond_channel: discord.TextChannel
         コマンドが発行されたチャンネルのオブジェクト
         ここに返信する
@@ -41,7 +41,7 @@ async def debug_on_message(received_message: str, respond_channel: discord.TextC
 
     # メッセージの存在を確認
     try:
-        target_message = await respond_channel.fetch_message(received_message)
+        target_message = await respond_channel.fetch_message(target_message_id)
 
     except discord.errors.NotFound:
         await respond_channel.send("このチャンネルにはそのidのメッセージは存在しないよ...?\nそのメッセージのあるチャンネルで試してみてね")
