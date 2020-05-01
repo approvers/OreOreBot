@@ -224,8 +224,8 @@ class MessageCommands:
             await role(commands, self.channel, self.member_name)
             return
 
-        if command_name in ["debug", "d"]:
-            await debug_on_message(commands, respond_channel=self.channel)
+        if command_name in ["debug", "d"] and len(commands) >= 2:
+            await debug_on_message(target_message_id=commands[1], respond_channel=self.channel)
             return
 
     async def typo(self, raw_command: list):

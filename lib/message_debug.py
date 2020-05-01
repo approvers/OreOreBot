@@ -5,7 +5,7 @@ message_debug関連の処理がなされます
 import discord
 
 
-async def debug_on_edit(debug_text: str, respond_channel: discord.textChannel):
+async def debug_on_edit(debug_text: str, respond_channel: discord.TextChannel):
     """
     編集でデバッグを表示したいときに呼び出される関数
     send_resultに必要なパラメーターを渡す
@@ -19,29 +19,29 @@ async def debug_on_edit(debug_text: str, respond_channel: discord.textChannel):
     await send_result(debug_text, respond_channel)
 
 
-async def debug_on_message(commands: list, respond_channel: discord.TextChannel):
+async def debug_on_message(target_message_id: str, respond_channel: discord.TextChannel):
     """
     コマンドによってデバッグを表示したいときに呼び出される関数
     send_resultに必要なパラメーターを渡す
     Parameters
     ----------
-    commands: list[str]
-        発行されたコマンド
+    target_message_id: str
+        ユーザーが指定したid
     respond_channel: discord.TextChannel
         コマンドが発行されたチャンネルのオブジェクト
         ここに返信する
     """
 
     # コマンドの書式チェック
-    if len(commands) < 2:
+    if len(target_message_id) < 2:
         await respond_channel.send("メッセージのidを指定してね")
         return
 
-    if not commands[1].isdecimal():
+    if not target_message_id.isdecimal():
         await respond_channel.send("正しい数字でidを教えてね")
         return
 
-    target_message_id = commands[1]
+    target_message_id = int(target_message_id)
 
     # メッセージの存在を確認
     try:
