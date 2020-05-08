@@ -6,6 +6,7 @@ import discord
 import asyncio
 import datetime
 import random
+from mutagen.mp3 import MP3
 
 from lib.util import Singleton
 
@@ -31,7 +32,7 @@ class PartyIchiyo(Singleton):
         self.timezone = datetime.timezone(datetime.timedelta(hours=9))
         self.music                 = 0
 
-        self.change_propaty(is_disabled=True, time_interval=1, random_minute=int(random.randint(0,60)))
+        self.change_propaty(is_disabled=False, time_interval=1, random_minute=int(random.randint(0,60)))
 
     def change_propaty(self, is_disabled = None, time_interval = None, random_minute = None):
         if not is_disabled is None:
@@ -43,7 +44,7 @@ class PartyIchiyo(Singleton):
             print("Next guerrilla will be:{}".format(self.random_minute))
 
     async def change_command(self, commands, channel):
-        if commands[0].lower() == "partyichiyo":
+        if commands[0].lower() in ["partyichiyo", "party"]:
             if len(commands) >= 2:
                 if commands[1].lower() == "disable":
                     self.change_propaty(is_disabled=True)
@@ -96,9 +97,12 @@ class PartyIchiyo(Singleton):
         """
         voice_client = await self.base_voice_channel.connect(reconnect=False)
         if self.music == 0:
-            voice_client.play(discord.FFmpegPCMAudio(random.choice(PartyIchiyo.MUSICS_LIST.values())))
+            chosen_music = random.choice(list(PartyIchiyo.MUSICS_LIST.values()))
+            voice_client.play(discord.FFmpegPCMAudio(chosen_music))
         else:
-            voice_client.play(discord.FFmpegPCMAudio(PartyIchiyo.MUSICS_LIST[self.music]))
+            chosen_music = PartyIchiyo.MUSICS_LIST[self.music]
+            voice_client.play(discord.FFmpegPCMAudio(chosen_music))
         await self.kikisen_channel.send("パーティー Nigth")
-        await asyncio.sleep(17)
+        sleep_time = MP3(chosen_music).info.length
+        await asyncio.sleep(sleep_time + 0.5)
         await voice_client.disconnect(force=True)

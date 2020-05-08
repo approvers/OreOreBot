@@ -208,7 +208,7 @@ class MessageCommands:
             await MessageCommands.MANUAL_JUDGE.call(commands, self.channel)
             return
 
-        if command_name == "partyichiyo":
+        if command_name in ["partyichiyo", "party"]:
             await MessageCommands.PARTY_ICHIYO.change_command(commands, self.channel)
             return
 
