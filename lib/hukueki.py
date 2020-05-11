@@ -39,7 +39,7 @@ async def hukueki(raw_content: str, respond_ch: discord.TextChannel):
     await respond_ch.send(HUKUEKI_MESSAGES["hukueki"].format(parsed_content))
 
 
-async def lolicon(raw_content: str, member_name: str, respond_ch: discord.TextChannel):
+async def lolicon(content: str, member_name: str, respond_ch: discord.TextChannel):
     """
     だから僕はロリコンを辞めた - こるく (Music Video)
     Parameters
