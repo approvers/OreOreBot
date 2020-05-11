@@ -6,6 +6,7 @@ import codecs
 import json
 import datetime
 import os
+import random
 
 import requests
 import discord
@@ -41,6 +42,9 @@ class MessageCommands:
         "おやすみ"  : "おやすみ、司令官。"
     }
 
+    HIBIKI_MESSAGES = [
+        "なんだい？司令官"
+    ]
 
     def __init__(self, message: str, channel: discord.TextChannel, member: discord.Member):
         """
@@ -69,6 +73,10 @@ class MessageCommands:
         """
         if "草" in self.message or "くさ" in self.message:
             MessageCommands.LOL_COUNTER.count(self.message, self.member_id)
+
+        if "響" in self.message or "ひびき" in self.message:
+            chosen_msg = random.choice(MessageCommands.HIBIKI_MESSAGES)
+            await self.channel.send(chosen_msg)
 
         if self.message.count("***") >= 2:
             await self.channel.send(
