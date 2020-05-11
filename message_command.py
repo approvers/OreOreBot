@@ -18,6 +18,7 @@ from lib.kaere import Kaere
 from lib.role import role
 from lib.kokusei_chousa import number
 from lib.message_debug import *
+from lib.hukueki import *
 
 
 class MessageCommands:
@@ -226,6 +227,16 @@ class MessageCommands:
 
         if command_name in ["debug", "d"] and len(commands) >= 2:
             await debug_on_message(commands[1], self.channel)
+            return
+
+        if command_name in ["hukueki", "syourai", "shourai"] and len(commands) >= 2:
+            joined_message = " ".join(commands[1:])
+            await hukueki(joined_message, self.channel)
+            return
+
+        if command_name in ["lolicon", "yameta"] and len(commands) >= 2:
+            joined_message = " ".join(commands[1:])
+            await lolicon(joined_message, self.member_name, self.channel)
             return
 
     async def typo(self, raw_command: list):
