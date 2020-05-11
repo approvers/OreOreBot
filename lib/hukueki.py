@@ -52,7 +52,7 @@ async def lolicon(content: str, member_name: str, respond_ch: discord.TextChanne
         返信するチャンネルのオブジェクト メッセージが送信されたチャンネルと同じ
 
     """
-    parsed_content = text_parser(raw_content)
+    parsed_content = text_parser(content)
     await respond_ch.send(HUKUEKI_MESSAGES["lolicon"].format(parsed_content, member_name))
 
 
