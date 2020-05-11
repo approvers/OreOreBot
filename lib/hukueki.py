@@ -23,7 +23,7 @@ HUKUEKI_MESSAGES = {
 }
 
 
-async def hukueki(raw_content: str, respond_ch: discord.TextChannel):
+async def hukueki(content: str, respond_ch: discord.TextChannel):
     """
     ねぇ、将来何してるだろうね
     服役はしてないと良いね
