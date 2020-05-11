@@ -35,7 +35,7 @@ async def hukueki(raw_content: str, respond_ch: discord.TextChannel):
     respond_ch: discord.TextChannel
         返信するチャンネルのオブジェクト メッセージが送信されたチャンネルと同じ
     """
-    parsed_content = text_parser(raw_content)
+    parsed_content = escape_md_char(content)
     await respond_ch.send(HUKUEKI_MESSAGES["hukueki"].format(parsed_content))
 
 
