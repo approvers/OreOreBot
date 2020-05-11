@@ -56,7 +56,7 @@ async def lolicon(raw_content: str, member_name: str, respond_ch: discord.TextCh
     await respond_ch.send(HUKUEKI_MESSAGES["lolicon"].format(parsed_content, member_name))
 
 
-def text_parser(raw_text: str):
+def escape_md_char(raw_text: str):
     """
     `が含まれている場合は'に置換して返す
     Parameters
