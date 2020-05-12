@@ -4,3 +4,4 @@ issomemo
 .idea/
 OreOreBot/
 .mypy_cache/
+venv/
