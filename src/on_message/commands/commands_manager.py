@@ -2,6 +2,7 @@ from typing import Dict, Union
 import discord
 from src.on_message.commands.command_base import CommandBase
 from src.on_message.commands.lol import LoL
+from src.on_message.commands.role import Role
 
 
 class CommandsManager:
@@ -25,7 +26,8 @@ class CommandsManager:
         self.afk_voice_channel = client.get_channel(afk_voice_channel_id)
 
         self.commands = {
-            LoL.get_command_name(): LoL()
+            LoL.get_command_name(): LoL(),
+            Role.get_command_name(): Role()
         }
 
     def search_command(self, keyword: str) -> Union[CommandBase, None]:

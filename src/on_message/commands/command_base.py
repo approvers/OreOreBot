@@ -19,15 +19,8 @@ class CommandBase(metaclass=ABCMeta):
         str: コマンドの名前
         """
 
-    @staticmethod
-    @abstractstaticmethod
-    def get_require_params() -> List[str]:
-        """
-        一定の形式をもとに必要な値をList[str]形式で返す
-        """
-
     @abstractmethod
-    def execute(self, params: CommandsParameter):
+    async def execute(self, params: CommandsParameter):
         """
         実際に実行する関数
         ----------
