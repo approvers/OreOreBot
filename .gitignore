@@ -2,3 +2,5 @@
 issomemo
 **/__pycache__/**
 .idea/
+OreOreBot/
+.mypy_cache/
