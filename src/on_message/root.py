@@ -1,6 +1,8 @@
-from typing import Dict, Union
+from typing import Dict, Union, List
 
 import discord
+
+from src.on_message.commands.commands_manager import CommandsManager
 
 class MessageRoot:
     def __init__(
@@ -8,16 +10,19 @@ class MessageRoot:
             client: discord.Client,
             config: Dict[str, Dict[str, Union[str, int]]]
     ):
-        base_text_channel_id = config["text_channel"]["base"]
-        listen_text_channel_id = config["text_channel"]["listen"]
-        base_voice_channel_id = config["voice_channel"]["base"]
-        afk_voice_channel_id = config["voice_channel"]["afk"]
+        self.commands_manager = CommandsManager(client, config)
 
-        self.base_text_channel = client.get_channel(base_text_channel_id)
-        self.listen_text_channel = client.get_channel(listen_text_channel_id)
-        self.base_voice_channel = client.get_channel(base_voice_channel_id)
-        self.afk_voice_channel = client.get_channel(afk_voice_channel_id)
+    def anarysis_message(
+        self,
+        message: discord.Message,
+    ):
+        if message.content[0] == "!":
+            self.get_command(message)
 
-    def get_command(self, message: str):
-        
+    async def get_command(self, message: discord.Message):
+        messages: List[str] = message.content.split(" ")
+        command: str = messages[0]
+        command_instance = self.commands_manager(command)
+        if command_instance is None:
+            await message.channel.send("commandNotFound")
 
