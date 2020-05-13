@@ -18,8 +18,8 @@ class Typo(CommandBase):
     @staticmethod
     def get_help():
         return "typo\n" +\
-               "「だカス」が最後につく文字列に反応して保存する" +\
-               "表示する際は以下のコマンドです\n{}".format(
+               "「だカス」が最後につく文字列に反応して保存する\n" +\
+               "コマンド:{}".format(
                     Typo.get_command_template()
                 )
 

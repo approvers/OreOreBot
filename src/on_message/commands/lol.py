@@ -16,10 +16,9 @@ class LoL(CommandBase):
 
     @staticmethod
     def get_help():
-        return "lol" +\
-               "草って言った回数をカウントします" +\
-               "回数を表示する際は以下のコマンドを入力してください\n{}"\
-                .format(
+        return "lol\n" +\
+               "草って言った回数をカウントします\n" +\
+               "コマンド: {}".format(
                     LoL.get_command_template()
                 )
 

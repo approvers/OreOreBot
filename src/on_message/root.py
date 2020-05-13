@@ -2,8 +2,8 @@ from typing import Dict, Union, List
 
 import discord
 
-from src.on_message.commands.commands_manager import CommandsManager
-from src.on_message.commands.command_base import CommandBase
+from src.on_message.commands.util.commands_manager import CommandsManager
+from src.on_message.commands.util.command_base import CommandBase
 
 
 class MessageRoot:

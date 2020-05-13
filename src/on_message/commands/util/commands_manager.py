@@ -1,10 +1,12 @@
 from typing import Dict, Union
 import discord
-from src.on_message.commands.command_base import CommandBase
+from src.on_message.commands.util.command_base import CommandBase
 from src.on_message.commands.lol import LoL
 from src.on_message.commands.role import Role
 from src.on_message.commands.typo import Typo
+from src.on_message.commands.hukueki import Hukueki
 from src.on_message.commands.haracyo import Haracyo
+from src.on_message.commands.population import Population
 
 
 class CommandsManager:
@@ -30,7 +32,9 @@ class CommandsManager:
         self.commands = {
             LoL.get_command_name(): LoL(),
             Role.get_command_name(): Role(),
-            Typo.get_command_name(): Typo()
+            Typo.get_command_name(): Typo(),
+            Hukueki.get_command_name(): Hukueki(),
+            Population.get_command_name(): Population()
         }
 
         self.commands[Haracyo.get_command_name()] = Haracyo(

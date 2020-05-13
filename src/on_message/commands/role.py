@@ -16,8 +16,8 @@ class Role(CommandBase):
 
     @staticmethod
     def get_help():
-        return "role" +\
-               "roleを作成して自動で付与する" +\
+        return "role\n" +\
+               "roleを作成して自動で付与する\n" +\
                "コマンド: {}".format(
                     Role.get_command_template()
                ) +\
