@@ -1,9 +1,6 @@
 from abc import ABCMeta, abstractstaticmethod, abstractmethod
-from typing import List
 
 import discord
-
-from src.on_message.commands.commands_parameter import CommandsParameter
 
 
 class CommandBase(metaclass=ABCMeta):
