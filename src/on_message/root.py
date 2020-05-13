@@ -3,7 +3,7 @@ from typing import Dict, Union, List
 import discord
 
 from src.on_message.commands.commands_manager import CommandsManager
-from src.on_message.commands.commands_parameter import CommandsParameter
+from src.on_message.commands.command_base import CommandBase
 
 
 class MessageRoot:
@@ -19,7 +19,7 @@ class MessageRoot:
         message: discord.Message,
     ):
         if message.content[0] == "!":
-            await self.get_command(message[1:])
+            await self.execute_command(message[1:])
 
         if "草" in message.content:
             self.commands_manager.message_command[
@@ -31,16 +31,20 @@ class MessageRoot:
                 "add_typo"
             ](message.content, message.author.id)
 
-    async def get_command(self, message: discord.Message):
+    async def execute_command(self, message: discord.Message):
         messages: List[str] = message.content.split(" ")
         command: str = messages[0][1:]
         command_instance = self.commands_manager(command)
         if command_instance is None:
             await message.channel.send("commandNotFound")
-        command_param = CommandsParameter(
-            author_id=message.author.id,
-            author_name=message.author.display_name,
-            send_channel=message.channel,
-            message=message.content
-        )
-        await command_instance.execute(command_param)
+            return
+
+        await command_instance.execute(message)
+
+    async def send_help(
+        self,
+        command: CommandBase,
+        send_text_channel: discord.TextChannel
+    ):
+        help_message = command.get_help
+        await send_text_channel.send(help_message)

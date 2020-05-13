@@ -14,6 +14,20 @@ class Role(CommandBase):
     def get_command_name():
         return "role"
 
+    @staticmethod
+    def get_help():
+        return "role" +\
+               "roleを作成して自動で付与する" +\
+               "コマンド: {}".format(
+                    Role.get_command_template()
+               ) +\
+               "colorは#から始まる6桁の16進数"
+
+    @staticmethod
+    def get_command_template():
+        return \
+            "!role <target_user_id: int> <new_role_name: str> (<color: str>)"
+
     async def execute(self, params: CommandsParameter):
         messages: List[str] = params.author_name.split(" ")
         command_length = len(messages)

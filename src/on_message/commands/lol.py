@@ -15,8 +15,17 @@ class LoL(CommandBase):
         return "lol"
 
     @staticmethod
-    def get_require_params():
-        return ["author_id", "author_name", "message_send"]
+    def get_help():
+        return "lol" +\
+               "草って言った回数をカウントします" +\
+               "回数を表示する際は以下のコマンドを入力してください\n{}"\
+                .format(
+                    LoL.get_command_template()
+                )
+
+    @staticmethod
+    def get_command_template():
+        return "!lol"
 
     async def execute(self, params: CommandsParameter):
         author_id = params.author_id

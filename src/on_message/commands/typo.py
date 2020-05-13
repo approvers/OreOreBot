@@ -2,7 +2,6 @@ from typing import Dict, List
 import discord
 
 from src.on_message.commands.command_base import CommandBase
-from src.on_message.commands.commands_parameter import CommandsParameter
 
 
 class Typo(CommandBase):
@@ -16,16 +15,28 @@ class Typo(CommandBase):
     def get_command_name():
         return "typo"
 
-    async def execute(self, params: CommandsParameter):
-        author_id = params.author_id
+    @staticmethod
+    def get_help():
+        return "typo\n" +\
+               "「だカス」が最後につく文字列に反応して保存する" +\
+               "表示する際は以下のコマンドです\n{}".format(
+                    Typo.get_command_template()
+                )
 
-        message_send_channel = params.send_channel
+    @staticmethod
+    def get_command_template():
+        return "!typo"
+
+    async def execute(self, message: discord.Message):
+        author_id = message.author.id
+
+        message_send_channel = message.channel
 
         if author_id not in self.typo_dict.keys():
             await message_send_channel.send("test")
             return
 
-        author_name = params.author_name
+        author_name = message.author.display_name
 
         await message_send_channel.send(
             Typo.MESSAGE_HEADER_TEMPLATE.format(author_name)
