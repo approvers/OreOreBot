@@ -2,8 +2,8 @@ from typing import List
 import re
 import discord
 
-from src.on_message.commands.command_base import CommandBase
-from src.on_message.commands.commands_parameter import CommandsParameter
+from src.on_message.commands.util.command_base import CommandBase
+from src.on_message.commands.util.commands_parameter import CommandsParameter
 
 
 class Role(CommandBase):

@@ -2,7 +2,7 @@ from typing import List
 
 import discord
 
-from src.on_message.commands.command_base import CommandBase
+from src.on_message.commands.util.command_base import CommandBase
 
 
 class Haracyo(CommandBase):
