@@ -3,6 +3,7 @@ import discord
 from src.on_message.commands.command_base import CommandBase
 from src.on_message.commands.lol import LoL
 from src.on_message.commands.role import Role
+from src.on_message.commands.typo import Typo
 
 
 class CommandsManager:
@@ -27,7 +28,13 @@ class CommandsManager:
 
         self.commands = {
             LoL.get_command_name(): LoL(),
-            Role.get_command_name(): Role()
+            Role.get_command_name(): Role(),
+            Typo.get_command_name(): Typo()
+        }
+
+        self.message_command = {
+            "lol_count_up": self.commands[LoL.get_command_name()].lol_count_up,
+            "add_typo": self.commands[Typo.get_command_name()].add_typo
         }
 
     def search_command(self, keyword: str) -> Union[CommandBase, None]:

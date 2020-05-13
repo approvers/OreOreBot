@@ -1,12 +1,11 @@
-from typing import List, Dict
-import discord
+from typing import Dict
 
 from src.on_message.commands.command_base import CommandBase
 from src.on_message.commands.commands_parameter import CommandsParameter
 
 
 class LoL(CommandBase):
-    MESSAGE_HEADER_TEMPLATE = "***今日は草って{}回言ってるね***"
+    MESSAGE_CONTENT_TEMPLATE = "***今日は草って{}回言ってるね***"
 
     def __init__(self):
         self.lol_dict: Dict[int, int] = {}
@@ -22,8 +21,6 @@ class LoL(CommandBase):
     async def execute(self, params: CommandsParameter):
         author_id = params.author_id
 
-        author_name = params.author_name
-
         message_send_channel = params.send_channel
 
         if author_id not in self.lol_count.keys():
@@ -33,13 +30,11 @@ class LoL(CommandBase):
         lol_count = self.lol_dict[author_id]
 
         await message_send_channel.send(
-            LoL.MESSAGE_HEADER_TEMPLATE.format(author_name)
-        )
-
-        await message_send_channel.send(
             LoL.MESSAGE_CONTENT_TEMPLATE.format(lol_count)
         )
 
-    @staticmethod
-    async def message_send(message: str, text_channel: discord.TextChannel):
-        await text_channel.send(message)
+    def lol_count_up(self, author_id: int):
+        if author_id not in self.lol_dict.keys():
+            self.lol_dict[author_id] = 1
+            return
+        self.lol_dict[author_id] += 1
