@@ -4,6 +4,7 @@ from src.on_message.commands.command_base import CommandBase
 from src.on_message.commands.lol import LoL
 from src.on_message.commands.role import Role
 from src.on_message.commands.typo import Typo
+from src.on_message.commands.haracyo import Haracyo
 
 
 class CommandsManager:
@@ -31,6 +32,10 @@ class CommandsManager:
             Role.get_command_name(): Role(),
             Typo.get_command_name(): Typo()
         }
+
+        self.commands[Haracyo.get_command_name()] = Haracyo(
+            self.commands.keys()
+        )
 
         self.message_command = {
             "lol_count_up": self.commands[LoL.get_command_name()].lol_count_up,
