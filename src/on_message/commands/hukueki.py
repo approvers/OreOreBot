@@ -25,5 +25,6 @@ class Hukueki(CommandBase):
         return "!hukueki <message>"
 
     async def execute(self, params: discord.Message):
-        message = params.content[9:] if len(params.content) >= 10 else ""
-        await params.channel(Hukueki.MESSAGE_TEMPLATE.format(message))
+        messages = params.content.split(" ")
+        send_message = " ".join(messages[1:]) if len(messages) >= 2 else ""
+        await params.channel(Hukueki.MESSAGE_TEMPLATE.format(send_message))

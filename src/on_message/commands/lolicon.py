@@ -25,8 +25,9 @@ class Lolicon(CommandBase):
         return "!lolicon <message>"
 
     async def execute(self, params: discord.Message):
-        message = params.content[9:] if len(params.content) >= 10 else ""
+        messages = params.content.split(" ")
+        send_message = " ".join(messages[1:]) if len(messages) >= 2 else ""
         await params.channel(Lolicon.MESSAGE_TEMPLATE.format(
-            message,
+            send_message,
             params.author.display_name
         ))

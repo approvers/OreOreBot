@@ -20,16 +20,19 @@ class MessageRoot:
     ):
         if message.content[0] == "!":
             await self.execute_command(message[1:])
+            return
 
         if "草" in message.content:
             self.commands_manager.message_command[
                 "lol_count_up"
             ](message.author.id)
+            return
 
         if len(message.content) > 3 and message.content[-3:] == "だカス":
             self.commands_manager.message_command[
                 "add_typo"
             ](message.content, message.author.id)
+            return
 
     async def execute_command(self, message: discord.Message):
         messages: List[str] = message.content.split(" ")
