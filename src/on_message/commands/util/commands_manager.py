@@ -8,6 +8,7 @@ from src.on_message.commands.hukueki import Hukueki
 from src.on_message.commands.haracyo import Haracyo
 from src.on_message.commands.population import Population
 from src.on_message.commands.judge import Judge
+from src.on_message.commands.git import Git
 
 
 class CommandsManager:
@@ -42,14 +43,22 @@ class CommandsManager:
         RE = client.get_emoji(RE_id)
         CE = client.get_emoji(CE_id)
 
-        self.commands = {
-            LoL.COMMAND: LoL(),
-            Role.COMMAND: Role(),
-            Typo.COMMAND: Typo(),
-            Hukueki.COMMAND: Hukueki(),
-            Population.COMMAND: Population(),
-            Judge.COMMAND: Judge(AC, WA, TLE, RE, CE)
-        }
+        username = config["git"]["username"]
+        token = config["git"]["token"]
+
+        command_instances = [
+            LoL(),
+            Role(),
+            Typo(),
+            Hukueki(),
+            Population(),
+            Judge(AC, WA, TLE, RE, CE),
+            Git(username, token)
+        ]
+
+        self.commands = {}
+        for command in command_instances:
+            self.commands[command.COMMAND] = command
 
         self.commands[Haracyo.COMMAND] = Haracyo(
             self.commands.keys()
@@ -69,7 +78,4 @@ class CommandsManager:
         keyword: str
             検索に使用する文字列
         """
-        if keyword in self.commands.keys():
-            return self.commands[keyword]
-
-        return None
+        return self.commands.get(keyword)

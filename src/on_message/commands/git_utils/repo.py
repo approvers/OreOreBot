@@ -5,10 +5,8 @@ import discord
 
 from src.on_message.commands.git_utils import Base, Response
 
-GITHUB_API_URL = "https://api.github.com"
 
-
-class Repo:
+class Repo(Base):
     def __init__(self, auth: Tuple[str, str]):
         self.auth = auth
 
@@ -17,7 +15,6 @@ class Repo:
             orgs: str,
             _: str,
             send_message_channel: discord.TextChannel,
-            __: str,
             target: Union[str, int, None]
     ):
         repos: List[Response] = self._get(orgs, "")
@@ -65,7 +62,7 @@ class Repo:
     def _get(self, orgs: str, _: str) -> List[Response]:
         url_template = "/orgs/{}/repos".format(orgs)
         response = requests.get(
-            GITHUB_API_URL + url_template,
+            Repo.GITHUB_API_URL + url_template,
             auth=self.auth
         )
         if response.status_code != 200:

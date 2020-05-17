@@ -8,20 +8,20 @@ Response = Dict[str, Union[str, int, bool, ResponseDetail]]
 
 
 class Base(metaclass=ABCMeta):
-    @abstractmethod
+    GITHUB_API_URL = "https://api.github.com"
+
     def __init__(self, auth: Tuple[str, str]):
         """
-        Git周りの基底
-        認証情報
+        認証情報の設定
         """
+        self.auth = auth
 
     @abstractmethod
     def execute(
             self,
             orgs: str,
             repos: str,
-            send_message_send: discord.TextChannel,
-            mode: str,
+            send_message_channel: discord.TextChannel,
             target: Union[str, int, None]
     ):
         """
