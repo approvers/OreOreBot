@@ -8,9 +8,25 @@ from src.on_message.commands.util.command_base import CommandBase
 
 
 class Judge(CommandBase):
+    COMMAND = "judge"
+    COMMAND_TEMPLATE = "!judge <number> (<judge_result(emoji)>)"
+    HELP = "{}\n".format(COMMAND) +\
+           "競プロ風にジャッジします\n" +\
+           "コマンド:{}".format(COMMAND_TEMPLATE)
+
     JUDGE_COUNT_LIMIT = 30
     JUDGE_START_MESSAGE = "***HARACHO ONLINE JUDGEMENT SYSTEM***"
     JUDGE_MESSAGE_TEMPLATE = "{}/{} {}"
+
+    def __new__(
+        cls,
+        AC: discord.Emoji,
+        WA: discord.Emoji,
+        TLE: discord.Emoji,
+        RE: discord.Emoji,
+        CE: discord.Emoji
+    ):
+        
 
     def __init__(
             self,
@@ -27,20 +43,6 @@ class Judge(CommandBase):
             "RE": RE,
             "CE": CE
         }
-
-    @staticmethod
-    def get_command_name():
-        return "judge"
-
-    @staticmethod
-    def get_help():
-        return "judge\n" +\
-                "競プロ風にジャッジします\n" +\
-                "コマンド:{}".format(Judge.get_command_template())
-
-    @staticmethod
-    def get_command_template():
-        return "!judge <>"
 
     async def execute(self, params: discord.Message):
         messages = params.content.split(" ")

@@ -5,24 +5,15 @@ from src.on_message.commands.util.command_base import CommandBase
 class Lolicon(CommandBase):
     MESSAGE_TEMPLATE = "だから僕は{}を辞めた - {} (Music Video)"
 
-    @staticmethod
-    def get_command_name():
-        return "lolicon"
-
-    @staticmethod
-    def get_help():
-        return "lolicon\n" +\
-                "{}の形式のメッセージを送信します".format(
-                    Lolicon.MESSAGE_TEMPLATE.format(
-                        "<message>",
-                        "<author>"
-                    )
-                ) +\
-                "コマンド:{}".format(Lolicon.get_command_template())
-
-    @staticmethod
-    def get_command_template():
-        return "!lolicon <message>"
+    COMMAND = "lolicon"
+    COMMAND_TEMPLATE = "!{}".format(COMMAND)
+    HELP = "{}\n".format(COMMAND) +\
+           "{}の形式のメッセージを送信します".format(
+               MESSAGE_TEMPLATE.format(
+                   "<message>",
+                   "<author>"
+               )
+           ) + "コマンド:{}".format(COMMAND_TEMPLATE)
 
     async def execute(self, params: discord.Message):
         messages = params.content.split(" ")

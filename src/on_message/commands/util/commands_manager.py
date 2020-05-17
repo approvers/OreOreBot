@@ -7,13 +7,14 @@ from src.on_message.commands.typo import Typo
 from src.on_message.commands.hukueki import Hukueki
 from src.on_message.commands.haracyo import Haracyo
 from src.on_message.commands.population import Population
+from src.on_message.commands.judge import Judge
 
 
 class CommandsManager:
     def __init__(
-        self,
-        client: discord.Client,
-        config: Dict[str, Dict[str, Union[str, int]]]
+            self,
+            client: discord.Client,
+            config: Dict[str, Dict[str, Union[str, int]]]
     ):
         """
         全てのコマンドのインスタンスをここでdict[str, command_base]としてselfに渡す
@@ -29,21 +30,34 @@ class CommandsManager:
         self.base_voice_channel = client.get_channel(base_voice_channel_id)
         self.afk_voice_channel = client.get_channel(afk_voice_channel_id)
 
+        AC_id = config["emoji"]["AC"]
+        WA_id = config["emoji"]["WA"]
+        TLE_id = config["emoji"]["TLE"]
+        RE_id = config["emoji"]["RE"]
+        CE_id = config["emoji"]["CE"]
+
+        AC = client.get_emoji(AC_id)
+        WA = client.get_emoji(WA_id)
+        TLE = client.get_emoji(TLE_id)
+        RE = client.get_emoji(RE_id)
+        CE = client.get_emoji(CE_id)
+
         self.commands = {
-            LoL.get_command_name(): LoL(),
-            Role.get_command_name(): Role(),
-            Typo.get_command_name(): Typo(),
-            Hukueki.get_command_name(): Hukueki(),
-            Population.get_command_name(): Population()
+            LoL.COMMAND: LoL(),
+            Role.COMMAND: Role(),
+            Typo.COMMAND: Typo(),
+            Hukueki.COMMAND: Hukueki(),
+            Population.COMMAND: Population(),
+            Judge.COMMAND: Judge(AC, WA, TLE, RE, CE)
         }
 
-        self.commands[Haracyo.get_command_name()] = Haracyo(
+        self.commands[Haracyo.COMMAND] = Haracyo(
             self.commands.keys()
         )
 
         self.message_command = {
-            "lol_count_up": self.commands[LoL.get_command_name()].lol_count_up,
-            "add_typo": self.commands[Typo.get_command_name()].add_typo
+            "lol_count_up": self.commands[LoL.COMMAND].lol_count_up,
+            "add_typo": self.commands[Typo.COMMAND].add_typo
         }
 
     def search_command(self, keyword: str) -> Union[CommandBase, None]:

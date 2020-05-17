@@ -35,9 +35,9 @@ class MainClient(discord.Client):
         pass
 
     async def on_message_edit(
-        self,
-        before: discord.Message,
-        after: discord.Message
+            self,
+            before: discord.Message,
+            after: discord.Message
     ) -> None:
         pass
 

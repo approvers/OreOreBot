@@ -1,4 +1,5 @@
-from abc import ABCMeta, abstractstaticmethod, abstractmethod
+from abc import ABCMeta, abstractmethod
+from typing import Union
 
 import discord
 
@@ -7,38 +8,19 @@ class CommandBase(metaclass=ABCMeta):
     """
     コマンドの基底クラス
     """
-    @abstractstaticmethod
-    @staticmethod
-    def get_command_name() -> str:
-        """
-        コマンドの名称(識別用)を返します
-        -------
-        returns
-        -------
-        str: コマンドの名前
-        """
+    COMMAND: Union[str, None] = None
+    HELP: Union[str, None] = None
+    COMMAND_TEMPLATE: Union[str, None] = None
 
-    @abstractstaticmethod
-    @staticmethod
-    def get_help() -> str:
-        """
-        コマンドのヘルプを返します
-        -------
-        returns
-        -------
-        str: コマンドのヘルプ
-        """
-
-    @abstractstaticmethod
-    @staticmethod
-    def get_command_template() -> str:
-        """
-        コマンドの使い方のテンプレートを返します
-        -------
-        returns
-        -------
-        str: コマンドのテンプレート
-        """
+    def __new__(cls, *_, **__):
+        if cls.COMMAND is None:
+            raise ValueError("COMMAND is undefined")
+        if cls.HELP is None:
+            raise ValueError("HELP is undefined")
+        if cls.COMMAND_TEMPLATE is None:
+            raise ValueError("COMMAND_TEMPLATE is undefined")
+        self = super().__new__(cls)
+        return self
 
     @abstractmethod
     async def execute(self, params: discord.Message):

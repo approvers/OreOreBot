@@ -7,26 +7,17 @@ from src.on_message.commands.util.commands_parameter import CommandsParameter
 
 
 class Role(CommandBase):
+    COMMAND = "role"
+    COMMAND_TEMPLATE = \
+        "!{} <target_user_id> <new_role_name> (<color>)".format(COMMAND)
+    HELP = "role\n" +\
+           "roleを作成して自動で付与する\n" +\
+           "コマンド: {}".format(
+                COMMAND_TEMPLATE
+           ) + "colorは#から始まる6桁の16進数"
+
     REASON_TEMPLATE = "Created by {}"
     SEND_MESSAGE_TEMPLATE = "<@&{}>を作成して<@!{}>に付与しました！"
-
-    @staticmethod
-    def get_command_name():
-        return "role"
-
-    @staticmethod
-    def get_help():
-        return "role\n" +\
-               "roleを作成して自動で付与する\n" +\
-               "コマンド: {}".format(
-                    Role.get_command_template()
-               ) +\
-               "colorは#から始まる6桁の16進数"
-
-    @staticmethod
-    def get_command_template():
-        return \
-            "!role <target_user_id: int> <new_role_name: str> (<color: str>)"
 
     async def execute(self, params: CommandsParameter):
         messages: List[str] = params.author_name.split(" ")
@@ -38,7 +29,7 @@ class Role(CommandBase):
             return
 
         if not messages[1].isdecimal():
-            Role.send_message("test", message_send_channel)
+            message_send_channel.send_message("test", message_send_channel)
             return
 
         target_user: discord.Member = message_send_channel.guild\

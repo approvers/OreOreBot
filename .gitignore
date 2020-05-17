@@ -5,3 +5,4 @@ issomemo
 OreOreBot/
 .mypy_cache/
 venv/
+.env

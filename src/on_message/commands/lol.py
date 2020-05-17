@@ -5,33 +5,23 @@ from src.on_message.commands.util.commands_parameter import CommandsParameter
 
 
 class LoL(CommandBase):
+    COMMAND = "lol"
+    COMMAND_TEMPLATE = "!{}".format(COMMAND)
+    HELP = "{}\n".format(COMMAND) +\
+           "草って言った回数をカウントします\n" +\
+           "コマンド: {}".format(COMMAND_TEMPLATE)
+
     MESSAGE_CONTENT_TEMPLATE = "***今日は草って{}回言ってるね***"
 
     def __init__(self):
         self.lol_dict: Dict[int, int] = {}
-
-    @staticmethod
-    def get_command_name():
-        return "lol"
-
-    @staticmethod
-    def get_help():
-        return "lol\n" +\
-               "草って言った回数をカウントします\n" +\
-               "コマンド: {}".format(
-                    LoL.get_command_template()
-                )
-
-    @staticmethod
-    def get_command_template():
-        return "!lol"
 
     async def execute(self, params: CommandsParameter):
         author_id = params.author_id
 
         message_send_channel = params.send_channel
 
-        if author_id not in self.lol_count.keys():
+        if author_id not in self.lol_dict.keys():
             await message_send_channel.send("test")
             return
 

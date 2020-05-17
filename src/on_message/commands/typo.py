@@ -5,27 +5,19 @@ from src.on_message.commands.util.command_base import CommandBase
 
 
 class Typo(CommandBase):
+    COMMAND = "typo"
+    COMMAND_TEMPLATE = "!{}".format(COMMAND)
+    HELP = "{}\n".format(COMMAND) +\
+           "「だカス」が最後につく文字列に反応して保存する\n" +\
+           "コマンド:{}".format(
+               COMMAND_TEMPLATE
+           )
+
     MESSAGE_HEADER_TEMPLATE = "***†{}の今日のTYPO†***"
     MESSAGE_CONTENT_TEMPLATE = "*・{}*"
 
     def __init__(self):
         self.typo_dict: Dict[int, List[str]] = {}
-
-    @staticmethod
-    def get_command_name():
-        return "typo"
-
-    @staticmethod
-    def get_help():
-        return "typo\n" +\
-               "「だカス」が最後につく文字列に反応して保存する\n" +\
-               "コマンド:{}".format(
-                    Typo.get_command_template()
-                )
-
-    @staticmethod
-    def get_command_template():
-        return "!typo"
 
     async def execute(self, message: discord.Message):
         author_id = message.author.id
