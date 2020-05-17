@@ -4,7 +4,7 @@ from src.on_message.commands.util.command_base import CommandBase
 
 class Population(CommandBase):
     COMMAND = "population"
-    COMMAND_TEMPLATE = "!{}".format(COMMAND)
+    COMMAND_TEMPLATE = "{{prefix}}{command}".format(command=COMMAND)
     HELP = "{}\n".format(COMMAND) +\
            "サーバーの人口を表示します" +\
            "コマンド:{}".format(COMMAND_TEMPLATE)

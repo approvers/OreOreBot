@@ -4,7 +4,7 @@ from src.on_message.commands.util.command_base import CommandBase
 
 class Hukueki(CommandBase):
     COMMAND = "hukueki"
-    COMMAND_TEMPLATE = "!{} <message>".format(COMMAND)
+    COMMAND_TEMPLATE = "{{prefix}}{command} <message>".format(command=COMMAND)
     HELP = "{}\n".format(COMMAND) +\
            "「S(任意の文字列)はしてないといいね」形式の文字列を返します\n" +\
            "コマンド:{}".format(COMMAND_TEMPLATE)

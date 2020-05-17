@@ -6,7 +6,7 @@ class Lolicon(CommandBase):
     MESSAGE_TEMPLATE = "だから僕は{}を辞めた - {} (Music Video)"
 
     COMMAND = "lolicon"
-    COMMAND_TEMPLATE = "!{}".format(COMMAND)
+    COMMAND_TEMPLATE = "{{prefix}}{command}".format(command=COMMAND)
     HELP = "{}\n".format(COMMAND) +\
            "{}の形式のメッセージを送信します".format(
                MESSAGE_TEMPLATE.format(

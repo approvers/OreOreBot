@@ -9,7 +9,7 @@ from src.on_message.commands.util.command_base import CommandBase
 
 class Judge(CommandBase):
     COMMAND = "judge"
-    COMMAND_TEMPLATE = "!judge <number> (<judge_result(emoji)>)"
+    COMMAND_TEMPLATE = "{{prefix}}{command} <number> (<judge_result(emoji)>)".format(command=COMMAND)
     HELP = "{}\n".format(COMMAND) +\
            "競プロ風にジャッジします\n" +\
            "コマンド:{}".format(COMMAND_TEMPLATE)

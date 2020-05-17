@@ -9,7 +9,7 @@ from src.on_message.commands.util.commands_parameter import CommandsParameter
 class Role(CommandBase):
     COMMAND = "role"
     COMMAND_TEMPLATE = \
-        "!{} <target_user_id> <new_role_name> (<color>)".format(COMMAND)
+        "{{prefix}}{command} <target_user_id> <new_role_name> (<color>)".format(command=COMMAND)
     HELP = "role\n" +\
            "roleを作成して自動で付与する\n" +\
            "コマンド: {}".format(

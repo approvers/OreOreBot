@@ -7,7 +7,7 @@ from src.on_message.commands.util.command_base import CommandBase
 
 class Haracyo(CommandBase):
     COMMAND = "haracyo"
-    COMMAND_TEMPLATE = "!{}".format(COMMAND)
+    COMMAND_TEMPLATE = "{{prefix}}{command}".format(command=COMMAND)
     HELP = "{}".format(COMMAND) +\
            "このBotのコマンド一覧を表示します\n" + \
            "コマンド:{}".format(COMMAND_TEMPLATE)

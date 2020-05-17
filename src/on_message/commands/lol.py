@@ -6,7 +6,7 @@ from src.on_message.commands.util.commands_parameter import CommandsParameter
 
 class LoL(CommandBase):
     COMMAND = "lol"
-    COMMAND_TEMPLATE = "!{}".format(COMMAND)
+    COMMAND_TEMPLATE = "{{prefix}}{command}".format(command=COMMAND)
     HELP = "{}\n".format(COMMAND) +\
            "草って言った回数をカウントします\n" +\
            "コマンド: {}".format(COMMAND_TEMPLATE)

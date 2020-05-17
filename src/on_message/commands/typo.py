@@ -6,7 +6,7 @@ from src.on_message.commands.util.command_base import CommandBase
 
 class Typo(CommandBase):
     COMMAND = "typo"
-    COMMAND_TEMPLATE = "!{}".format(COMMAND)
+    COMMAND_TEMPLATE = "{{prefix}}{command}".format(command=COMMAND)
     HELP = "{}\n".format(COMMAND) +\
            "「だカス」が最後につく文字列に反応して保存する\n" +\
            "コマンド:{}".format(
