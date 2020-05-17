@@ -51,10 +51,11 @@ class MessageRoot:
 
         await command_instance.execute(message)
 
+    #TODO:CommandBaseに移そうぜ
     async def send_help(
             self,
             command: CommandBase,
             send_text_channel: discord.TextChannel
     ):
-        help_message = command.get_help
+        help_message = command.HELP
         await send_text_channel.send(help_message)
