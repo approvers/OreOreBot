@@ -14,11 +14,11 @@ class CommandBase(metaclass=ABCMeta):
 
     def __new__(cls, *_, **__):
         if cls.COMMAND is None:
-            raise ValueError("COMMAND is undefined")
+            raise AttributeError("COMMAND is undefined")
         if cls.HELP is None:
-            raise ValueError("HELP is undefined")
+            raise AttributeError("HELP is undefined")
         if cls.COMMAND_TEMPLATE is None:
-            raise ValueError("COMMAND_TEMPLATE is undefined")
+            raise AttributeError("COMMAND_TEMPLATE is undefined")
         self = super().__new__(cls)
         return self
 
