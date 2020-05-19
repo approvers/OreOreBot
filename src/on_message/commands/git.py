@@ -1,5 +1,4 @@
-from typing import List, Dict, Union, Tuple
-import requests
+from typing import List, Dict, Union
 import discord
 from src.on_message.commands.util.command_base import CommandBase
 from src.on_message.commands.git_utils.base import Base
@@ -59,13 +58,3 @@ class Git(CommandBase):
             send_message_channel,
             target
         )
-
-    def _get_pull_requests(self, orgs: str, repos: str) -> List[Response]:
-        url_template = Git.GITHUB_API_URL.format(orgs, repos) + "pulls"
-        response = requests.get(
-            Git.GITHUB_API_URL + url_template,
-            auth=self.auth
-        )
-        result = response.json()
-        return result
-
