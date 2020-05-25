@@ -14,7 +14,7 @@ class HarachoVoiceState:
     def __init__(self):
         self.voice_state = False
 
-    def turnOnVoiceState(self, state: discord.VoiceState):
+    def turnOnVoiceState(self):
         """
         はらちょがVCに入る際の前処理
         先にvoice_stateをTrueにしておく
@@ -24,7 +24,7 @@ class HarachoVoiceState:
         state: discord.VoiceState
             はらちょのVoiceState
         """
-        if state.channel is not None or self.voice_state:
+        if not self.voice_state:
             raise RuntimeError("Haracho already join to voice channel")
         self.voice_state = True
 
@@ -38,6 +38,6 @@ class HarachoVoiceState:
         state: discord.VoiceState
             はらちょのVoiceState
         """
-        if state.channel is None or not self.voice_state:
+        if self.voice_state:
             raise RuntimeError("Haracho did not join to voice channel")
         self.voice_state = False
