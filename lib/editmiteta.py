@@ -18,6 +18,8 @@ async def mitetazo_edit(before: discord.Message, after: discord.Message):
     after: discord.Message
         変更後のMessageオブジェクト
     """
+    if after.author.bot:
+        return
     before_text = before.content.split("\n")
     after_text = after.content.split("\n")
     composed_text = diff_composer(before_text, after_text)

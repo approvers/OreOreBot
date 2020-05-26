@@ -32,7 +32,7 @@ async def voice_diff(base_channel, member, before, after):
     embed_out.set_author(name="はらちょからのおしらせ", icon_url="https://lohas.nicoseiga.jp/thumb/3877931i?")
     embed_out.set_thumbnail(url="https://cdn.discordapp.com/avatars/{}/{}.png".format(member.id,member.avatar))
 
-    if after.channel == before.channel or member.id in [684295118643265548]:
+    if after.channel == before.channel or member.bot:
         return
 
     if not (after.channel is None):
