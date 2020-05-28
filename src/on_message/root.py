@@ -2,7 +2,9 @@ from typing import Dict, Union, List
 
 import discord
 
-from src.on_message.commands.commands_manager import CommandsManager
+from src.on_message.commands.util.commands_manager import CommandsManager
+from src.on_message.commands.util.command_base import CommandBase
+
 
 class MessageRoot:
     def __init__(
@@ -10,19 +12,46 @@ class MessageRoot:
             client: discord.Client,
             config: Dict[str, Dict[str, Union[str, int]]]
     ):
+        self.commands_root = CommandsRoot(client, config)
+
+    async def anarysis_message(
+            self,
+            message: discord.Message,
+    ):
+        if message.content[0] == CommandsRoot.PREFIX:
+            await self.commands_root.execute_command(message)
+            return
+
+class CommandsRoot:
+    PREFIX = "!"
+    PREFIX_LENGTH = len(PREFIX)
+
+    def __init__(
+            self,
+            client: discord.Client,
+            config: Dict[str, Dict[str, Union[str, int]]]
+    ):
         self.commands_manager = CommandsManager(client, config)
 
-    def anarysis_message(
-        self,
-        message: discord.Message,
-    ):
-        if message.content[0] == "!":
-            self.get_command(message)
+    async def execute_command(self, message: discord.Message):
+        if len(message.content) == CommandsRoot.PREFIX_LENGTH:
+            return
 
-    async def get_command(self, message: discord.Message):
-        messages: List[str] = message.content.split(" ")
-        command: str = messages[0]
-        command_instance = self.commands_manager(command)
+        words: List[str] = message.content.split()
+        command: str = words[0][CommandsRoot.PREFIX_LENGTH:]
+        command_instance = self.commands_manager.search_command(command)
         if command_instance is None:
-            await message.channel.send("commandNotFound")
+            return
+        if self._judge_help(words):
+            command_instance.send_help(
+                message.channel,
+                CommandsRoot.PREFIX
+            )
 
+        await command_instance.execute(message)
+
+    async def _judge_help(
+            self,
+            words: List[str]
+    ) -> bool:
+        return len(words) > 1 and words[1] == "help"

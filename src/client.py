@@ -24,7 +24,7 @@ class MainClient(discord.Client):
     async def on_message(self, message: discord.Message) -> None:
         if message.author.bot:
             return
-        self.message_manager.anarysis_message(message)
+        await self.message_manager.anarysis_message(message)
 
     async def on_voice_state_update(
             self,
@@ -35,9 +35,9 @@ class MainClient(discord.Client):
         pass
 
     async def on_message_edit(
-        self,
-        before: discord.Message,
-        after: discord.Message
+            self,
+            before: discord.Message,
+            after: discord.Message
     ) -> None:
         pass
 
