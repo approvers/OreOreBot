@@ -9,6 +9,9 @@ from src.on_message.commands.haracyo import Haracyo
 from src.on_message.commands.population import Population
 from src.on_message.commands.judge import Judge
 from src.on_message.commands.git import Git
+from src.on_message.commands.kaere import Kaere
+from src.on_message.commands.party import Party
+from src.on_message.commands.debug import Debug
 
 
 class CommandsManager:
@@ -26,10 +29,10 @@ class CommandsManager:
         base_voice_channel_id = config["voice_channel"]["base"]
         afk_voice_channel_id = config["voice_channel"]["afk"]
 
-        self.base_text_channel = client.get_channel(base_text_channel_id)
-        self.listen_text_channel = client.get_channel(listen_text_channel_id)
-        self.base_voice_channel = client.get_channel(base_voice_channel_id)
-        self.afk_voice_channel = client.get_channel(afk_voice_channel_id)
+        base_text_channel = client.get_channel(base_text_channel_id)
+        listen_text_channel = client.get_channel(listen_text_channel_id)
+        base_voice_channel = client.get_channel(base_voice_channel_id)
+        afk_voice_channel = client.get_channel(afk_voice_channel_id)
 
         AC_id = config["emoji"]["AC"]
         WA_id = config["emoji"]["WA"]
@@ -53,7 +56,10 @@ class CommandsManager:
             Hukueki(),
             Population(),
             Judge(AC, WA, TLE, RE, CE),
-            Git(username, token)
+            Git(username, token),
+            Kaere(base_voice_channel),
+            Party(base_voice_channel, base_text_channel),
+            Debug()
         ]
 
         self.commands = {}
