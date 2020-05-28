@@ -28,7 +28,6 @@ class Kaere(CommandBase):
     SCHEDUlE_NOT_FOUND = "まだお知らせする予定はないよ"
     INVALID_REMOVE_ARGS = "削除する時間を教えてね"
 
-
     def __init__(
         self,
         root_voice_channel: discord.VoiceChannel,
@@ -42,6 +41,7 @@ class Kaere(CommandBase):
         self.schedule: Dict[datetime.time, str] = {}
         self.haracho_member = haracho_member
         self.haracho_voice_state = HarachoVoiceState()
+        self._execute_scheduled_kaere()
 
     async def execute(self, params: discord.Message):
         words = params.content.split()
@@ -121,20 +121,24 @@ class Kaere(CommandBase):
         send_message_channel: discord.TextChannel
     ):
         if len(self.schedule) == 0:
-            await send_message_channel.send(SCHEDUlE_NOT_FOUND)
+            await send_message_channel.send(Kaere.SCHEDUlE_NOT_FOUND)
             return
-        
+
         sorted_schedule = sorted(self.schedule.items(), key=lambda x: x[0])
 
         contents = ""
         for time, name in sorted_schedule:
             contents += Kaere.LIST_CONTENT_FORMAT.format(str(time), name)
-        await send_message_channel.send(Kaere.LIST_TITLE_FORMAT.format(contents))
+        await send_message_channel.send(
+                Kaere.LIST_TITLE_FORMAT.format(
+                    contents
+                )
+        )
 
     async def _kaere(self, send_notify_channel: discord.TextChannel):
         try:
             self.haracho_voice_state.turnOnVoiceState()
-        except RuntimeError as e:
+        except RuntimeError:
             await send_notify_channel.send("")
 
         voice_client = await self.root_voice_channel.connect(reconnect=False)
@@ -147,12 +151,12 @@ class Kaere(CommandBase):
             await asyncio.sleep(5)
 
         if voice_client.is_connected():
-                await voice_client.disconnect(force=True)
-                self.haracho_voice_state.turnOffVoiceState()
+            await voice_client.disconnect(force=True)
+            self.haracho_voice_state.turnOffVoiceState()
 
     async def _execute_scheduled_kaere(self):
         while True:
-            now_time = datetime.datetime.now(tz=self.timezone)
+            time = datetime.datetime.now(tz=self.timezone)
             time = datetime.time(hour=time.hour, minute=time.minute)
             if time in self.schedule.keys():
                 self.root_voice_channel.pop(time)
