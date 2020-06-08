@@ -1,5 +1,8 @@
 import difflib
+<<<<<<< HEAD
 import discord
+=======
+>>>>>>> 986e4cfffd032159806106082717090a0746078d
 from typing import List
 
 
@@ -10,11 +13,19 @@ class EditNotifier:
 
     def notify(
         self,
+<<<<<<< HEAD
         before: discord.Message,
         after: discord.Message,
     ):
         before_lines = before.content.split("\n")
         after_lines = after.content.split("\n")
+=======
+        before: str,
+        after: str,
+    ):
+        before_lines = before.split("\n")
+        after_lines = after.split("\n")
+>>>>>>> 986e4cfffd032159806106082717090a0746078d
 
         diff_str = EditNotifier.generateDiff(
             before_lines, after_lines
