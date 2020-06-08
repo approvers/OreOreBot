@@ -1,4 +1,5 @@
 import difflib
+import discord
 from typing import List
 
 
@@ -9,11 +10,11 @@ class EditNotifier:
 
     def notify(
         self,
-        before: str,
-        after: str,
+        before: discord.Message,
+        after: discord.Message,
     ):
-        before_lines = before.split("\n")
-        after_lines = after.split("\n")
+        before_lines = before.content.split("\n")
+        after_lines = after.content.split("\n")
 
         diff_str = EditNotifier.generateDiff(
             before_lines, after_lines
