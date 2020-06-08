@@ -10,7 +10,7 @@ MESSAGE_TEMPLATE = """
     """.replace(" ", "")
 
 
-def delete_notify(self, message: discord.Message):
+async def delete_notify(message: discord.Message):
     if message.author.bot:
         return
 

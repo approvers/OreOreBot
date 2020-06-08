@@ -46,10 +46,10 @@ class MainClient(discord.Client):
             before: discord.Message,
             after: discord.Message
     ) -> None:
-        edit_notify(before, after)
+        await edit_notify(before, after)
 
     async def on_message_delete(self, message: discord.Message) -> None:
-        delete_notify(message)
+        await delete_notify(message)
 
     async def on_guild_role_create(self, role):
         pass

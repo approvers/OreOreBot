@@ -26,7 +26,7 @@ class Judge(CommandBase):
         RE: discord.Emoji,
         CE: discord.Emoji
     ):
-        
+       pass 
 
     def __init__(
             self,
