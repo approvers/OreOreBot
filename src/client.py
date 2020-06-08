@@ -4,7 +4,8 @@ import os
 from src.on_message.root import MessageRoot
 from src.config.load import load_config
 from src.voice_state_update.change_voice_state import VoiceStateNotifier
-
+from src.on_message.modify.edit import edit_notify
+from src.on_message.modify.delete import delete_notify
 
 class MainClient(discord.Client):
     def __init__(self) -> None:
@@ -45,11 +46,10 @@ class MainClient(discord.Client):
             before: discord.Message,
             after: discord.Message
     ) -> None:
-        pass
+        edit_notify(before, after)
 
     async def on_message_delete(self, message: discord.Message) -> None:
-        pass
+        delete_notify(message)
 
     async def on_guild_role_create(self, role):
         pass
-
