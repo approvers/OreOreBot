@@ -30,19 +30,21 @@ def generateDiff(
     after_lines: List[str]
 ):
     raw_diff = list(difflib.Differ().compare(before_lines, after_lines))
-    modified_diff = [x for x in raw_diff if x[:1] in "+-"]
 
     diff_dict = {
-        "+": [x for x in modified_diff if x[:1] == "+"],
-        "-": [x for x in modified_diff if x[:1] == "-"],
+        "+": [x for x in raw_diff if x[:1] == "+"],
+        "-": [x for x in raw_diff if x[:1] == "-"],
     }
 
     generated_diff_text = ""
-    for i in range(len(modified_diff) // 2):
+
+    diff_length = max(len(diff_dict["+"]), len(diff_dict["-"]))
+    for i in range(diff_length):
         generated_diff_text += DIFF_PAIR_TEMPLATE.format(
-            diff_dict["-"][i],
-            diff_dict["+"][i],
-            HORIZONTAL_LINE if (i * 2) != len(modified_diff) - 2 else ""
+            diff_dict["-"][i] if i < len(diff_dict["-"]) else "",
+            diff_dict["+"][i] if i < len(diff_dict["+"]) else "",
+            HORIZONTAL_LINE if i != diff_length - 1 else ""
         )
 
     return generated_diff_text.strip()
+

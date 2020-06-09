@@ -16,3 +16,4 @@ async def notify_message_delete(message: discord.Message):
             message.content
         )
     )
+
