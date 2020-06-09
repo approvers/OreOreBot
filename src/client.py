@@ -4,8 +4,9 @@ import os
 from src.on_message.root import MessageRoot
 from src.config.load import load_config
 from src.voice_state_update.change_voice_state import VoiceStateNotifier
-from src.on_message.modify.edit import edit_notify
-from src.on_message.modify.delete import delete_notify
+from src.message_edit.edit import edit_notify
+from src.message_delete.delete import delete_notify
+
 
 class MainClient(discord.Client):
     def __init__(self) -> None:
