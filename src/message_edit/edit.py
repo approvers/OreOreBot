@@ -8,7 +8,7 @@ DIFF_PAIR_TEMPLATE = "{}\n{}\n{}"
 HORIZONTAL_LINE = "------------------------------\n"
 
 
-async def edit_notify(
+async def notify_message_edit(
     before: discord.Message,
     after: discord.Message,
 ):
@@ -32,12 +32,17 @@ def generateDiff(
     raw_diff = list(difflib.Differ().compare(before_lines, after_lines))
     modified_diff = [x for x in raw_diff if x[:1] in "+-"]
 
+    diff_dict = {
+        "+": [x for x in modified_diff if x[:1] == "+"],
+        "-": [x for x in modified_diff if x[:1] == "-"],
+    }
+
     generated_diff_text = ""
-    for i in range(0, len(modified_diff), 2):
+    for i in range(len(modified_diff) // 2):
         generated_diff_text += DIFF_PAIR_TEMPLATE.format(
-            modified_diff[i],
-            modified_diff[i + 1],
-            HORIZONTAL_LINE if (i + 1) != len(modified_diff) - 1 else ""
+            diff_dict["-"][i],
+            diff_dict["+"][i],
+            HORIZONTAL_LINE if (i * 2) != len(modified_diff) - 2 else ""
         )
 
     return generated_diff_text.strip()

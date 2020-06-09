@@ -1,16 +1,12 @@
 import discord
 
 
-MESSAGE_TEMPLATE = """
-        {}さん、メッセージを削除しましたね？
-        私は見ていましたよ。内容も知っています。
-        ```
-        {}
-        ```
-    """.replace(" ", "")
+MESSAGE_TEMPLATE = "{}さん、メッセージを削除しましたね？" + \
+                   "私は見ていましたよ。内容も知っています。\n" + \
+                   "```{}```"
 
 
-async def delete_notify(message: discord.Message):
+async def notify_message_delete(message: discord.Message):
     if message.author.bot:
         return
 
