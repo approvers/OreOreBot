@@ -15,7 +15,7 @@ class Party(CommandBase):
     COMMAND = "party"
     COMMAND_TEMPLATE = "{{prefix}}{command} [guerrilla | status | play]"\
         .format(command=COMMAND)
-    HELP = "{}".format + \
+    HELP = "{}".format(COMMAND) + \
            "はらちょがパーティーします\n" + \
            "コマンド:{}".format(COMMAND_TEMPLATE)
 

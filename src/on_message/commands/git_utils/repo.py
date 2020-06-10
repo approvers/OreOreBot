@@ -3,7 +3,7 @@ import requests
 
 import discord
 
-from src.on_message.commands.git_utils import Base, Response
+from src.on_message.commands.git_utils.base import Base, Response
 
 
 class Repo(Base):
