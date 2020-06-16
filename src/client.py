@@ -6,7 +6,7 @@ from src.config.load import load_config
 from src.voice_state_update.change_voice_state import VoiceStateNotifier
 from src.message_edit.edit import notify_message_edit
 from src.message_delete.delete import notify_message_delete
-
+from src.on_role_created.role import add_role_to_kawae
 
 class MainClient(discord.Client):
     def __init__(self) -> None:
@@ -53,5 +53,4 @@ class MainClient(discord.Client):
         await notify_message_delete(message)
 
     async def on_guild_role_create(self, role):
-        pass
-
+        await add_role_to_kawae(role)
