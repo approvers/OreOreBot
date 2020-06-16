@@ -53,4 +53,4 @@ class MainClient(discord.Client):
         await notify_message_delete(message)
 
     async def on_guild_role_create(self, role):
-        await add_role_to_kawae(role)
+        await add_role_to_kawae(load_config(), role)
