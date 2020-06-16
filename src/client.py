@@ -24,9 +24,8 @@ class MainClient(discord.Client):
             config
         )
         self.kawae_role_adder = KawaemonRoleAdder(
-            self,
-            config["role"]["user_id"],
-            config["text_channel"]["base"]
+            self.get_user(config["role"]["user_id"]),
+            self.get_channel(config["text_channel"]["base"])
         )
         self.voice_state_notifier = VoiceStateNotifier()
 
