@@ -1,13 +1,18 @@
 import discord
-from typing import Dict, Union
 
 
-async def add_role_to_kawae(
-    config: Dict[str, Dict[str, Union[str, int]]],
-    role: discord.Role
-):
-    user: discord.Member = role.guild.get_member(config["add_role"]["user_id"])
-    notify_channel: discord.TextChannel = role.guild.get_channel(config["text_channel"]["base"])
-    await user.add_roles(role)
-    await notify_channel.send(role.mention + "ですが、かわえにも追加しておきました")
+class KawaemonRoleAdder:
+
+    def __init__(self, client: discord.Client, kawae_user_id: int, announce_text_channel_id: int):
+        self.kawae_member: discord.Member = client.get_user(kawae_user_id)
+        self.notify_channel: discord.TextChannel = client.get_channel(announce_text_channel_id)
+
+    async def add_role(
+        self,
+        role_to_add: discord.Role
+    ):
+        await self.kawae_member.add_roles(role_to_add)
+        await self.notify_channel.send(
+            "{}ですが、{}にも追加しておきました".format(role_to_add.mention, self.kawae_member.mention)
+        )
 
