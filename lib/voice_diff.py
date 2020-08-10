@@ -8,7 +8,7 @@ import datetime
 from typing import Dict
 
 class VoiceDiffHandler:
-    TIME_INTERVAL_LIMIT = datetime.timedelta(microseconds=500)
+    TIME_INTERVAL_LIMIT = datetime.timedelta(seconds=1)
 
     def __init__(self):
         self.hisotry: Dict[int, int] = {}
@@ -28,7 +28,7 @@ class VoiceDiffHandler:
             変更後のVoiceState
         """
 
-        prev_time = self.hisotry.setdefault(member.id, datetime.datetime.now())
+        prev_time = self.hisotry.setdefault(member.id, datetime.datetime(1, 1, 1))
         self.hisotry[member.id] = datetime.datetime.now()
 
         if (datetime.datetime.now() - prev_time) <= VoiceDiffHandler.TIME_INTERVAL_LIMIT:
@@ -54,25 +54,4 @@ class VoiceDiffHandler:
             return
 
         await base_channel.send(embed=embed_out)
-
-    def is_in_interval(self, member_id: int):
-        """
-        前回の通知との時間間隔がTIME_INTERVAL_LIMIT以内かを判定する。
-
-        Parameters
-        ----------
-        member_id: int
-            判定対象のメンバーID。
-
-        Return
-        ------
-        TIME_INTERVAL_LIMIT以内だった場合はTrue
-        """
-        delta = 
-        if 
-            return True
-
-        return False
-
-    
 
