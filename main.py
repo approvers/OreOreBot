@@ -118,7 +118,7 @@ class MainClient(discord.Client, Singleton):
         await command.execute()
 
     async def on_voice_state_update(self, member, before, after):
-        await self.voice_diff_handler.voice_diff(self.kikisen_channel, member, before, after)
+        await self.voice_diff_handler.handle(self.kikisen_channel, member, before, after)
         
     async def on_message_edit(self, before, after):
         if after.content.endswith("!d"):

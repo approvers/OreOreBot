@@ -6,7 +6,7 @@ import discord
 
 
 class VoiceDiffHandler:
-    async def voice_diff(base_channel, member, before, after):
+    async def handle(base_channel, member, before, after):
         """
         voice diffの処理をする
         Parameters
