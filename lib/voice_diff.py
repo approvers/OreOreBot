@@ -2,6 +2,7 @@
 voice diff の処理 メインからバインドされる
 無駄にクラス化してもしゃーないかーってことで関数になりました
 """
+import asyncio
 import discord
 import datetime
 
@@ -11,7 +12,12 @@ class VoiceDiffHandler:
     TIME_INTERVAL_LIMIT = datetime.timedelta(seconds=1)
 
     def __init__(self):
-        self.hisotry: Dict[int, int] = {}
+        self.is_in_cooldown = False
+
+    async def start_cooldown(self):
+        self.is_in_cooldown = True
+        await asyncio.sleep(1)
+        self.is_in_cooldown = False
 
     async def handle(self, base_channel, member, before, after):
         """
@@ -28,11 +34,9 @@ class VoiceDiffHandler:
             変更後のVoiceState
         """
 
-        prev_time = self.hisotry.setdefault(member.id, datetime.datetime(1, 1, 1))
-        self.hisotry[member.id] = datetime.datetime.now()
-
-        if (datetime.datetime.now() - prev_time) <= VoiceDiffHandler.TIME_INTERVAL_LIMIT:
+        if self.is_in_cooldown:
             return
+        asyncio.ensure_future(self.start_cooldown())
 
         embed_in = discord.Embed (title="{}が{}に入りました".format(member.display_name,str(after.channel)),
                                        description="何かが始まる予感がする。",
