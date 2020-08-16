@@ -1,12 +1,10 @@
 """
 voice diff の処理 メインからバインドされる
-無駄にクラス化してもしゃーないかーってことで関数になりました
 """
 import asyncio
 import discord
 import datetime
 
-from typing import Dict
 
 class VoiceDiffHandler:
     TIME_INTERVAL_LIMIT = datetime.timedelta(seconds=1)
