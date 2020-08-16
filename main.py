@@ -10,13 +10,12 @@ import discord
 
 from lib.util import Singleton
 from lib.time_signal import TimeSignal
-from lib.voice_diff import voice_diff
+from lib.voice_diff import VoiceDiffHandler
 from lib.message_debug import *
 from lib.mitetazo import mitetazo
 from lib.editmiteta import mitetazo_edit
 
 from message_command import MessageCommands
-
 
 
 class MainClient(discord.Client, Singleton):
@@ -47,6 +46,8 @@ class MainClient(discord.Client, Singleton):
         self.base_voice_id = base_voice_id
         self.kikisen_channel_id = kikisen_channel_id
         self.hakaba_voice_id = hakaba_voice_id
+
+        self.voice_diff_handler = VoiceDiffHandler()
 
         # Initialize in on_ready()
         # Because use value in client
@@ -117,7 +118,7 @@ class MainClient(discord.Client, Singleton):
         await command.execute()
 
     async def on_voice_state_update(self, member, before, after):
-        await voice_diff(self.kikisen_channel, member, before, after)
+        await self.voice_diff_handler.handle(self.kikisen_channel, member, before, after)
         
     async def on_message_edit(self, before, after):
         if after.content.endswith("!d"):
@@ -136,6 +137,6 @@ class MainClient(discord.Client, Singleton):
 
 if __name__ == "__main__":
     TOKEN = os.environ["TOKEN"]
-    MAIN = MainClient(TOKEN, base_channel_id=684289417682223150, base_voice_id=683939861539192865,
-                      kikisen_channel_id=690909527461199922, hakaba_voice_id=696340084370178079)
+    MAIN = MainClient(TOKEN, base_channel_id=606107143879524374, base_voice_id=683939861539192865,
+                      kikisen_channel_id=606107143879524374, hakaba_voice_id=696340084370178079)
     MAIN.launch()
