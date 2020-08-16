@@ -137,6 +137,6 @@ class MainClient(discord.Client, Singleton):
 
 if __name__ == "__main__":
     TOKEN = os.environ["TOKEN"]
-    MAIN = MainClient(TOKEN, base_channel_id=606107143879524374, base_voice_id=683939861539192865,
-                      kikisen_channel_id=606107143879524374, hakaba_voice_id=696340084370178079)
+    MAIN = MainClient(TOKEN, base_channel_id=684289417682223150, base_voice_id=683939861539192865,
+                      kikisen_channel_id=690909527461199922, hakaba_voice_id=696340084370178079)
     MAIN.launch()
