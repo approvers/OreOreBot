@@ -40,7 +40,9 @@ class MainClient(discord.Client, Singleton):
         base_channel_id: int
             ログインをし、時報を送信するチャンネルのid
         """
-        super(MainClient, self).__init__()
+        intents = discord.Intents.all()
+        intents.members = True
+        super(MainClient, self).__init__(presences=True, guild_subscriptions=True, intents=intents)
         self.token = token
         self.base_channel_id = base_channel_id
         self.base_voice_id = base_voice_id
