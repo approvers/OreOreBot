@@ -27,8 +27,8 @@ class MainClient(discord.Client, Singleton):
         684655652182032404,
         685457071906619505
     ]
-
     __ready = False
+
     def __init__(self, token: str, base_channel_id: int, base_voice_id: int, kikisen_channel_id: int, hakaba_voice_id: int):
         """
         クライアントを起動する前の処理
@@ -138,7 +138,7 @@ class MainClient(discord.Client, Singleton):
 
 
 if __name__ == "__main__":
-    TOKEN = os.environ["TOKEN"]
+    TOKEN = "Njk0OTI1NjkxODAzNjY0NTI1.XoSt_A.y-92ySyuqfJHf6Itdtu6snU43Go"
     MAIN = MainClient(TOKEN, base_channel_id=684289417682223150, base_voice_id=683939861539192865,
                       kikisen_channel_id=690909527461199922, hakaba_voice_id=696340084370178079)
     MAIN.launch()
