@@ -10,13 +10,12 @@ import discord
 
 from lib.util import Singleton
 from lib.time_signal import TimeSignal
-from lib.voice_diff import voice_diff
+from lib.voice_diff import VoiceDiffHandler
 from lib.message_debug import *
 from lib.mitetazo import mitetazo
 from lib.editmiteta import mitetazo_edit
 
 from message_command import MessageCommands
-
 
 
 class MainClient(discord.Client, Singleton):
@@ -28,8 +27,8 @@ class MainClient(discord.Client, Singleton):
         684655652182032404,
         685457071906619505
     ]
-
     __ready = False
+
     def __init__(self, token: str, base_channel_id: int, base_voice_id: int, kikisen_channel_id: int, hakaba_voice_id: int):
         """
         クライアントを起動する前の処理
@@ -41,12 +40,16 @@ class MainClient(discord.Client, Singleton):
         base_channel_id: int
             ログインをし、時報を送信するチャンネルのid
         """
-        super(MainClient, self).__init__()
+        intents = discord.Intents.all()
+        intents.members = True
+        super(MainClient, self).__init__(presences=True, guild_subscriptions=True, intents=intents)
         self.token = token
         self.base_channel_id = base_channel_id
         self.base_voice_id = base_voice_id
         self.kikisen_channel_id = kikisen_channel_id
         self.hakaba_voice_id = hakaba_voice_id
+
+        self.voice_diff_handler = VoiceDiffHandler()
 
         # Initialize in on_ready()
         # Because use value in client
@@ -117,7 +120,7 @@ class MainClient(discord.Client, Singleton):
         await command.execute()
 
     async def on_voice_state_update(self, member, before, after):
-        await voice_diff(self.kikisen_channel, member, before, after)
+        await self.voice_diff_handler.handle(self.kikisen_channel, member, before, after)
         
     async def on_message_edit(self, before, after):
         if after.content.endswith("!d"):
