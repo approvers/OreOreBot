@@ -15,6 +15,6 @@ class KawaemonRoleAdder:
     ):
         await self.kawae_member.add_roles(role_to_add)
         await self.notify_channel.send(
-            self.ROLE_ADD_MESSAGE_TEMPLATE.format(role_to_add.mention, self.kawae_member.mention)
+            self.ROLE_ADD_MESSAGE_TEMPLATE.format(
+                role_to_add.mention, self.kawae_member.mention)
         )
-

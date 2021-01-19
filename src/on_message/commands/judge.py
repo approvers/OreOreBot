@@ -9,7 +9,8 @@ from src.on_message.commands.util.command_base import CommandBase
 
 class Judge(CommandBase):
     COMMAND = "judge"
-    COMMAND_TEMPLATE = "{{prefix}}{command} <number> (<judge_result(emoji)>)".format(command=COMMAND)
+    COMMAND_TEMPLATE = "{{prefix}}{command} <number> (<judge_result(emoji)>)".format(
+        command=COMMAND)
     HELP = "{}\n".format(COMMAND) +\
            "競プロ風にジャッジします\n" +\
            "コマンド:{}".format(COMMAND_TEMPLATE)
@@ -119,8 +120,8 @@ class Judge(CommandBase):
                     1,
                     judge_number,
                     judge_result
-                    )
                 )
+            )
         return await send_message_channel.send(
             Judge.JUDGE_MESSAGE_TEMPLATE.format(
                 1,

@@ -55,7 +55,8 @@ class CommandsManager:
             Population(),
             Judge(AC, WA, TLE, RE, CE),
             Git(username, token),
-            Kaere(base_text_channel, base_voice_channel, afk_voice_channel, client.user),
+            Kaere(base_text_channel, base_voice_channel,
+                  afk_voice_channel, client.user),
             Party(base_voice_channel, base_text_channel),
             Debug()
         ]

@@ -11,7 +11,7 @@ class Typo(CommandBase):
            "「だカス」が最後につく文字列に反応して保存する\n" +\
            "コマンド:{}".format(
                COMMAND_TEMPLATE
-           )
+    )
 
     MESSAGE_HEADER_TEMPLATE = "***†{}の今日のTYPO†***"
     MESSAGE_CONTENT_TEMPLATE = "*・{}*"

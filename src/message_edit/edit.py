@@ -47,4 +47,3 @@ def generateDiff(
         )
 
     return generated_diff_text.strip()
-

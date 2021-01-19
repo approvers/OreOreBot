@@ -132,9 +132,9 @@ class Kaere(CommandBase):
         for time, name in sorted_schedule:
             contents += Kaere.LIST_CONTENT_FORMAT.format(str(time), name)
         await send_message_channel.send(
-                Kaere.LIST_TITLE_FORMAT.format(
-                    contents
-                )
+            Kaere.LIST_TITLE_FORMAT.format(
+                contents
+            )
         )
 
     async def _kaere(self, send_notify_channel: discord.TextChannel):

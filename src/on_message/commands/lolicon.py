@@ -13,7 +13,7 @@ class Lolicon(CommandBase):
                    "<message>",
                    "<author>"
                )
-           ) + "コマンド:{}".format(COMMAND_TEMPLATE)
+    ) + "コマンド:{}".format(COMMAND_TEMPLATE)
 
     async def execute(self, params: discord.Message):
         messages = params.content.split(" ")

@@ -9,11 +9,12 @@ from src.on_message.commands.util.commands_parameter import CommandsParameter
 class Role(CommandBase):
     COMMAND = "role"
     COMMAND_TEMPLATE = \
-        "{{prefix}}{command} <target_user_id> <new_role_name> (<color>)".format(command=COMMAND)
+        "{{prefix}}{command} <target_user_id> <new_role_name> (<color>)".format(
+            command=COMMAND)
     HELP = "role\n" +\
            "roleを作成して自動で付与する\n" +\
            "コマンド: {}".format(
-                COMMAND_TEMPLATE
+               COMMAND_TEMPLATE
            ) + "colorは#から始まる6桁の16進数"
 
     REASON_TEMPLATE = "Created by {}"

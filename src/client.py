@@ -28,7 +28,8 @@ class MainClient(discord.Client):
             self.get_user(config["role"]["user_id"]),
             self.get_channel(config["text_channel"]["base"])
         )
-        self.voice_state_notifier = VoiceStateNotifier(self.get_channel(config["text_channel"]["base"]))
+        self.voice_state_notifier = VoiceStateNotifier(
+            self.get_channel(config["text_channel"]["base"]))
 
     async def on_message(self, message: discord.Message) -> None:
         if message.author.bot:
