@@ -14,11 +14,11 @@ class Pull(Base):
     ):
         pulls: List[Response] = self._get(orgs, repos)
         if target is None:
-            self.showAll(pulls, send_message_channel)
+            await self.showAll(pulls, send_message_channel)
             return
 
         if isinstance(target, str):
-            self.searchPull(
+            await self.searchPull(
                 pulls,
                 send_message_channel,
                 target
@@ -26,7 +26,7 @@ class Pull(Base):
             return
 
         if isinstance(target, int):
-            self.getPull(
+            await self.getPull(
                 pulls,
                 send_message_channel,
                 target

@@ -14,11 +14,11 @@ class Issue(Base):
     ):
         issues: List[Response] = self._get(orgs, repos)
         if target is None:
-            self.showAll(issues, send_message_channel)
+            await self.showAll(issues, send_message_channel)
             return
 
         if isinstance(target, str):
-            self.searchIssue(
+            await self.searchIssue(
                 issues,
                 send_message_channel,
                 target
@@ -26,7 +26,7 @@ class Issue(Base):
             return
 
         if isinstance(target, int):
-            self.getIssue(
+            await self.getIssue(
                 issues,
                 send_message_channel,
                 target

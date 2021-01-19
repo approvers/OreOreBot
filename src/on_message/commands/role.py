@@ -25,11 +25,11 @@ class Role(CommandBase):
 
         message_send_channel = params.send_channel
         if command_length < 3:
-            await message_send_channel.send("test", message_send_channel)
+            await message_send_channel.send("引数が少なすぎます。")
             return
 
         if not messages[1].isdecimal():
-            message_send_channel.send_message("test", message_send_channel)
+            await message_send_channel.send("ユーザIDは数値で指定してください。")
             return
 
         target_user: discord.Member = message_send_channel.guild\
@@ -38,7 +38,7 @@ class Role(CommandBase):
         role_name = messages[2]
 
         if target_user is None:
-            await message_send_channel.send("test")
+            await message_send_channel.send("ユーザーがいないです。")
             return
 
         if command_length == 3:
@@ -47,7 +47,7 @@ class Role(CommandBase):
             try:
                 color = self.get_color(messages[3])
             except ValueError:
-                await message_send_channel.send("test")
+                await message_send_channel.send("カラーコードが変です。")
                 return
 
         new_role = await message_send_channel.guild.create_role(

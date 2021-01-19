@@ -30,9 +30,7 @@ class CommandsManager:
         afk_voice_channel_id = config["voice_channel"]["afk"]
 
         base_text_channel = client.get_channel(base_text_channel_id)
-        listen_text_channel = client.get_channel(listen_text_channel_id)
         base_voice_channel = client.get_channel(base_voice_channel_id)
-        afk_voice_channel = client.get_channel(afk_voice_channel_id)
 
         AC_id = config["emoji"]["AC"]
         WA_id = config["emoji"]["WA"]
@@ -57,7 +55,7 @@ class CommandsManager:
             Population(),
             Judge(AC, WA, TLE, RE, CE),
             Git(username, token),
-            Kaere(base_voice_channel),
+            Kaere(base_text_channel, base_voice_channel, afk_voice_channel, client.user),
             Party(base_voice_channel, base_text_channel),
             Debug()
         ]

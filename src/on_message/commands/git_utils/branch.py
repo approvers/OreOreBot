@@ -1,4 +1,4 @@
-from typing import Tuple, Dict, Union, List
+from typing import Union, List
 import discord
 import requests
 from src.on_message.commands.git_utils.base import Base, Response
@@ -17,7 +17,7 @@ class Branch(Base):
             await self.showAll(branches, send_message_channel)
 
         if isinstance(target, str):
-            self.searchRepo(branches, send_message_channel, target)
+            await self.searchRepo(branches, send_message_channel, target)
 
     async def showAll(
         self,

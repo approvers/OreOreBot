@@ -3,7 +3,6 @@ from typing import Dict, Union, List
 import discord
 
 from src.on_message.commands.util.commands_manager import CommandsManager
-from src.on_message.commands.util.command_base import CommandBase
 
 
 class MessageRoot:
@@ -21,6 +20,7 @@ class MessageRoot:
         if message.content[0] == CommandsRoot.PREFIX:
             await self.commands_root.execute_command(message)
             return
+
 
 class CommandsRoot:
     PREFIX = "!"
@@ -43,7 +43,7 @@ class CommandsRoot:
         if command_instance is None:
             return
         if self._judge_help(words):
-            command_instance.send_help(
+            await command_instance.send_help(
                 message.channel,
                 CommandsRoot.PREFIX
             )

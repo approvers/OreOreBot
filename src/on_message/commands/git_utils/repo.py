@@ -8,6 +8,7 @@ from src.on_message.commands.git_utils.base import Base, Response
 
 class Repo(Base):
     def __init__(self, auth: Tuple[str, str]):
+        super().__init__(auth)
         self.auth = auth
 
     async def execute(
@@ -19,11 +20,11 @@ class Repo(Base):
     ):
         repos: List[Response] = self._get(orgs, "")
         if target is None:
-            self.showAll(repos, send_message_channel)
+            await self.showAll(repos, send_message_channel)
             return
 
         if isinstance(target, str):
-            self.searchRepo(
+            await self.searchRepo(
                 repos,
                 send_message_channel,
                 target

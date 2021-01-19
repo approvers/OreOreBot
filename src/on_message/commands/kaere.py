@@ -30,12 +30,14 @@ class Kaere(CommandBase):
 
     def __init__(
         self,
+        error_notify_channel: discord.TextChannel,
         root_voice_channel: discord.VoiceChannel,
         afk_voice_channel: discord.VoiceChannel,
         haracho_member: discord.Member,
         timezone=9,
     ):
         self.timezone = datetime.timezone(datetime.timedelta(hours=timezone))
+        self.error_notify_channel = error_notify_channel
         self.root_voice_channel = root_voice_channel
         self.afk_voice_channel = afk_voice_channel
         self.schedule: Dict[datetime.time, str] = {}
@@ -159,5 +161,5 @@ class Kaere(CommandBase):
             time = datetime.datetime.now(tz=self.timezone)
             time = datetime.time(hour=time.hour, minute=time.minute)
             if time in self.schedule.keys():
-                self.root_voice_channel.pop(time)
-                await self._kaere(self.root_voice_channel)
+                self.schedule.pop(time)
+                await self._kaere(self.error_notify_channel)

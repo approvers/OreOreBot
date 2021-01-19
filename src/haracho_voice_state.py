@@ -28,7 +28,7 @@ class HarachoVoiceState:
             raise RuntimeError("Haracho already join to voice channel")
         self.voice_state = True
 
-    def turnOffVoiceState(self, state: discord.VoiceState):
+    def turnOffVoiceState(self):
         """
         はらちょがVCから抜けたあとの後処理
         抜けてからvoice_stateをFalseにする

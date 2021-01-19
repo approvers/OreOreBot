@@ -8,6 +8,7 @@ from src.message_edit.edit import notify_message_edit
 from src.message_delete.delete import notify_message_delete
 from src.on_role_created.role import KawaemonRoleAdder
 
+
 class MainClient(discord.Client):
     def __init__(self) -> None:
         super().__init__()
@@ -27,7 +28,7 @@ class MainClient(discord.Client):
             self.get_user(config["role"]["user_id"]),
             self.get_channel(config["text_channel"]["base"])
         )
-        self.voice_state_notifier = VoiceStateNotifier()
+        self.voice_state_notifier = VoiceStateNotifier(self.get_channel(config["text_channel"]["base"]))
 
     async def on_message(self, message: discord.Message) -> None:
         if message.author.bot:
@@ -40,7 +41,7 @@ class MainClient(discord.Client):
             before: discord.VoiceState,
             after: discord.VoiceState
     ) -> None:
-        self.voice_state_notifier.notify(
+        await self.voice_state_notifier.notify(
             member,
             before,
             after

@@ -1,4 +1,4 @@
-from typing import List, Dict, Union
+from typing import List, Dict
 import discord
 from src.on_message.commands.util.command_base import CommandBase
 from src.on_message.commands.git_utils.base import Base
@@ -45,8 +45,7 @@ class Git(CommandBase):
         if scope == "repos":
             repos = ""
             target = words[3] if len(words) >= 4 else ""
-
-        if scope != "repos":
+        else:
             if len(words) == 3:
                 await send_message_channel.send("have to specify")
             repos = words[3]
