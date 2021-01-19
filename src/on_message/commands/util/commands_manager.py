@@ -25,12 +25,12 @@ class CommandsManager:
         strにはcommand.get_command_name()の返り値が入る
         """
         base_text_channel_id = config["text_channel"]["base"]
-        listen_text_channel_id = config["text_channel"]["listen"]
         base_voice_channel_id = config["voice_channel"]["base"]
         afk_voice_channel_id = config["voice_channel"]["afk"]
 
         base_text_channel = client.get_channel(base_text_channel_id)
         base_voice_channel = client.get_channel(base_voice_channel_id)
+        afk_voice_channel = client.get_channel(afk_voice_channel_id)
 
         AC_id = config["emoji"]["AC"]
         WA_id = config["emoji"]["WA"]

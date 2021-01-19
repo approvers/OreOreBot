@@ -1,6 +1,3 @@
-import discord
-
-
 class HarachoVoiceState:
     """
     はらちょのVoiceStateの状態を管理する

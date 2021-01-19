@@ -9,10 +9,10 @@ from src.on_message.commands.util.commands_parameter import CommandsParameter
 class Role(CommandBase):
     COMMAND = "role"
     COMMAND_TEMPLATE = \
-        "{{prefix}}{command} <target_user_id> <new_role_name> (<color>)".format(
-            command=COMMAND)
-    HELP = "role\n" +\
-           "roleを作成して自動で付与する\n" +\
+        "{{prefix}}{command} <target_user_id> <new_role_name> (<color>)" \
+        .format(command=COMMAND)
+    HELP = "role\n" + \
+           "roleを作成して自動で付与する\n" + \
            "コマンド: {}".format(
                COMMAND_TEMPLATE
            ) + "colorは#から始まる6桁の16進数"
@@ -33,7 +33,7 @@ class Role(CommandBase):
             await message_send_channel.send("ユーザIDは数値で指定してください。")
             return
 
-        target_user: discord.Member = message_send_channel.guild\
+        target_user: discord.Member = message_send_channel.guild \
             .get_member(int(messages[1]))
 
         role_name = messages[2]

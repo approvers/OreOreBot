@@ -33,7 +33,9 @@ class CommandBase(metaclass=ABCMeta):
             関数に渡す
         """
 
-    async def send_help(self, send_message_channel: discord.TextChannel, prefix: str):
+    async def send_help(
+            self, send_message_channel: discord.TextChannel, prefix: str
+    ):
         if CommandBase.HELP is None:
             raise RuntimeError("ちね")
         await send_message_channel.send(CommandBase.HELP.format(prefix=prefix))
