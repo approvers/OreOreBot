@@ -32,7 +32,7 @@ class PartyIchiyo(Singleton):
         self.timezone = datetime.timezone(datetime.timedelta(hours=9))
         self.music                 = 0
 
-        self.change_propaty(is_disabled=False, time_interval=1, random_minute=int(random.randint(0,60)))
+        self.change_propaty(is_disabled=True, time_interval=1, random_minute=int(random.randint(0,60)))
 
     def change_propaty(self, is_disabled = None, time_interval = None, random_minute = None):
         if not is_disabled is None:
