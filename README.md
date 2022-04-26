@@ -8,6 +8,3 @@
 今はTypeScript+discord.jsで書き直した **"OreOreBot2"(新生はらちょ)** を限界開発鯖で使用しています。
 
 OreOreBot2: https://github.com/approvers/OreOreBot2
-
-
-
